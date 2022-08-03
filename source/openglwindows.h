@@ -25,7 +25,12 @@ public:
 private:
 	QOpenGLBuffer * triangle_ogl_vbo_quad;
   QOpenGLVertexArrayObject triangle_ogl_vao_quad;
-  QOpenGLShaderProgram * color_shader_program;
+  
+	QOpenGLBuffer * triangle_two_ogl_vbo_quad;
+  QOpenGLVertexArrayObject triangle_two_ogl_vao_quad;
+  
+	
+	QOpenGLShaderProgram * color_shader_program;
 	
 	
 signals:
