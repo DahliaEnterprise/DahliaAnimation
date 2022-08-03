@@ -3,7 +3,13 @@
 
 #include <QOpenGLWindow>
 #include <QObject>
+#include <QOpenGLShaderProgram>
 #include <QOpenGLFunctions>
+#include <QOpenGLBuffer>
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLPaintDevice>
+#include <QDebug>
 
 class openglwindows : public QOpenGLWindow, protected QOpenGLFunctions
 {
@@ -15,9 +21,15 @@ public:
 		void initializeGL();
   	void resizeGL(int width, int height);
   	void paintGL();
-  	void teardownGL();
-		
-		
+
+private:
+	QOpenGLBuffer * triangle_ogl_vbo_quad;
+  QOpenGLVertexArrayObject triangle_ogl_vao_quad;
+  QOpenGLShaderProgram * color_shader_program;
+	
+	
+signals:
+
 };
 
 #endif // OPENGLWINDOWS_H
