@@ -23,6 +23,7 @@ public:
   	void paintGL();
 
 private:
+	QOpenGLContext * ogl_context;
 	QOpenGLBuffer * triangle_ogl_vbo_quad;
   QOpenGLVertexArrayObject triangle_ogl_vao_quad;
   
