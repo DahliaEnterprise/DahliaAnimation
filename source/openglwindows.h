@@ -1,6 +1,8 @@
 #ifndef OPENGLWINDOWS_H
 #define OPENGLWINDOWS_H
 
+#include "vertex_group.h"
+
 #include <QOpenGLWindow>
 #include <QObject>
 #include <QOpenGLShaderProgram>
@@ -23,13 +25,15 @@ public:
   	void paintGL();
 
 private:
+	/** prerend this block was loaded from files **/
+	vertex_group * triangle_vg;
 	QOpenGLContext * ogl_context;
 	QOpenGLBuffer * triangle_ogl_vbo_quad;
   QOpenGLVertexArrayObject triangle_ogl_vao_quad;
   
 	QOpenGLBuffer * triangle_two_ogl_vbo_quad;
   QOpenGLVertexArrayObject triangle_two_ogl_vao_quad;
-  
+  /** **/
 	
 	QOpenGLShaderProgram * color_shader_program;
 	

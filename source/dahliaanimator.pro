@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     opengl_manager.cpp \
-    openglwindows.cpp
+    openglwindows.cpp \
+    vertex_group.cpp
 
 HEADERS += \
     opengl_manager.h \
-    openglwindows.h
+    openglwindows.h \
+    vertex_group.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

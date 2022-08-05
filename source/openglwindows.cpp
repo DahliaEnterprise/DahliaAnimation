@@ -30,11 +30,14 @@ GLfloat * vertexData_two;
 
 void openglwindows::initializeGL()
 {
-	 
-	
+	triangle_vg = new vertex_group();
+	triangle_vg->setPositions(QUrl("./../dahliaanimator/vertex/triangle.xyz"));
+/*
 	vertexData = 0;
 	while(vertexData == 0){ vertexData = (GLfloat*)malloc(18*sizeof(GLfloat)); }
-	//
+	
+	
+ /*
 	vertexData[0] = 0.0;
 	vertexData[1] = 0.5;
 	vertexData[2] =-0.01;
@@ -60,7 +63,7 @@ void openglwindows::initializeGL()
 	vertexData[15] = 0.0;
 	vertexData[16] = 0.0;
 	vertexData[17] = 1.0;
-	
+	*/
 	vertexData_two = 0;
 	while(vertexData_two == 0){ vertexData_two = (GLfloat*)malloc(15*sizeof(GLfloat)); }
 	//
@@ -117,7 +120,7 @@ void openglwindows::initializeGL()
 	triangle_ogl_vbo_quad->create();
 	triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_ogl_vbo_quad->bind();
-	triangle_ogl_vbo_quad->allocate(vertexData, 18 * sizeof(GLfloat));
+	triangle_ogl_vbo_quad->allocate(triangle_vg->getTrianglePositions(), triangle_vg->getTotalTrianglePositions() * sizeof(GLfloat));
 		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);
@@ -167,7 +170,7 @@ void openglwindows::paintGL()
 	glDepthFunc(GL_LEQUAL);
 	glDepthRange(0.0, 1.0);
 	
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 glClearDepth(1.0f);
 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
