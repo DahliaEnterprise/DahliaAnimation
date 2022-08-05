@@ -7,12 +7,12 @@ openglwindows::openglwindows()
 
 const char* vertexSource =
         "#version 330\n"
-        "layout(location = 0) in vec2 position;\n"
+        "layout(location = 0) in vec3 position;\n"
         "layout(location = 1) in vec3 incolor;\n"
         "out vec4 color;\n"
         "void main( void )\n"
         "{\n"
-        " gl_Position = vec4(position, 0.0, 1.0);\n"
+        " gl_Position = vec4(position, 1.0);\n"
         " color = vec4(incolor, 1.0);\n"
         "}\n";
 
@@ -163,18 +163,23 @@ void openglwindows::resizeGL(int width, int height)
 void openglwindows::paintGL()
 {
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
+	glDepthMask(GL_TRUE);
+	glDepthFunc(GL_LEQUAL);
 	glDepthRange(0.0, 1.0);
+	
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+glClearDepth(1.0f);
 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
     color_shader_program->bind();
-		
 		
 		triangle_two_ogl_vao_quad.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
 		triangle_two_ogl_vao_quad.release();
 		
-    triangle_ogl_vao_quad.bind();
+	
+		
+		triangle_ogl_vao_quad.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
 		triangle_ogl_vao_quad.release();
 		

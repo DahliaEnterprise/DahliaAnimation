@@ -15,4 +15,5 @@ void opengl_manager::initialize()
 	window->setFormat(format);
   window->resize(QSize(800, 600));
   window->show();
+  window->setFlag(Qt::CustomizeWindowHint);
 }
