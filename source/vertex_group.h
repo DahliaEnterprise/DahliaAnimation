@@ -16,9 +16,22 @@ public:
 		GLfloat * getTrianglePositions();
 		unsigned int getTotalTrianglePositions();
 		
+		void setColors(QUrl file);
+		GLfloat * getTriangleColors();
+		unsigned int getTotalTriangleColors();
+		
+		GLfloat * combined_xyz_colors();
+		unsigned int combined_total_xyz_colors();
 private:
 	GLfloat * triangle_positions;
 	unsigned int triangle_positions_memory_size;
+	
+	GLfloat * triangle_colors;
+	unsigned int triangle_colors_memory_size;
+	
+	GLfloat * triangle_positions_and_colors;
+	unsigned int triangle_positions_and_colors_memory_size;
+	unsigned short int triangle_positions_and_colors_defined;
 	
 	QTextStream * text_stream;
 	
