@@ -7,12 +7,12 @@ openglwindows::openglwindows()
 
 const char* vertexSource =
         "#version 330\n"
-        "layout(location = 0) in vec3 position;\n"
+        "layout(location = 0) in vec2 position;\n"
         "layout(location = 1) in vec3 incolor;\n"
         "out vec4 color;\n"
         "void main( void )\n"
         "{\n"
-        " gl_Position = vec4(position, 1.0);\n"
+        " gl_Position = vec4(position, 0.0, 1.0);\n"
         " color = vec4(incolor, 1.0);\n"
         "}\n";
 
@@ -25,48 +25,45 @@ const char* fragmentSource =
         " outColor = color;\n"
         "}\n";
 				
-GLfloat * vertexData;
+vertex_group * triangle_vertex_and_colors;
+
 GLfloat * vertexData_two;
+vertex_group * triangle_two_vertex_and_colors;
+
 
 void openglwindows::initializeGL()
 {
-	triangle_vg = new vertex_group();
-	triangle_vg->setPositions(QUrl("./../dahliaanimator/vertex/triangle.xyz"));
-	triangle_vg->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
-
+	triangle_vertex_and_colors = new vertex_group();
+	triangle_vertex_and_colors->setPositions(QUrl("./../dahliaanimator/vertex/triangle.xyz"));
+	triangle_vertex_and_colors->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
+	triangle_vertex_and_colors->combined_xyz_colors();
 	
-	vertexData = 0;
-	while(vertexData == 0){ vertexData = (GLfloat*)malloc(18*sizeof(GLfloat)); }
+	triangle_two_vertex_and_colors = new vertex_group();
+	triangle_two_vertex_and_colors->setPositions(QUrl("./../dahliaanimator/vertex/triangle-1.xyz"));
+	triangle_two_vertex_and_colors->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
+	triangle_two_vertex_and_colors->combined_xyz_colors();
 	
-	vertexData[0] = 0.0;
-	vertexData[1] = 0.5;
-	vertexData[2] =-0.01;
 	
-	vertexData[3] = 1.0;
-	vertexData[4] = 0.5;
-	vertexData[5] = 0.0;
-	
-	//
-	vertexData[6] = 0.5;
-	vertexData[7] = -0.5;
-	vertexData[8] = -0.01;
-	
-	vertexData[9] = 0.0;
-	vertexData[10] = 1.0;
-	vertexData[11] = 0.0;
-	
-	//
-	vertexData[12] = -0.5;
-	vertexData[13] = -0.5;
-	vertexData[14] = -0.01;
-	
-	vertexData[15] = 0.0;
-	vertexData[16] = 0.0;
-	vertexData[17] = 1.0;
+	/*
+	vertexData_two = 0;
+	while(vertexData_two == 0){ vertexData_two = (GLfloat*)malloc(15*sizeof(GLfloat)); }
+	vertexData_two[0] = -0.5;
+	vertexData_two[1] = 0.5;
+	vertexData_two[2] = 1.0;
+	vertexData_two[3] = 0.0;
+	vertexData_two[4] = 0.0;
+	vertexData_two[5] = 0.5;
+	vertexData_two[6] = -0.5;
+	vertexData_two[7] = 0.0;
+	vertexData_two[8] = 1.0;
+	vertexData_two[9] = 0.0;
+	vertexData_two[10] = -0.5;
+	vertexData_two[11] = -0.5;
+	vertexData_two[12] = 0.0;
+	vertexData_two[13] = 0.0;
+	vertexData_two[14] = 1.0;*/
 	
   initializeOpenGLFunctions();
-	
-	
   glClearColor(0.0f, 0.0f, 1.0f, 0.9f);
 	qDebug() << "initializing";
 	color_shader_program = new QOpenGLShaderProgram();
@@ -91,8 +88,8 @@ void openglwindows::initializeGL()
 	triangle_ogl_vbo_quad->create();
 	triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_ogl_vbo_quad->bind();
-	triangle_vg->combined_xyz_colors();
-	triangle_ogl_vbo_quad->allocate(triangle_vg->combined_xyz_colors(), triangle_vg->combined_total_xyz_colors() * sizeof(GLfloat));
+	triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors->combined_xyz_colors(), triangle_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
+		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);
 	color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
@@ -102,9 +99,9 @@ void openglwindows::initializeGL()
 	triangle_ogl_vao_quad.release();
 	triangle_ogl_vbo_quad->release();
 	color_shader_program->release();
-	/*//
-	color_shader_program->bind();
 	
+	color_shader_program->bind();
+		
 	triangle_two_ogl_vao_quad.create();
 	triangle_two_ogl_vao_quad.bind();
 	
@@ -112,13 +109,17 @@ void openglwindows::initializeGL()
 	triangle_two_ogl_vbo_quad->create();
 	triangle_two_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_two_ogl_vbo_quad->bind();
-	triangle_two_ogl_vbo_quad->allocate(vertexData_two, 18 * sizeof(GLfloat));
+	triangle_two_ogl_vbo_quad->allocate(triangle_two_vertex_and_colors->combined_xyz_colors(), triangle_two_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
+		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);
 	color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 	color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-	*/
-	
+		
+	//clean/clear
+	triangle_two_ogl_vao_quad.release();
+	triangle_two_ogl_vbo_quad->release();
+	color_shader_program->release();
 	
 }
  
@@ -130,27 +131,17 @@ void openglwindows::resizeGL(int width, int height)
  
 void openglwindows::paintGL()
 {
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glDepthFunc(GL_LEQUAL);
-	glDepthRange(0.0, 1.0);
-	
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-glClearDepth(1.0f);
 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
+
     color_shader_program->bind();
-	/*	triangle_two_ogl_vao_quad.bind();
+    triangle_ogl_vao_quad.bind();
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+		triangle_ogl_vao_quad.release();
+		
+		triangle_two_ogl_vao_quad.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
 		triangle_two_ogl_vao_quad.release();
-		*/
-	
 		
-		triangle_ogl_vao_quad.bind();
-		triangle_ogl_vbo_quad->bind();
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-		triangle_ogl_vao_quad.release();
-		triangle_ogl_vbo_quad->release();
 		color_shader_program->release();
 }
  

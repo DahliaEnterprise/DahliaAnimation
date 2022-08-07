@@ -1,5 +1,4 @@
-precision mediump float;
-varying vec3 varying_color_of_vertex_to_colorize; 
-void main() {
-	gl_FragColor = vec4(varying_color_of_vertex_to_colorize, 1.0);
-}
+ varying lowp vec4 col;
+      void main() {
+         gl_FragColor = col;
+      }
