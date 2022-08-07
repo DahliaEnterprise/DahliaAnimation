@@ -22,7 +22,7 @@ const char* fragmentSource =
         "out vec4 outColor;\n"
         "void main( void )\n"
         "{\n"
-        " outColor = vec4(1.0, 0.5, 0.0, 1.0); //color;\n"
+        " outColor = color;\n"
         "}\n";
 				
 GLfloat * vertexData;
@@ -91,8 +91,8 @@ void openglwindows::initializeGL()
 	triangle_ogl_vbo_quad->create();
 	triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_ogl_vbo_quad->bind();
-	triangle_ogl_vbo_quad->allocate(vertexData, 18 * sizeof(GLfloat));
-		
+	triangle_vg->combined_xyz_colors();
+	triangle_ogl_vbo_quad->allocate(triangle_vg->combined_xyz_colors(), triangle_vg->combined_total_xyz_colors() * sizeof(GLfloat));
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);
 	color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));

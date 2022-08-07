@@ -1,0 +1,7 @@
+attribute vec4 position_of_vertex_to_colorize;
+attribute vec3 color_of_vertex_to_colorize;
+varying vec3 varying_color_of_vertex_to_colorize; 
+void main() {
+ gl_Position = position_of_vertex_to_colorize; 
+ varying_color_of_vertex_to_colorize = color_of_vertex_to_colorize
+}
