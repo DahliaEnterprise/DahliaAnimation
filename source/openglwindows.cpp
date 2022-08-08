@@ -7,12 +7,12 @@ openglwindows::openglwindows()
 
 const char* vertexSource =
         "#version 330\n"
-        "layout(location = 0) in vec2 position;\n"
+        "layout(location = 0) in vec3 position;\n"
         "layout(location = 1) in vec3 incolor;\n"
         "out vec4 color;\n"
         "void main( void )\n"
         "{\n"
-        " gl_Position = vec4(position, 0.0, 1.0);\n"
+        " gl_Position = vec4(position, 1.0);\n"
         " color = vec4(incolor, 1.0);\n"
         "}\n";
 
