@@ -11,6 +11,7 @@ void opengl_manager::initialize()
   format.setRenderableType(QSurfaceFormat::OpenGL);
   format.setProfile(QSurfaceFormat::CoreProfile);
   format.setVersion(3,3);
+	format.setSamples(4);
 	window = new openglwindows();
 	window->setFormat(format);
   window->resize(QSize(800, 600));

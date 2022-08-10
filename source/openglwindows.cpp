@@ -10,19 +10,24 @@ const char* vertexSource =
         "layout(location = 0) in vec3 position;\n"
         "layout(location = 1) in vec3 incolor;\n"
         "out vec4 color;\n"
+				"out vec4 vertex_position;\n"
         "void main( void )\n"
         "{\n"
         " gl_Position = vec4(position, 1.0);\n"
         " color = vec4(incolor, 1.0);\n"
+				" vertex_position = vec4(position, 1.0);\n"
         "}\n";
 
 const char* fragmentSource =
         "#version 330\n"
         "in vec4 color;\n"
-        "out vec4 outColor;\n"
+				"in vec4 vertex_position;\n"
         "void main( void )\n"
         "{\n"
-        " outColor = color;\n"
+				"vec3 light_position = vec3(0.0, 0.5, 0.1);\n"
+				"float light_distance = distance(vertex_position, vec4(light_position, 1.0));\n"
+				"//distance.x =  abs(distance.x);\n"
+        " gl_FragColor = vec4(color.x * light_distance, color.y * light_distance, color.z, 1.0);;\n"
         "}\n";
 				
 vertex_group * triangle_vertex_and_colors_unaltered;
@@ -76,7 +81,7 @@ void openglwindows::initializeGL()
 	triangle_ogl_vbo_quad->create();
 	triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_ogl_vbo_quad->bind();
-	rotate->rotate_z(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors(), (GLfloat)1.34);
+
 	
 	triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
 		
@@ -110,7 +115,9 @@ void openglwindows::initializeGL()
 	triangle_two_ogl_vao_quad.release();
 	triangle_two_ogl_vbo_quad->release();
 	color_shader_program->release();
-	
+		qDebug() << "run";
+		QTimer::singleShot(200, this, SLOT(run_paint()));
+		
 }
  
 void openglwindows::resizeGL(int width, int height)
@@ -118,21 +125,40 @@ void openglwindows::resizeGL(int width, int height)
   (void)width;
   (void)height;
 }
- 
+ GLfloat rotation = 0.01;
 void openglwindows::paintGL()
 {
-glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
+	}
+ 
+void openglwindows::run_paint()
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+	
+	
     color_shader_program->bind();
     triangle_ogl_vao_quad.bind();
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+		triangle_ogl_vbo_quad->bind();
+		triangle_vertex_and_colors_altered->setCombinedXyzColors(	rotate->rotate_z(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors(), rotation), triangle_vertex_and_colors_altered->combined_total_xyz_colors());
+    triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
+		color_shader_program->enableAttributeArray(0);
+		color_shader_program->enableAttributeArray(1);
+		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
+		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
+		triangle_two_ogl_vbo_quad->release();
+		
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		triangle_ogl_vao_quad.release();
 		
 		triangle_two_ogl_vao_quad.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
 		triangle_two_ogl_vao_quad.release();
 		
+		
 		color_shader_program->release();
+		this->update();
+	QTimer::singleShot((1000/60), this, SLOT(run_paint()));
+	
 }
- 
 

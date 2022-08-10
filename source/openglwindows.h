@@ -13,6 +13,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLPaintDevice>
 #include <QDebug>
+#include <QTimer>
 
 class openglwindows : public QOpenGLWindow, protected QOpenGLFunctions
 {
@@ -37,6 +38,9 @@ private:
 	
 	
 signals:
+
+public slots:
+	void run_paint();
 
 };
 

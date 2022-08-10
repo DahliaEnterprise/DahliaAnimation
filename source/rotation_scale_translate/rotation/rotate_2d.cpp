@@ -17,7 +17,6 @@ GLfloat * rotate_2d::rotate_x(GLfloat * vertex, size_t vertex_memory_size, GLflo
 		
 		GLfloat * adjacent_opposite_hypotenus = get_two_dimensional_adjacent_opposite_hypotenus( 0, 0, point_two_z, point_two_y);
 		GLfloat three_hundred_and_sixty_degrees_as_radians = get_two_dimensional_angle_as_radians(adjacent_opposite_hypotenus[0], adjacent_opposite_hypotenus[2], 0, 0, point_two_z, point_two_y);
-		qDebug() << three_hundred_and_sixty_degrees_as_radians;
 		
 		GLfloat * rotated_point = get_two_dimensional_apply_desired_rotation(three_hundred_and_sixty_degrees_as_radians, offset_x_rotation, adjacent_opposite_hypotenus[2]);
 		
@@ -25,6 +24,9 @@ GLfloat * rotate_2d::rotate_x(GLfloat * vertex, size_t vertex_memory_size, GLflo
 		vertex[index+1] = rotated_point[1];
 		
 		index = index + 6;
+		
+		free(adjacent_opposite_hypotenus);
+		free(rotated_point);
 	}
 	
 	return vertex;
@@ -41,7 +43,6 @@ GLfloat * rotate_2d::rotate_y(GLfloat * vertex, size_t vertex_memory_size, GLflo
 		
 		GLfloat * adjacent_opposite_hypotenus = get_two_dimensional_adjacent_opposite_hypotenus( 0, 0, point_two_z, point_two_x);
 		GLfloat three_hundred_and_sixty_degrees_as_radians = get_two_dimensional_angle_as_radians(adjacent_opposite_hypotenus[0], adjacent_opposite_hypotenus[2], 0, 0, point_two_z, point_two_x);
-		qDebug() << three_hundred_and_sixty_degrees_as_radians;
 		
 		GLfloat * rotated_point = get_two_dimensional_apply_desired_rotation(three_hundred_and_sixty_degrees_as_radians, offset_y_rotation, adjacent_opposite_hypotenus[2]);
 		
@@ -49,6 +50,9 @@ GLfloat * rotate_2d::rotate_y(GLfloat * vertex, size_t vertex_memory_size, GLflo
 		vertex[index] = rotated_point[1];
 		
 		index = index + 6;
+		
+		free(adjacent_opposite_hypotenus);
+		free(rotated_point);
 	}
 	
 	return vertex;
@@ -65,7 +69,6 @@ GLfloat * rotate_2d::rotate_z(GLfloat * vertex, size_t vertex_memory_size, GLflo
 		
 		GLfloat * adjacent_opposite_hypotenus = get_two_dimensional_adjacent_opposite_hypotenus( 0, 0, point_two_x, point_two_y);
 		GLfloat three_hundred_and_sixty_degrees_as_radians = get_two_dimensional_angle_as_radians(adjacent_opposite_hypotenus[0], adjacent_opposite_hypotenus[2], 0, 0, point_two_x, point_two_y);
-		qDebug() << three_hundred_and_sixty_degrees_as_radians;
 		
 		GLfloat * rotated_point = get_two_dimensional_apply_desired_rotation(three_hundred_and_sixty_degrees_as_radians, offset_z_rotation, adjacent_opposite_hypotenus[2]);
 		
@@ -73,6 +76,9 @@ GLfloat * rotate_2d::rotate_z(GLfloat * vertex, size_t vertex_memory_size, GLflo
 		vertex[index+1] = rotated_point[1];
 		
 		index = index + 6;
+		
+		free(adjacent_opposite_hypotenus);
+		free(rotated_point);
 	}
 	
 	return vertex;
