@@ -25,22 +25,28 @@ const char* fragmentSource =
         " outColor = color;\n"
         "}\n";
 				
-vertex_group * triangle_vertex_and_colors;
-vertex_group * triangle_two_vertex_and_colors;
+vertex_group * triangle_vertex_and_colors_unaltered;
+vertex_group * triangle_vertex_and_colors_altered;
+
+vertex_group * triangle_two_vertex_and_colors_unaltered;
 
 rotate_2d * rotate;
 
 void openglwindows::initializeGL()
 {
-	triangle_vertex_and_colors = new vertex_group();
-	triangle_vertex_and_colors->setPositions(QUrl("./../dahliaanimator/vertex/triangle.xyz"));
-	triangle_vertex_and_colors->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
-	triangle_vertex_and_colors->combined_xyz_colors();
+	triangle_vertex_and_colors_unaltered = new vertex_group();
+	triangle_vertex_and_colors_unaltered->setPositions(QUrl("./../dahliaanimator/vertex/triangle.xyz"));
+	triangle_vertex_and_colors_unaltered->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
+	triangle_vertex_and_colors_unaltered->combined_xyz_colors();
 	
-	triangle_two_vertex_and_colors = new vertex_group();
-	triangle_two_vertex_and_colors->setPositions(QUrl("./../dahliaanimator/vertex/triangle-1.xyz"));
-	triangle_two_vertex_and_colors->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
-	triangle_two_vertex_and_colors->combined_xyz_colors();
+	triangle_vertex_and_colors_altered = new vertex_group();
+	triangle_vertex_and_colors_altered->setCombinedXyzColors(triangle_vertex_and_colors_unaltered->combined_xyz_colors(), triangle_vertex_and_colors_unaltered->combined_total_xyz_colors());
+	triangle_vertex_and_colors_altered->combined_xyz_colors();
+	
+	triangle_two_vertex_and_colors_unaltered = new vertex_group();
+	triangle_two_vertex_and_colors_unaltered->setPositions(QUrl("./../dahliaanimator/vertex/triangle-1.xyz"));
+	triangle_two_vertex_and_colors_unaltered->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
+	triangle_two_vertex_and_colors_unaltered->combined_xyz_colors();
 	
 	
 	rotate = new rotate_2d();
@@ -70,7 +76,9 @@ void openglwindows::initializeGL()
 	triangle_ogl_vbo_quad->create();
 	triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_ogl_vbo_quad->bind();
-	triangle_ogl_vbo_quad->allocate(rotate->rotate_z(triangle_vertex_and_colors->combined_xyz_colors(), triangle_vertex_and_colors->combined_total_xyz_colors(), (GLfloat)1.34), triangle_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
+	rotate->rotate_z(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors(), (GLfloat)1.34);
+	
+	triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
 		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);
@@ -91,7 +99,7 @@ void openglwindows::initializeGL()
 	triangle_two_ogl_vbo_quad->create();
 	triangle_two_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_two_ogl_vbo_quad->bind();
-	triangle_two_ogl_vbo_quad->allocate(triangle_two_vertex_and_colors->combined_xyz_colors(), triangle_two_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
+	triangle_two_ogl_vbo_quad->allocate(triangle_two_vertex_and_colors_unaltered->combined_xyz_colors(), triangle_two_vertex_and_colors_unaltered->combined_total_xyz_colors() * sizeof(GLfloat));
 		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);

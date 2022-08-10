@@ -140,6 +140,14 @@ GLfloat * vertex_group::combined_xyz_colors()
 
 }
 
+void vertex_group::setCombinedXyzColors(GLfloat * vertex_and_colors, size_t vertex_and_colors_memory_size)
+{
+	triangle_positions_and_colors = vertex_and_colors;
+	triangle_positions_and_colors_memory_size = vertex_and_colors_memory_size;
+	triangle_positions_and_colors_defined = 1;
+}
+
+
 
 unsigned int vertex_group::combined_total_xyz_colors()
 {

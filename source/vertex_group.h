@@ -20,8 +20,12 @@ public:
 		GLfloat * getTriangleColors();
 		unsigned int getTotalTriangleColors();
 		
+		void setCombinedXyzColors(GLfloat * vertex_and_colors, size_t vertex_and_colors_memory_size);
 		GLfloat * combined_xyz_colors();
 		unsigned int combined_total_xyz_colors();
+		
+		
+		
 private:
 	GLfloat * triangle_positions;
 	unsigned int triangle_positions_memory_size;
