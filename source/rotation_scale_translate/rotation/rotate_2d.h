@@ -17,6 +17,8 @@ public:
 		
 		GLfloat * rotate_y(GLfloat * vertex, size_t vertex_memory_size, GLfloat offset_y_rotation);
 		
+		GLfloat * rotate_z(GLfloat * vertex, size_t vertex_memory_size, GLfloat offset_z_rotation);
+		
 		GLfloat *  get_two_dimensional_adjacent_opposite_hypotenus(GLfloat point_one_x, GLfloat point_one_y, GLfloat point_two_x, GLfloat point_two_y);
 		
 		GLfloat get_two_dimensional_angle_as_radians(GLfloat adjacent, GLfloat hypotenus, GLfloat point_one_x, GLfloat point_one_y, GLfloat point_two_x, GLfloat point_two_y);

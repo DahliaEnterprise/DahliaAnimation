@@ -70,7 +70,7 @@ void openglwindows::initializeGL()
 	triangle_ogl_vbo_quad->create();
 	triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_ogl_vbo_quad->bind();
-	triangle_ogl_vbo_quad->allocate(rotate->rotate_y(triangle_vertex_and_colors->combined_xyz_colors(), triangle_vertex_and_colors->combined_total_xyz_colors(), (GLfloat)1.34), triangle_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
+	triangle_ogl_vbo_quad->allocate(rotate->rotate_z(triangle_vertex_and_colors->combined_xyz_colors(), triangle_vertex_and_colors->combined_total_xyz_colors(), (GLfloat)1.34), triangle_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
 		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);
