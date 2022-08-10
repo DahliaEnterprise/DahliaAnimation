@@ -2,6 +2,7 @@
 #define OPENGLWINDOWS_H
 
 #include "vertex_group.h"
+#include "./rotation_scale_translate/rotation/rotate_2d.h"
 
 #include <QOpenGLWindow>
 #include <QObject>

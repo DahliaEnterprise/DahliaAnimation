@@ -12,11 +12,13 @@ SOURCES += \
     main.cpp \
     opengl_manager.cpp \
     openglwindows.cpp \
+    rotation_scale_translate/rotation/rotate_2d.cpp \
     vertex_group.cpp
 
 HEADERS += \
     opengl_manager.h \
     openglwindows.h \
+    rotation_scale_translate/rotation/rotate_2d.h \
     vertex_group.h
 
 # Default rules for deployment.

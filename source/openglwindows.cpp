@@ -26,10 +26,9 @@ const char* fragmentSource =
         "}\n";
 				
 vertex_group * triangle_vertex_and_colors;
-
-GLfloat * vertexData_two;
 vertex_group * triangle_two_vertex_and_colors;
 
+rotate_2d * rotate;
 
 void openglwindows::initializeGL()
 {
@@ -44,24 +43,7 @@ void openglwindows::initializeGL()
 	triangle_two_vertex_and_colors->combined_xyz_colors();
 	
 	
-	/*
-	vertexData_two = 0;
-	while(vertexData_two == 0){ vertexData_two = (GLfloat*)malloc(15*sizeof(GLfloat)); }
-	vertexData_two[0] = -0.5;
-	vertexData_two[1] = 0.5;
-	vertexData_two[2] = 1.0;
-	vertexData_two[3] = 0.0;
-	vertexData_two[4] = 0.0;
-	vertexData_two[5] = 0.5;
-	vertexData_two[6] = -0.5;
-	vertexData_two[7] = 0.0;
-	vertexData_two[8] = 1.0;
-	vertexData_two[9] = 0.0;
-	vertexData_two[10] = -0.5;
-	vertexData_two[11] = -0.5;
-	vertexData_two[12] = 0.0;
-	vertexData_two[13] = 0.0;
-	vertexData_two[14] = 1.0;*/
+	rotate = new rotate_2d();
 	
   initializeOpenGLFunctions();
   glClearColor(0.0f, 0.0f, 1.0f, 0.9f);
@@ -88,7 +70,7 @@ void openglwindows::initializeGL()
 	triangle_ogl_vbo_quad->create();
 	triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 	triangle_ogl_vbo_quad->bind();
-	triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors->combined_xyz_colors(), triangle_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
+	triangle_ogl_vbo_quad->allocate(rotate->rotate_y(triangle_vertex_and_colors->combined_xyz_colors(), triangle_vertex_and_colors->combined_total_xyz_colors(), (GLfloat)1.34), triangle_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
 		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);

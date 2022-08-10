@@ -124,7 +124,6 @@ GLfloat * vertex_group::combined_xyz_colors()
 			triangle_positions_and_colors[index+3] = triangle_colors[color_index];
 			triangle_positions_and_colors[index+4] = triangle_colors[color_index+1];
 			triangle_positions_and_colors[index+5] = triangle_colors[color_index+2];
-			qDebug() << triangle_positions_and_colors[index];
 			
 			index = index + 6;
 			position_index = position_index + 3;
