@@ -22,16 +22,35 @@ const char* fragmentSource =
         "#version 330\n"
         "in vec4 color;\n"
 				"in vec4 vertex_position;\n"
+				"float light_intensity_factor(in float light_source_distance)\n"
+				"{\n"
+				"	float result = 0.0;\n"
+				"	if((light_source_distance * 1000000) < (1.0 * 1000000))\n"
+				"	{\n"
+				"		float inverse = 0;\n"
+				"		result = (light_source_distance * 0.5);\n"
+			  "	}else{\n"
+				"		float initial_intensity = 0.6;\n"
+				"		result = light_source_distance;\n"
+				"	}\n"
+				"	return result;\n"
+				"}\n"
+				
         "void main( void )\n"
         "{\n"
-				"vec3 light_position = vec3(0.0, 0.5, 0.1);\n"
+				"vec4 light_color = vec4(1.0, 1.0, 1.0, 1.0);\n"
+				"vec3 light_position = vec3(0.0, 1.0, 0.0);\n"
 				"float light_distance = distance(vertex_position, vec4(light_position, 1.0));\n"
-				"//distance.x =  abs(distance.x);\n"
-        " gl_FragColor = vec4(color.x * light_distance, color.y * light_distance, color.z, 1.0);;\n"
+				"float light_intensity = light_intensity_factor(light_distance);\n"
+				"vec4 mixed_color = mix(light_color, color, light_intensity);\n"
+        " gl_FragColor = mixed_color;  //vec4(color.x * light_distance, color.y * light_distance, color.z, 1.0);;\n"
         "}\n";
 				
 vertex_group * triangle_vertex_and_colors_unaltered;
 vertex_group * triangle_vertex_and_colors_altered;
+vertex_group * triangle_vertex_and_colors_texture_coordinates;
+unsigned int texture;
+
 
 vertex_group * triangle_two_vertex_and_colors_unaltered;
 
@@ -47,6 +66,10 @@ void openglwindows::initializeGL()
 	triangle_vertex_and_colors_altered = new vertex_group();
 	triangle_vertex_and_colors_altered->setCombinedXyzColors(triangle_vertex_and_colors_unaltered->combined_xyz_colors(), triangle_vertex_and_colors_unaltered->combined_total_xyz_colors());
 	triangle_vertex_and_colors_altered->combined_xyz_colors();
+	
+	triangle_vertex_and_colors_texture_coordinates = new vertex_group();
+	triangle_vertex_and_colors_texture_coordinates->setTexturePositions(QUrl("./../dahliaanimator/vertex_texture_position/triangle.texture_xy"));
+	glGenTextures(1, &texture); 
 	
 	triangle_two_vertex_and_colors_unaltered = new vertex_group();
 	triangle_two_vertex_and_colors_unaltered->setPositions(QUrl("./../dahliaanimator/vertex/triangle-1.xyz"));
@@ -134,7 +157,7 @@ void openglwindows::paintGL()
 void openglwindows::run_paint()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	
 	
     color_shader_program->bind();
@@ -146,14 +169,15 @@ void openglwindows::run_paint()
 		color_shader_program->enableAttributeArray(1);
 		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		triangle_two_ogl_vbo_quad->release();
+		
+		triangle_ogl_vbo_quad->release();
 		
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		triangle_ogl_vao_quad.release();
 		
-		triangle_two_ogl_vao_quad.bind();
+		/*triangle_two_ogl_vao_quad.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
-		triangle_two_ogl_vao_quad.release();
+		triangle_two_ogl_vao_quad.release();*/
 		
 		
 		color_shader_program->release();

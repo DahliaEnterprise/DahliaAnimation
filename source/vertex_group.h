@@ -20,6 +20,10 @@ public:
 		GLfloat * getTriangleColors();
 		unsigned int getTotalTriangleColors();
 		
+		void setTexturePositions(QUrl file);
+		GLfloat * getTexturePositions();
+		unsigned int getTotalTexturePositions();
+		
 		void setCombinedXyzColors(GLfloat * vertex_and_colors, size_t vertex_and_colors_memory_size);
 		GLfloat * combined_xyz_colors();
 		unsigned int combined_total_xyz_colors();
@@ -32,6 +36,9 @@ private:
 	
 	GLfloat * triangle_colors;
 	unsigned int triangle_colors_memory_size;
+	
+	GLfloat * triangle_texture_positions;
+	unsigned int triangle_texture_positions_memory_size;
 	
 	GLfloat * triangle_positions_and_colors;
 	unsigned int triangle_positions_and_colors_memory_size;

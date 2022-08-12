@@ -154,3 +154,53 @@ unsigned int vertex_group::combined_total_xyz_colors()
 	return triangle_positions_and_colors_memory_size;
 }
 	
+
+void vertex_group::setTexturePositions(QUrl file)
+{
+	QFile texture_positions(file.path());
+	if(texture_positions.exists() == false)
+	{
+		qDebug() << "colors must be a valid file.";
+	}else{
+		bool open_success = texture_positions.open(QIODevice::ReadOnly);
+		if(open_success == false)
+		{
+			qDebug() << "position file unable to open.";
+		}else{
+			text_stream = new QTextStream();
+			text_stream->setDevice(&texture_positions);
+			QString text = text_stream->readAll();
+			QStringList text_parts = text.split(QString(","));
+			triangle_colors = 0; while(triangle_colors == 0){ triangle_colors = (GLfloat*)malloc(text_parts.size() * sizeof(GLfloat)); }
+			triangle_colors_memory_size = text_parts.size();
+			int index = 0;
+			while(index < text_parts.size())
+			{
+				//
+				double planer_value = text_parts.at(index).toDouble();
+				triangle_colors[index] = (GLfloat)planer_value;
+				
+				//
+				index = index + 1;
+			}
+			
+			
+			delete text_stream;
+			
+			
+		}
+		
+		colors.flush();
+		colors.close();
+	}
+}
+
+GLfloat * vertex_group::getTexturePositions()
+{
+	return triangle_colors;
+}
+
+unsigned int vertex_group::getTotalTexturePositions()
+{
+	return triangle_colors_memory_size;
+}
