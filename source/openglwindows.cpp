@@ -27,29 +27,27 @@ const char* fragmentSource =
 				"	float result = 0.0;\n"
 				"	if((light_source_distance * 1000000) < (1.0 * 1000000))\n"
 				"	{\n"
-				"		float inverse = 0;\n"
-				"		result = (light_source_distance * 0.5);\n"
-			  "	}else{\n"
-				"		float initial_intensity = 0.6;\n"
-				"		result = light_source_distance;\n"
+				"		result = 1.0 - ((light_source_distance)+(light_source_distance * 0.5));\n"
+			  "	}else if((light_source_distance * 1000000) >= (1.0 * 1000000)){\n"
+				"		float initial_intensity = 0.0;\n"
+				"		result = 0;\n"
 				"	}\n"
 				"	return result;\n"
 				"}\n"
 				
         "void main( void )\n"
         "{\n"
-				"vec4 light_color = vec4(1.0, 1.0, 1.0, 1.0);\n"
-				"vec3 light_position = vec3(0.0, 1.0, 0.0);\n"
+				"vec4 nolight_color = vec4(0.0, 0.0, 0.0, 1.0);\n"
+				"vec3 light_position = vec3(0.0, 0.5, 0.0);\n"
 				"float light_distance = distance(vertex_position, vec4(light_position, 1.0));\n"
 				"float light_intensity = light_intensity_factor(light_distance);\n"
-				"vec4 mixed_color = mix(light_color, color, light_intensity);\n"
-        " gl_FragColor = mixed_color;  //vec4(color.x * light_distance, color.y * light_distance, color.z, 1.0);;\n"
+				"vec4 mixed_color = mix(nolight_color, color, light_intensity);\n"
+        " gl_FragColor = mixed_color; \n"
         "}\n";
 				
 vertex_group * triangle_vertex_and_colors_unaltered;
 vertex_group * triangle_vertex_and_colors_altered;
 vertex_group * triangle_vertex_and_colors_texture_coordinates;
-unsigned int texture;
 
 
 vertex_group * triangle_two_vertex_and_colors_unaltered;
@@ -59,8 +57,8 @@ rotate_2d * rotate;
 void openglwindows::initializeGL()
 {
 	triangle_vertex_and_colors_unaltered = new vertex_group();
-	triangle_vertex_and_colors_unaltered->setPositions(QUrl("./../dahliaanimator/vertex/triangle.xyz"));
-	triangle_vertex_and_colors_unaltered->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
+	triangle_vertex_and_colors_unaltered->setPositions(QUrl("./../DahliaAnimation/source/vertex/triangle.xyz"));
+	triangle_vertex_and_colors_unaltered->setColors(QUrl("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
 	triangle_vertex_and_colors_unaltered->combined_xyz_colors();
 	
 	triangle_vertex_and_colors_altered = new vertex_group();
@@ -68,12 +66,11 @@ void openglwindows::initializeGL()
 	triangle_vertex_and_colors_altered->combined_xyz_colors();
 	
 	triangle_vertex_and_colors_texture_coordinates = new vertex_group();
-	triangle_vertex_and_colors_texture_coordinates->setTexturePositions(QUrl("./../dahliaanimator/vertex_texture_position/triangle.texture_xy"));
-	glGenTextures(1, &texture); 
+	triangle_vertex_and_colors_texture_coordinates->setTexturePositions(QUrl("./../DahliaAnimation/source/vertex_texture_position/triangle.texture_xy"));
 	
 	triangle_two_vertex_and_colors_unaltered = new vertex_group();
-	triangle_two_vertex_and_colors_unaltered->setPositions(QUrl("./../dahliaanimator/vertex/triangle-1.xyz"));
-	triangle_two_vertex_and_colors_unaltered->setColors(QUrl("./../dahliaanimator/vertex_color/triangle.rgb"));
+	triangle_two_vertex_and_colors_unaltered->setPositions(QUrl("./../DahliaAnimation/source/vertex/triangle-1.xyz"));
+	triangle_two_vertex_and_colors_unaltered->setColors(QUrl("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
 	triangle_two_vertex_and_colors_unaltered->combined_xyz_colors();
 	
 	

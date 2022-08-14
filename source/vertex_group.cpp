@@ -190,8 +190,8 @@ void vertex_group::setTexturePositions(QUrl file)
 			
 		}
 		
-		colors.flush();
-		colors.close();
+		texture_positions.flush();
+		texture_positions.close();
 	}
 }
 
