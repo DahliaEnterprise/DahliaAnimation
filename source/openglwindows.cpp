@@ -5,53 +5,6 @@ openglwindows::openglwindows()
 
 }
 
-const char* vertexSource =
-        "#version 330\n"
-        "layout(location = 0) in vec3 position;\n"
-        "layout(location = 1) in vec3 incolor;\n"
-        "out vec4 color;\n"
-				"out vec4 vertex_position;\n"
-        "void main( void )\n"
-        "{\n"
-        " gl_Position = vec4(position, 1.0);\n"
-        " color = vec4(incolor, 1.0);\n"
-				" vertex_position = vec4(position, 1.0);\n"
-        "}\n";
-
-const char* fragmentSource =
-        "#version 330\n"
-        "in vec4 color;\n"
-				"in vec4 vertex_position;\n"
-				"float light_intensity_factor(in float light_source_distance)\n"
-				"{\n"
-				"	float result = 0.0;\n"
-				"	float max_distance = 2.0;\n"
-				"	float light_intensity[3]; \n"
-				" float light_intensity_position[3];\n"
-				" light_intensity[0] = 0.0; light_intensity[1] = 0.5; light_itensity[2] = 1.0;\n"
-				" light_intensity_position[0] = 0.0; light_intensity_position[1] = 0.2; light_intensity_position[2] = 1.0;\n"
-				"	uint light_info_index = 0;\n"
-				"/*	while(light_info_index < 3)\n"
-			  "	{\n"
-				"		if((light_intensity_position[light_info_index] < light_source_distance){ if(light_intensity_position[light_info_index+1] > light_source_distance){ \n"
-				"			 //float closest_lowest_position = 0;\n"
-				"			 float closest_higher_position = light_intensity_position[light_info_index+1] - light_intensity_position[light_info_index];\n"
-				"			 float position_difference = closest_higher_position - (light_source_distance - light_intensity_position[light_info_index]);\n"
-				"			 result = position_difference;"
-				"		}\n"
-				"	}*/\n"
-				"	return result;\n"
-				"}\n"
-				
-        "void main( void )\n"
-        "{\n"
-				"vec4 nolight_color = vec4(0.0, 0.0, 0.0, 1.0);\n"
-				"vec3 light_position = vec3(0.0, 0.5, 0.0);\n"
-				"float light_distance = distance(vertex_position, vec4(light_position, 1.0));\n"
-				"float light_intensity = light_intensity_factor(light_distance);\n"
-				"vec4 mixed_color = mix(nolight_color, color, light_intensity);\n"
-        " gl_FragColor = mixed_color; \n"
-        "}\n";
 				
 vertex_group * triangle_vertex_and_colors_unaltered;
 vertex_group * triangle_vertex_and_colors_altered;
@@ -88,7 +41,7 @@ void openglwindows::initializeGL()
   glClearColor(0.0f, 0.0f, 1.0f, 0.9f);
 	qDebug() << "initializing";
 	
-	QFile color_vertex_shader_file("./../DahliaAnimation/source/shader_vertex/color_triangles.c");
+	QFile color_vertex_shader_file("./../DahliaAnimation/source/shader_vertex/color_triangles_test_point_within_vertex.c");
 	if(color_vertex_shader_file.exists() == false)
 	{
 		qDebug() << " must be a valid file.";
@@ -112,7 +65,7 @@ void openglwindows::initializeGL()
 		qDebug() << "vertex";
 	}
 
-	QFile color_fragment_shader_file("./../DahliaAnimation/source/shader_fragment/color_triangles.c");
+	QFile color_fragment_shader_file("./../DahliaAnimation/source/shader_fragment/color_triangles_test_point_within_vertex_fragment.c");
 	if(color_fragment_shader_file.exists() == false)
 	{
 		qDebug() << " must be a valid file.";
@@ -152,9 +105,15 @@ void openglwindows::initializeGL()
 		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);
-	color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
+		/*color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 	color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		
+	color_shader_program->setAttributeBuffer(2, GL_FLOAT, 0*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
+	*/
+	
+	color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 0);
+	color_shader_program->setAttributeBuffer(1, GL_FLOAT, triangle_vertex_and_colors_altered->getTotalTrianglePositions()*sizeof(GLfloat), 3, 0);
+	//color_shader_program->setAttributeBuffer(2, GL_FLOAT, triangle_vertex_and_colors_altered->getTotalTrianglePositions()*sizeof(GLfloat), 3, 0);
+	
 	//clean/clear
 	triangle_ogl_vao_quad.release();
 	triangle_ogl_vbo_quad->release();
@@ -175,7 +134,9 @@ void openglwindows::initializeGL()
 	color_shader_program->enableAttributeArray(1);
 	color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 	color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		
+	
+	
+	
 	//clean/clear
 	triangle_two_ogl_vao_quad.release();
 	triangle_two_ogl_vbo_quad->release();
@@ -211,6 +172,7 @@ void openglwindows::run_paint()
 		color_shader_program->enableAttributeArray(1);
 		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
+		color_shader_program->setUniformValue("ucolor", (GLfloat)1.0, (GLfloat)0.5, (GLfloat)0.5, (GLfloat)1.0);
 		
 		triangle_ogl_vbo_quad->release();
 		

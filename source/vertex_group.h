@@ -31,6 +31,7 @@ public:
 		
 		
 private:
+	
 	GLfloat * triangle_positions;
 	unsigned int triangle_positions_memory_size;
 	

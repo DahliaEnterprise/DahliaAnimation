@@ -109,6 +109,7 @@ GLfloat * vertex_group::combined_xyz_colors()
 {
 	if(triangle_positions_and_colors_defined == 0)
 	{
+		
 		triangle_positions_and_colors_memory_size =  triangle_positions_memory_size + triangle_colors_memory_size;
 		triangle_positions_and_colors = 0; while(triangle_positions_and_colors == 0){ triangle_positions_and_colors = (GLfloat*)malloc(triangle_positions_and_colors_memory_size * sizeof(GLfloat)); }
 		unsigned int index = 0;
@@ -135,6 +136,7 @@ GLfloat * vertex_group::combined_xyz_colors()
 		}
 		
 		triangle_positions_and_colors_defined = 1;
+		
 	}
 		return triangle_positions_and_colors;
 
