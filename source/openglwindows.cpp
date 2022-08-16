@@ -25,13 +25,21 @@ const char* fragmentSource =
 				"float light_intensity_factor(in float light_source_distance)\n"
 				"{\n"
 				"	float result = 0.0;\n"
-				"	if((light_source_distance * 1000000) < (1.0 * 1000000))\n"
-				"	{\n"
-				"		result = 1.0 - ((light_source_distance)+(light_source_distance * 0.5));\n"
-			  "	}else if((light_source_distance * 1000000) >= (1.0 * 1000000)){\n"
-				"		float initial_intensity = 0.0;\n"
-				"		result = 0;\n"
-				"	}\n"
+				"	float max_distance = 2.0;\n"
+				"	float light_intensity[3]; \n"
+				" float light_intensity_position[3];\n"
+				" light_intensity[0] = 0.0; light_intensity[1] = 0.5; light_itensity[2] = 1.0;\n"
+				" light_intensity_position[0] = 0.0; light_intensity_position[1] = 0.2; light_intensity_position[2] = 1.0;\n"
+				"	uint light_info_index = 0;\n"
+				"/*	while(light_info_index < 3)\n"
+			  "	{\n"
+				"		if((light_intensity_position[light_info_index] < light_source_distance){ if(light_intensity_position[light_info_index+1] > light_source_distance){ \n"
+				"			 //float closest_lowest_position = 0;\n"
+				"			 float closest_higher_position = light_intensity_position[light_info_index+1] - light_intensity_position[light_info_index];\n"
+				"			 float position_difference = closest_higher_position - (light_source_distance - light_intensity_position[light_info_index]);\n"
+				"			 result = position_difference;"
+				"		}\n"
+				"	}*/\n"
 				"	return result;\n"
 				"}\n"
 				
@@ -79,13 +87,50 @@ void openglwindows::initializeGL()
   initializeOpenGLFunctions();
   glClearColor(0.0f, 0.0f, 1.0f, 0.9f);
 	qDebug() << "initializing";
+	
+	QFile color_vertex_shader_file("./../DahliaAnimation/source/shader_vertex/color_triangles.c");
+	if(color_vertex_shader_file.exists() == false)
+	{
+		qDebug() << " must be a valid file.";
+	}else{
+		bool open_success = color_vertex_shader_file.open(QIODevice::ReadOnly);
+		if(open_success == false)
+		{
+			qDebug() << " file unable to open.";
+		}else{
+			
+		}
+	}
+	QTextStream * text_stream = new QTextStream();
+	text_stream->setDevice(&color_vertex_shader_file);
+  QString text_qstring = text_stream->readAll();
+    std::string text_stdstring = text_qstring.toUtf8().toStdString();
+
 	color_shader_program = new QOpenGLShaderProgram();
-	bool success = color_shader_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexSource);
+    bool success = color_shader_program->addShaderFromSourceCode(QOpenGLShader::Vertex, text_stdstring.c_str());
 	if(!success) {
 		qDebug() << "vertex";
 	}
 
-	success = color_shader_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentSource);
+	QFile color_fragment_shader_file("./../DahliaAnimation/source/shader_fragment/color_triangles.c");
+	if(color_fragment_shader_file.exists() == false)
+	{
+		qDebug() << " must be a valid file.";
+	}else{
+		bool open_success = color_fragment_shader_file.open(QIODevice::ReadOnly);
+		if(open_success == false)
+		{
+			qDebug() << " file unable to open.";
+		}else{
+			
+		}
+	}
+	text_stream->setDevice(&color_fragment_shader_file);
+  text_qstring = text_stream->readAll();
+	
+  text_stdstring = text_qstring.toUtf8().toStdString();
+	delete text_stream;
+	success = color_shader_program->addShaderFromSourceCode(QOpenGLShader::Fragment, text_stdstring.c_str());
 	if(!success) {
 		qDebug() << "fragment";
 	}
