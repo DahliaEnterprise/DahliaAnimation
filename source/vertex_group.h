@@ -28,8 +28,6 @@ public:
 		GLfloat * combined_xyz_colors();
 		unsigned int combined_total_xyz_colors();
 		
-		
-		
 private:
 	
 	GLfloat * triangle_positions;

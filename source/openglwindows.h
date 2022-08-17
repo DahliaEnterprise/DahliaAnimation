@@ -14,6 +14,7 @@
 #include <QOpenGLPaintDevice>
 #include <QDebug>
 #include <QTimer>
+#include <QVector3D>
 
 class openglwindows : public QOpenGLWindow, protected QOpenGLFunctions
 {

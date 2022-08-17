@@ -1,8 +1,7 @@
 #version 330
 in vec4 color;
 in vec4 vertex_position;
-in vec3 vertex_positions_one;
-uniform vec4 ucolor;
+uniform vec3 vertex_positions[1024];
 
 void main( void )
 {
@@ -25,6 +24,6 @@ void main( void )
 	
 	
 	
-		gl_FragColor = ucolor;
+		gl_FragColor = vec4(vertex_positions[0], 1.0);
 		
 }	

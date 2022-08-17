@@ -170,9 +170,20 @@ void openglwindows::run_paint()
     triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
 		color_shader_program->enableAttributeArray(0);
 		color_shader_program->enableAttributeArray(1);
+		
 		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		color_shader_program->setUniformValue("ucolor", (GLfloat)1.0, (GLfloat)0.5, (GLfloat)0.5, (GLfloat)1.0);
+		
+		
+		/*GLfloat * vertex_world_to_simulate = 0; while(vertex_world_to_simulate == 0){ vertex_world_to_simulate = (GLfloat *)malloc((1024)*sizeof(GLfloat)); }
+		memset(vertex_world_to_simulate, 0, (1024));
+		vertex_world_to_simulate[0] = 1.0;
+		vertex_world_to_simulate[1] = 0.5;*/
+		QVector3D vertex_world_to_simulate[1024];
+		vertex_world_to_simulate[0] = QVector3D(0.5, 1.0, 0.2);
+		
+		
+		color_shader_program->setUniformValueArray("vertex_positions", vertex_world_to_simulate, 1024);
 		
 		triangle_ogl_vbo_quad->release();
 		
@@ -185,6 +196,7 @@ void openglwindows::run_paint()
 		
 		
 		color_shader_program->release();
+		//free(vertex_world_to_simulate);
 		this->update();
 	QTimer::singleShot((1000/60), this, SLOT(run_paint()));
 	
