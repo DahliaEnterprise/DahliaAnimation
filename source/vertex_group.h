@@ -28,6 +28,7 @@ public:
 		GLfloat * combined_xyz_colors();
 		unsigned int combined_total_xyz_colors();
 		
+		
 private:
 	
 	GLfloat * triangle_positions;
@@ -44,6 +45,7 @@ private:
 	unsigned short int triangle_positions_and_colors_defined;
 	
 	QTextStream * text_stream;
+	
 	
 signals:
 

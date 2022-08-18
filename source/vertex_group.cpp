@@ -206,3 +206,5 @@ unsigned int vertex_group::getTotalTexturePositions()
 {
 	return triangle_colors_memory_size;
 }
+
+

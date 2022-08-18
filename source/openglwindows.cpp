@@ -23,7 +23,8 @@ void openglwindows::initializeGL()
 	triangle_vertex_and_colors_unaltered->combined_xyz_colors();
 	
 	triangle_vertex_and_colors_altered = new vertex_group();
-	triangle_vertex_and_colors_altered->setCombinedXyzColors(triangle_vertex_and_colors_unaltered->combined_xyz_colors(), triangle_vertex_and_colors_unaltered->combined_total_xyz_colors());
+	triangle_vertex_and_colors_altered->setPositions(QUrl("./../DahliaAnimation/source/vertex/triangle.xyz"));
+	triangle_vertex_and_colors_altered->setColors(QUrl("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
 	triangle_vertex_and_colors_altered->combined_xyz_colors();
 	
 	triangle_vertex_and_colors_texture_coordinates = new vertex_group();
@@ -175,12 +176,12 @@ void openglwindows::run_paint()
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
 		
 		
-		/*GLfloat * vertex_world_to_simulate = 0; while(vertex_world_to_simulate == 0){ vertex_world_to_simulate = (GLfloat *)malloc((1024)*sizeof(GLfloat)); }
-		memset(vertex_world_to_simulate, 0, (1024));
-		vertex_world_to_simulate[0] = 1.0;
-		vertex_world_to_simulate[1] = 0.5;*/
+		GLfloat * triangle_positions = triangle_vertex_and_colors_altered->getTrianglePositions();
+		qDebug() << triangle_positions[1];
 		QVector3D vertex_world_to_simulate[1024];
-		vertex_world_to_simulate[0] = QVector3D(0.5, 1.0, 0.2);
+		vertex_world_to_simulate[0] = QVector3D(triangle_positions[0], triangle_positions[1], triangle_positions[2]);
+		vertex_world_to_simulate[1] = QVector3D(triangle_positions[3], triangle_positions[4], triangle_positions[5]);
+		vertex_world_to_simulate[2] = QVector3D(triangle_positions[6], triangle_positions[7], triangle_positions[8]);
 		
 		
 		color_shader_program->setUniformValueArray("vertex_positions", vertex_world_to_simulate, 1024);
