@@ -98,8 +98,8 @@ void main( void )
 	
 	//index one to index two
 
-	
-	gl_FragColor = vec4(distance_from_center , 0.0, 0.0, 1.0);
+	gl_FragColor = mix(vec4(0.5, 0.0, 0.0, 0.0), nolight,  distance_from_center);
+	//gl_FragColor = vec4(distance_from_center , 0.0, 0.0, 1.0);
 	
 	
 	//gl_FragColor = vec4(distance_from_center, (gl_FragCoord.x/800), (gl_FragCoord.y/600), 1.0);
