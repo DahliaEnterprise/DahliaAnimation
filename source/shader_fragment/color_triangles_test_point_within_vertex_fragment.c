@@ -1,54 +1,115 @@
 #version 330
 in vec4 color;
 in vec4 vertex_position;
-uniform vec3 vertex_positions[1024];
+uniform vec3 stoplight_positions[1024];
+
 
 void main( void )
 {
-	vec3 angle_color = vec3(0.0);
+	//translate frag coord position to opengl coordinates
+	vec3 fragcoord_as_openglcoordspace = vec3((gl_FragCoord.x/800)-0.5, (gl_FragCoord.y/600)-0.5, gl_FragCoord.z);
 	
-	//exponents
-	float x_squared = pow(vertex_positions[0].x , 2);
-	float y_squared = pow(vertex_positions[0].y , 2);
-	float z_squared = pow(vertex_positions[0].z , 2);
+	vec4 nolight = vec4(0.0, 0.0, 0.0, 1.0);
 	
-	//addition
-	float result_of_xs_ys_zs = x_squared + y_squared + z_squared;
+	vec3 light_position = vec3(0.0, 0.0, 0.2);
 	
-  //exponents
-	float x_second_squared = pow(vertex_positions[1].x , 2);
-	float y_second_squared = pow(vertex_positions[1].y , 2);
-	float z_second_squared = pow(vertex_positions[1].z , 2);
+	vec3 current_test_position = vec3(gl_FragCoord);
 	
-	//addition
-	float result_second_of_xs_ys_zs = x_second_squared + y_second_squared + z_second_squared;
+	float dis = distance(current_test_position, light_position);
 	
+	float ray_hittest_ballsize = 0.5;
 	
-	//multiply numbers within square root
-	float multiply_numbers_within_square_root = result_of_xs_ys_zs * result_second_of_xs_ys_zs;
+	float total_hittest_balls = ceil(dis / ray_hittest_ballsize);
 	
-	//square root multiplied numbers
-	float bottom_result_of_big_division = sqrt(multiply_numbers_within_square_root);
+	float x_step = abs(light_position.x-current_test_position.x) / total_hittest_balls;
+	float y_step = abs(light_position.y-current_test_position.y) / total_hittest_balls;
+	float z_step = abs(light_position.z-current_test_position.z) / total_hittest_balls;
 	
-	//cross product
-	vec3 cross_product_vec3 = cross(vertex_positions[0], vertex_positions[1]);
-	float cross_prosuct_float = cross_product_vec3.x + cross_product_vec3.y + cross_product_vec3.z;
+	/*
 	
-	
-	//divide top bottom
-	float divide_top_bottom = cross_prosuct_float / bottom_result_of_big_division;
-	
-	
-	//cos inverse the result
-	float inverse_cos = acos(divide_top_bottom);
-	
-	//cos 
-	float angle_as_radians = cos(inverse_cos);
-	
-	
-	gl_FragColor = vec4(vertex_positions[0].x , vertex_positions[0].y,vertex_positions[0].z , 1.0);
-	
-	
-	//gl_FragColor = color; //vec4(vertex_positions[0], 1.0);
+	int ran_into_stoplight_ball = 0;
+ float index = 0;
+	while((index*1000000) < (total_hittest_balls*1000000))
+	{
+		if((distance(current_test_position, stoplight_positions[0])*1000000) < (ray_hittest_ballsize*1000000))
+		{
+			ran_into_stoplight_ball = 1;
+			index = total_hittest_balls;
+		}
 		
+		//next
+		float current_x_distance = abs(current_test_position.x - light_position.x);
+		float distance_after_addition_x = (current_test_position.x+x_step);
+		if(distance_after_addition_x > current_x_distance)
+		{
+			//subtract to get closer to frag
+			current_test_position.x = current_test_position.x - x_step;
+		}else{
+			current_test_position.x = current_test_position.x + x_step;
+			
+		}
+		
+		float current_y_distance = abs(current_test_position.y - light_position.y);
+		float distance_after_addition_y = (current_test_position.y+y_step);
+		if(distance_after_addition_y > current_y_distance)
+		{
+			//subtract to get closer to frag
+			current_test_position.y = current_test_position.y - y_step;
+		}else{
+			current_test_position.y = current_test_position.y + y_step;
+		}
+		
+		float current_z_distance = abs(current_test_position.z - light_position.z);
+		float distance_after_addition_z = (current_test_position.z+z_step);
+		if(distance_after_addition_z > current_z_distance)
+		{
+			//subtract to get closer to frag
+			current_test_position.z = current_test_position.z - z_step;
+		}else{
+			current_test_position.z = current_test_position.z + z_step;
+		}
+		
+		
+		
+		index = index + 1;
+	}
+	*/
+	//temporary
+	int ran_into_stoplight_ball = 0;
+	vec3 center_of_triangle = vec3(0.0, 0.0, 0.0);
+	float distance_from_center = distance(fragcoord_as_openglcoordspace, center_of_triangle);
+	
+	float total_slices = 1000000;
+	float light_intensity[3];
+	float light_distance[3];
+	light_intensity[0] = 0.0;
+	light_distance[0] = 0.0;
+	light_intensity[1] = 0.5;
+	light_distance[1] = 0.5;
+	light_intensity[2] = 1.0;
+	light_distance[2] = 0.8;
+	
+	//index zero to index one.
+	float light_intensity_range = (light_intensity[1] - light_intensity[0]);
+	float light_distance_range = (light_distance[1] - light_distance[0]);
+	
+	float light_intensity_step = light_intensity_range / total_slices;
+	float light_distance_step = light_distance_range / total_slices;
+	
+	//index one to index two
+
+	
+	gl_FragColor = vec4(distance_from_center , 0.0, 0.0, 1.0);
+	
+	
+	//gl_FragColor = vec4(distance_from_center, (gl_FragCoord.x/800), (gl_FragCoord.y/600), 1.0);
+	//gl_FragColor = vec4((gl_FragCoord.x/800), (gl_FragCoord.y/600), 0.0, 1.0);
 }	
+
+
+
+
+
+
+
+

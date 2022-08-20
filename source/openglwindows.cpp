@@ -10,8 +10,11 @@ vertex_group * triangle_vertex_and_colors_unaltered;
 vertex_group * triangle_vertex_and_colors_altered;
 vertex_group * triangle_vertex_and_colors_texture_coordinates;
 
-
 vertex_group * triangle_two_vertex_and_colors_unaltered;
+
+vertex_group * stoplight_positions_vertex_group;
+
+vertex_group * square_vertex_and_colors;
 
 rotate_2d * rotate;
 
@@ -34,6 +37,14 @@ void openglwindows::initializeGL()
 	triangle_two_vertex_and_colors_unaltered->setPositions(QUrl("./../DahliaAnimation/source/vertex/triangle-1.xyz"));
 	triangle_two_vertex_and_colors_unaltered->setColors(QUrl("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
 	triangle_two_vertex_and_colors_unaltered->combined_xyz_colors();
+	
+	stoplight_positions_vertex_group = new vertex_group();
+	stoplight_positions_vertex_group->setPositions(QUrl("./../DahliaAnimation/source/stoplightray_balls/triangle.xyz"));
+	
+	square_vertex_and_colors = new vertex_group();
+	square_vertex_and_colors->setPositions(QUrl("./../DahliaAnimation/source/vertex/square.xyz"));
+	square_vertex_and_colors->setColors(QUrl("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
+	square_vertex_and_colors->combined_xyz_colors();
 	
 	
 	rotate = new rotate_2d();
@@ -122,14 +133,14 @@ void openglwindows::initializeGL()
 	
 	color_shader_program->bind();
 		
-	triangle_two_ogl_vao_quad.create();
-	triangle_two_ogl_vao_quad.bind();
+	square_ogl_vao_quad.create();
+	square_ogl_vao_quad.bind();
 	
-	triangle_two_ogl_vbo_quad = new QOpenGLBuffer();
-	triangle_two_ogl_vbo_quad->create();
-	triangle_two_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
-	triangle_two_ogl_vbo_quad->bind();
-	triangle_two_ogl_vbo_quad->allocate(triangle_two_vertex_and_colors_unaltered->combined_xyz_colors(), triangle_two_vertex_and_colors_unaltered->combined_total_xyz_colors() * sizeof(GLfloat));
+	square_ogl_vbo_quad = new QOpenGLBuffer();
+	square_ogl_vbo_quad->create();
+	square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
+	square_ogl_vbo_quad->bind();
+	square_ogl_vbo_quad->allocate(square_vertex_and_colors->combined_xyz_colors(), square_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
 		
 	color_shader_program->enableAttributeArray(0);
 	color_shader_program->enableAttributeArray(1);
@@ -139,8 +150,8 @@ void openglwindows::initializeGL()
 	
 	
 	//clean/clear
-	triangle_two_ogl_vao_quad.release();
-	triangle_two_ogl_vbo_quad->release();
+	square_ogl_vao_quad.release();
+	square_ogl_vbo_quad->release();
 	color_shader_program->release();
 		qDebug() << "run";
 		QTimer::singleShot(200, this, SLOT(run_paint()));
@@ -156,18 +167,32 @@ void openglwindows::resizeGL(int width, int height)
 void openglwindows::paintGL()
 {
 	
-	}
+}
  
 void openglwindows::run_paint()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	
-	
+	  //load shadow balls
+		GLfloat * stoplight_positions = stoplight_positions_vertex_group->getTrianglePositions();
+		
+		QVector3D stoplight_points[1024];
+		unsigned int index = 0;
+		unsigned int stoplight_points_index = 0;
+		while(index < triangle_vertex_and_colors_altered->getTotalTrianglePositions())
+		{
+			stoplight_points[stoplight_points_index] = QVector3D(stoplight_positions[index], stoplight_positions[index+1], stoplight_positions[index+2]);
+			
+			stoplight_points_index = stoplight_points_index + 1;
+			index = index + 3;
+		}
+		
+		//triangle
     color_shader_program->bind();
     triangle_ogl_vao_quad.bind();
 		triangle_ogl_vbo_quad->bind();
-		triangle_vertex_and_colors_altered->setCombinedXyzColors(	rotate->rotate_z(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors(), rotation), triangle_vertex_and_colors_altered->combined_total_xyz_colors());
+		//triangle_vertex_and_colors_altered->setCombinedXyzColors(	rotate->rotate_z(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors(), rotation), triangle_vertex_and_colors_altered->combined_total_xyz_colors());
     triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
 		color_shader_program->enableAttributeArray(0);
 		color_shader_program->enableAttributeArray(1);
@@ -175,25 +200,24 @@ void openglwindows::run_paint()
 		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
 		
-		
-		GLfloat * triangle_positions = triangle_vertex_and_colors_altered->getTrianglePositions();
-		qDebug() << triangle_positions[1];
-		QVector3D vertex_world_to_simulate[1024];
-		vertex_world_to_simulate[0] = QVector3D(triangle_positions[0], triangle_positions[1], triangle_positions[2]);
-		vertex_world_to_simulate[1] = QVector3D(triangle_positions[3], triangle_positions[4], triangle_positions[5]);
-		vertex_world_to_simulate[2] = QVector3D(triangle_positions[6], triangle_positions[7], triangle_positions[8]);
-		
-		
-		color_shader_program->setUniformValueArray("vertex_positions", vertex_world_to_simulate, 1024);
+		color_shader_program->setUniformValueArray("stoplight_positions", stoplight_points, 1024);
 		
 		triangle_ogl_vbo_quad->release();
 		
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		triangle_ogl_vao_quad.release();
 		
-		/*triangle_two_ogl_vao_quad.bind();
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-		triangle_two_ogl_vao_quad.release();*/
+		//square (ground)
+		color_shader_program->bind();
+    square_ogl_vao_quad.bind();
+		square_ogl_vbo_quad->bind();
+		//square_vertex_and_colors_altered->setCombinedXyzColors(	rotate->rotate_z(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors(), rotation), triangle_vertex_and_colors_altered->combined_total_xyz_colors());
+    square_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
+		color_shader_program->enableAttributeArray(0);
+		color_shader_program->enableAttributeArray(1);
+		
+		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
+		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
 		
 		
 		color_shader_program->release();

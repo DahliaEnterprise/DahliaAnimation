@@ -35,6 +35,9 @@ private:
   QOpenGLVertexArrayObject triangle_two_ogl_vao_quad;
   
 	
+	QOpenGLBuffer * square_ogl_vbo_quad;
+  QOpenGLVertexArrayObject square_ogl_vao_quad;
+  
 	QOpenGLShaderProgram * color_shader_program;
 	
 	
