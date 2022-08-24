@@ -9,101 +9,53 @@ void main( void )
 	//translate frag coord position to opengl coordinates
 	vec3 fragcoord_as_openglcoordspace = vec3((gl_FragCoord.x/800)-0.5, (gl_FragCoord.y/600)-0.5, gl_FragCoord.z);
 	
+	//color for absent of light.
 	vec4 nolight = vec4(0.0, 0.0, 0.0, 1.0);
 	
-	vec3 light_position = vec3(0.0, 0.0, 0.2);
+	//position of light (white lights reval the object color).
+	vec3 light_position = vec3(0.0, 0.0, 0.0);
 	
-	vec3 current_test_position = vec3(gl_FragCoord);
+	//position of fragment.
+	vec3 current_test_position = fragcoord_as_openglcoordspace;
 	
+	//get distance from light
 	float dis = distance(current_test_position, light_position);
-	
-	float ray_hittest_ballsize = 0.5;
-	
-	float total_hittest_balls = ceil(dis / ray_hittest_ballsize);
-	
-	float x_step = abs(light_position.x-current_test_position.x) / total_hittest_balls;
-	float y_step = abs(light_position.y-current_test_position.y) / total_hittest_balls;
-	float z_step = abs(light_position.z-current_test_position.z) / total_hittest_balls;
-	
-	/*
-	
-	int ran_into_stoplight_ball = 0;
- float index = 0;
-	while((index*1000000) < (total_hittest_balls*1000000))
+	if((dis * 1000000) < (0.7*1000000))
 	{
-		if((distance(current_test_position, stoplight_positions[0])*1000000) < (ray_hittest_ballsize*1000000))
-		{
-			ran_into_stoplight_ball = 1;
-			index = total_hittest_balls;
-		}
+	
+		//total light distance is two. do only one for now
+		float stageone_light_distance = 0.7;
+		float stageone_light_intensity = 0.9;
+		float stageone_resolution = 1000000;
+		float stageone_light_intensity_per_one_resolution = stageone_light_intensity / stageone_resolution;
+		float stageone_steps_of_light_distance = stageone_light_distance / stageone_resolution;
 		
-		//next
-		float current_x_distance = abs(current_test_position.x - light_position.x);
-		float distance_after_addition_x = (current_test_position.x+x_step);
-		if(distance_after_addition_x > current_x_distance)
-		{
-			//subtract to get closer to frag
-			current_test_position.x = current_test_position.x - x_step;
-		}else{
-			current_test_position.x = current_test_position.x + x_step;
-			
-		}
+		float stageone_total_sync_steps = dis / stageone_steps_of_light_distance;
 		
-		float current_y_distance = abs(current_test_position.y - light_position.y);
-		float distance_after_addition_y = (current_test_position.y+y_step);
-		if(distance_after_addition_y > current_y_distance)
-		{
-			//subtract to get closer to frag
-			current_test_position.y = current_test_position.y - y_step;
-		}else{
-			current_test_position.y = current_test_position.y + y_step;
-		}
-		
-		float current_z_distance = abs(current_test_position.z - light_position.z);
-		float distance_after_addition_z = (current_test_position.z+z_step);
-		if(distance_after_addition_z > current_z_distance)
-		{
-			//subtract to get closer to frag
-			current_test_position.z = current_test_position.z - z_step;
-		}else{
-			current_test_position.z = current_test_position.z + z_step;
-		}
+		float stageone_final_light_intensity = stageone_light_intensity_per_one_resolution * stageone_total_sync_steps;
 		
 		
 		
-		index = index + 1;
+		float final_light_intensity = stageone_final_light_intensity;
+		
+		
+		//gl_FragColor = vec4(dis, 0.0, 0.0, 1.0);
+		
+		gl_FragColor = mix(color, nolight, final_light_intensity);
+		
+	}else{
+		gl_FragColor = vec4(vec3(0.0), 1.0);
+		
 	}
-	*/
+	//gl_FragColor = mix(color, nolight, final_light_intensity);
+	
+/*
 	//temporary
-	int ran_into_stoplight_ball = 0;
-	vec3 center_of_triangle = vec3(0.0, 0.0, 0.0);
-	float distance_from_center = distance(fragcoord_as_openglcoordspace, center_of_triangle);
-	
-	float total_slices = 1000000;
-	float light_intensity[3];
-	float light_distance[3];
-	light_intensity[0] = 0.0;
-	light_distance[0] = 0.0;
-	light_intensity[1] = 0.5;
-	light_distance[1] = 0.5;
-	light_intensity[2] = 1.0;
-	light_distance[2] = 0.8;
-	
-	//index zero to index one.
-	float light_intensity_range = (light_intensity[1] - light_intensity[0]);
-	float light_distance_range = (light_distance[1] - light_distance[0]);
-	
-	float light_intensity_step = light_intensity_range / total_slices;
-	float light_distance_step = light_distance_range / total_slices;
-	
-	//index one to index two
-
-	gl_FragColor = mix(vec4(0.5, 0.0, 0.0, 0.0), nolight,  distance_from_center);
-	//gl_FragColor = vec4(distance_from_center , 0.0, 0.0, 1.0);
-	
-	
-	//gl_FragColor = vec4(distance_from_center, (gl_FragCoord.x/800), (gl_FragCoord.y/600), 1.0);
-	//gl_FragColor = vec4((gl_FragCoord.x/800), (gl_FragCoord.y/600), 0.0, 1.0);
+	vec3 light_position = vec3(0.0, 0.0, 0.0);
+	float distance_from_center = distance(fragcoord_as_openglcoordspace, light_position);
+	final_light_intensity = distance_from_center;
+	gl_FragColor = mix(color, nolight,  final_light_intensity);
+	*/
 }	
 
 
