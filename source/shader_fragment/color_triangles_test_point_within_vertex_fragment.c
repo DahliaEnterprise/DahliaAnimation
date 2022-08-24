@@ -25,7 +25,7 @@ void main( void )
 	
 		//total light distance is two. do only one for now
 		float stageone_light_distance = 0.7;
-		float stageone_light_intensity = 0.9;
+		float stageone_light_intensity = 0.65;
 		float stageone_resolution = 1000000;
 		float stageone_light_intensity_per_one_resolution = stageone_light_intensity / stageone_resolution;
 		float stageone_steps_of_light_distance = stageone_light_distance / stageone_resolution;
@@ -42,6 +42,29 @@ void main( void )
 		//gl_FragColor = vec4(dis, 0.0, 0.0, 1.0);
 		
 		gl_FragColor = mix(color, nolight, final_light_intensity);
+		
+	}else if((dis * 1000000) >= (0.7*1000000) && (dis * 1000000) < (1.0*1000000))
+	{
+		float stageone_light_distance = 0.3;
+		float stageone_light_intensity = 1.0;
+		float stageone_resolution = 1000000;
+		float stageone_light_intensity_per_one_resolution = stageone_light_intensity / stageone_resolution;
+		float stageone_steps_of_light_distance = stageone_light_distance / stageone_resolution;
+		
+		float stageone_total_sync_steps = (dis-0.7) / stageone_steps_of_light_distance;
+		
+		float stageone_final_light_intensity = stageone_light_intensity_per_one_resolution * stageone_total_sync_steps;
+		
+		
+		
+		float final_light_intensity = stageone_final_light_intensity + 0.65;
+		
+		
+		//gl_FragColor = vec4(dis, 0.0, 0.0, 1.0);
+		
+		gl_FragColor = mix(color, nolight, final_light_intensity);
+		
+		//gl_FragColor = vec4(stagetwo_light_intensity_per_one_resolution, 0.0, 0.0, 1.0);
 		
 	}else{
 		gl_FragColor = vec4(vec3(0.0), 1.0);
