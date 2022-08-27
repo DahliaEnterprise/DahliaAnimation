@@ -30,6 +30,9 @@ void openglwindows::initializeGL()
 	triangle_vertex_and_colors_altered->setColors(QUrl("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
 	triangle_vertex_and_colors_altered->combined_xyz_colors();
 	
+	triangle_renderwrapper = new render_object_wrapper();
+	
+	
 	triangle_vertex_and_colors_texture_coordinates = new vertex_group();
 	triangle_vertex_and_colors_texture_coordinates->setTexturePositions(QUrl("./../DahliaAnimation/source/vertex_texture_position/triangle.texture_xy"));
 	
@@ -130,6 +133,8 @@ void openglwindows::initializeGL()
 	triangle_ogl_vao_quad.release();
 	triangle_ogl_vbo_quad->release();
 	color_shader_program->release();
+		//attach to a grouping class for organization/management utility.
+		triangle_renderwrapper->set_vao_vbo(triangle_ogl_vao_quad, triangle_ogl_vbo_quad);
 	
 	color_shader_program->bind();
 		
@@ -190,8 +195,8 @@ void openglwindows::run_paint()
 		
 		//triangle
     color_shader_program->bind();
-    triangle_ogl_vao_quad.bind();
-		triangle_ogl_vbo_quad->bind();
+    triangle_renderwrapper->get_vao().bind();
+		triangle_renderwrapper->get_vbo()->bind();
 		//triangle_vertex_and_colors_altered->setCombinedXyzColors(	rotate->rotate_z(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors(), rotation), triangle_vertex_and_colors_altered->combined_total_xyz_colors());
     triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
 		color_shader_program->enableAttributeArray(0);

@@ -12,12 +12,14 @@ SOURCES += \
     main.cpp \
     opengl_manager.cpp \
     openglwindows.cpp \
+    render_object_wrapper/render_object_wrapper.cpp \
     rotation_scale_translate/rotation/rotate_2d.cpp \
     vertex_group.cpp
 
 HEADERS += \
     opengl_manager.h \
     openglwindows.h \
+    render_object_wrapper/render_object_wrapper.h \
     rotation_scale_translate/rotation/rotate_2d.h \
     vertex_group.h
 

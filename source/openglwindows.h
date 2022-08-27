@@ -3,7 +3,7 @@
 
 #include "vertex_group.h"
 #include "./rotation_scale_translate/rotation/rotate_2d.h"
-
+#include "./render_object_wrapper/render_object_wrapper.h"
 #include <QOpenGLWindow>
 #include <QObject>
 #include <QOpenGLShaderProgram>
@@ -31,6 +31,8 @@ private:
 	QOpenGLBuffer * triangle_ogl_vbo_quad;
   QOpenGLVertexArrayObject triangle_ogl_vao_quad;
   
+	render_object_wrapper * triangle_render_wrapper;
+	
 	QOpenGLBuffer * triangle_two_ogl_vbo_quad;
   QOpenGLVertexArrayObject triangle_two_ogl_vao_quad;
   
