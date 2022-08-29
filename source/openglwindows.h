@@ -17,7 +17,7 @@
 
 class openglwindows : public QOpenGLWindow, protected QOpenGLFunctions
 {
-    Q_OBJECT
+	Q_OBJECT
 	
 public:
     openglwindows();
@@ -27,18 +27,18 @@ public:
   	void paintGL();
 
 private:
-	QOpenGLBuffer * triangle_ogl_vbo_quad;
-  QOpenGLVertexArrayObject triangle_ogl_vao_quad;
+	//Vertex and pair(color or texture coordinates)
+		//Square
+		QOpenGLBuffer * square_ogl_vbo_quad;
+  	QOpenGLVertexArrayObject square_ogl_vao_quad;
   
-	QOpenGLBuffer * triangle_two_ogl_vbo_quad;
-  QOpenGLVertexArrayObject triangle_two_ogl_vao_quad;
-  
-	
-	QOpenGLBuffer * square_ogl_vbo_quad;
-  QOpenGLVertexArrayObject square_ogl_vao_quad;
-  
+		//Triangle
+		QOpenGLBuffer * triangle_ogl_vbo_quad;
+  	QOpenGLVertexArrayObject triangle_ogl_vao_quad;
+		
+		
+	//Shader programs
 	QOpenGLShaderProgram * color_shader_program;
-	
 	
 signals:
 

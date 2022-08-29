@@ -1,10 +1,9 @@
 #version 330
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec3 incolor;
-
 out vec4 color;
 out vec4 vertex_position;
-uniform vec3 vertex_positions[1024];
+uniform vec3 stoplight_positions[1024];
 
 void main( void )
 {

@@ -59,8 +59,9 @@ void main( void )
 			float final_light_intensity = stageone_final_light_intensity + 0.65;
 			
 			
-			gl_FragColor = mix(color, nolight, final_light_intensity);
+			//gl_FragColor = mix(color, nolight, final_light_intensity);
 			
+			gl_FragColor = vec4(stoplight_positions[1], 1.0);
 	
 		}else{
 			gl_FragColor = vec4(vec3(0.0), 1.0);
