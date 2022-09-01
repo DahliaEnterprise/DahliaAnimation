@@ -161,17 +161,17 @@ void openglwindows::run_paint()
 	  //load shadow balls
 		GLfloat * stoplight_positions = stoplight_positions_vertex_group->getTrianglePositions();
 		
-		QVector3D stoplight_points[triangle_vertex_and_colors_altered->getTotalTrianglePositions()];
+		QVector3D stoplight_points[stoplight_positions_vertex_group->getTotalTrianglePositions()];
 		unsigned int index = 0;
 		unsigned int stoplight_points_index = 0;
-		while(index < triangle_vertex_and_colors_altered->getTotalTrianglePositions())
+		while(index < stoplight_positions_vertex_group->getTotalTrianglePositions())
 		{
 			stoplight_points[stoplight_points_index] = QVector3D(stoplight_positions[index], stoplight_positions[index+1], stoplight_positions[index+2]);
 			
 			stoplight_points_index = stoplight_points_index + 1;
 			index = index + 3;
 		}
-		stoplight_points[1] = QVector3D(0.0, 1.0, 0.0);
+		
 		
 		//square (ground)
 		color_shader_program->bind();
