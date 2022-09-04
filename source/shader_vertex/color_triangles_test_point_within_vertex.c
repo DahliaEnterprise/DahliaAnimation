@@ -8,6 +8,10 @@ uniform vec3 stoplight_positions[1024];
 
 void main( void )
 {
+	vec3 new_position = position;
+	new_position.x = new_position.x / new_position.z;
+	new_position.y = new_position.y / new_position.z;
+	
 	gl_Position = vec4(position, 1.0);
 	
 	color = vec4(incolor, 1.0);

@@ -13,12 +13,22 @@ SOURCES += \
     opengl_manager.cpp \
     openglwindows.cpp \
     rotation_scale_translate/rotation/rotate_2d.cpp \
+    rotation_scale_translate/translate/translate.cpp \
+    state_machine/game/game.cpp \
+    state_machine/models/models.cpp \
+    state_machine/state_machine.cpp \
+    state_machine/state_of_model/state_of_model.cpp \
     vertex_group.cpp
 
 HEADERS += \
     opengl_manager.h \
     openglwindows.h \
     rotation_scale_translate/rotation/rotate_2d.h \
+    rotation_scale_translate/translate/translate.h \
+    state_machine/game/game.h \
+    state_machine/models/models.h \
+    state_machine/state_machine.h \
+    state_machine/state_of_model/state_of_model.h \
     vertex_group.h
 
 # Default rules for deployment.

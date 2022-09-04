@@ -15,6 +15,8 @@
 #include <QTimer>
 #include <QVector3D>
 
+#include "./state_machine/state_machine.h"
+
 class openglwindows : public QOpenGLWindow, protected QOpenGLFunctions
 {
 	Q_OBJECT
@@ -27,15 +29,25 @@ public:
   	void paintGL();
 
 private:
+	state_machine * statemachine;
+	
+	vertex_group * stoplight_positions_vertex_group;
+
+
+	rotate_2d * rotate;
+
 	//Vertex and pair(color or texture coordinates)
 		//Square
 		QOpenGLBuffer * square_ogl_vbo_quad;
   	QOpenGLVertexArrayObject square_ogl_vao_quad;
-  
+  	vertex_group * square_vertex_and_colors;
+		
 		//Triangle
 		QOpenGLBuffer * triangle_ogl_vbo_quad;
   	QOpenGLVertexArrayObject triangle_ogl_vao_quad;
-		
+		vertex_group * triangle_vertex_and_colors_unaltered;
+		vertex_group * triangle_vertex_and_colors_altered;
+
 		
 	//Shader programs
 	QOpenGLShaderProgram * color_shader_program;

@@ -5,15 +5,6 @@ openglwindows::openglwindows()
 
 }
 
-				
-vertex_group * triangle_vertex_and_colors_unaltered;
-vertex_group * triangle_vertex_and_colors_altered;
-
-vertex_group * stoplight_positions_vertex_group;
-
-vertex_group * square_vertex_and_colors;
-
-rotate_2d * rotate;
 
 void openglwindows::initializeGL()
 {
@@ -37,6 +28,12 @@ void openglwindows::initializeGL()
 	
 	
 	rotate = new rotate_2d();
+	
+	statemachine = new state_machine();
+	statemachine->initialize();
+	
+	//statemachine->get_game_information()->initialize_level_one();
+	
 	
   initializeOpenGLFunctions();
   glClearColor(0.0f, 0.0f, 1.0f, 0.9f);
@@ -136,6 +133,7 @@ void openglwindows::initializeGL()
 			color_shader_program->release();
 			
 			
+		
 		//start painting
 		qDebug() << "run";
 		QTimer::singleShot(200, this, SLOT(run_paint()));
@@ -174,40 +172,39 @@ void openglwindows::run_paint()
 		
 		
 		//square (ground)
-		color_shader_program->bind();
-    square_ogl_vao_quad.bind();
-		square_ogl_vbo_quad->bind();
+		if(statemachine->show_square())
+		{
+			
 		
+		color_shader_program->bind();
+		square_ogl_vao_quad.bind();
+		square_ogl_vbo_quad->bind();
+	
 		color_shader_program->enableAttributeArray(0);
 		color_shader_program->enableAttributeArray(1);
-		
+	
 		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		
-		color_shader_program->setUniformValueArray("stoplight_positions", stoplight_points, 1024);
-		
 		glDrawArrays(GL_TRIANGLES, 0, 6);
+		square_ogl_vao_quad.release();
+		square_ogl_vbo_quad->release();
 		color_shader_program->release();
-		
+		}
 		//triangle
 		color_shader_program->bind();
-		
-    triangle_ogl_vao_quad.bind();
+		triangle_ogl_vao_quad.bind();
 		triangle_ogl_vbo_quad->bind();
-		
+	
 		color_shader_program->enableAttributeArray(0);
 		color_shader_program->enableAttributeArray(1);
-		
+	
 		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		
-		color_shader_program->setUniformValueArray("stoplight_positions", stoplight_points, 1024);
-		
-		
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		triangle_ogl_vao_quad.release();
+		triangle_ogl_vbo_quad->release();
 		color_shader_program->release();
-		
-		
+	
 		//update visual physical frame
 		this->update();
 	QTimer::singleShot((1000/60), this, SLOT(run_paint()));
