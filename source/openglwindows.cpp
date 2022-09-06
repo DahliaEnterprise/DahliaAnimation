@@ -31,8 +31,7 @@ void openglwindows::initializeGL()
 	
 	statemachine = new state_machine();
 	statemachine->initialize();
-	
-	//statemachine->get_game_information()->initialize_level_one();
+	ptr_to_state_of_models = statemachine->get_model_information()->get_state_of_models();
 	
 	
   initializeOpenGLFunctions();
@@ -104,7 +103,11 @@ void openglwindows::initializeGL()
 		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
 		
-		
+		state_of_model * square_model_state_information = new state_of_model();
+		square_model_state_information->initialize();
+		square_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/square.xyz"));
+		square_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
+		statemachine->get_model_information()->add_model(QString("square"), square_model_state_information);
 		
 			//clean/clear
 			square_ogl_vao_quad.release();
@@ -170,26 +173,34 @@ void openglwindows::run_paint()
 			index = index + 3;
 		}
 		
+		statemachine->get_game_information()->scene_iterate();
 		
 		//square (ground)
-		if(statemachine->show_square())
+		int	square_do_render = ptr_to_state_of_models->value(QString("square"))->get_flag_render_model();
+		if(square_do_render == 1)
 		{
+			color_shader_program->bind();
+			square_ogl_vao_quad.bind();
+			square_ogl_vbo_quad->bind();
+			square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
+			square_ogl_vbo_quad->write(0, ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_xyz_colors(), ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_total_xyz_colors() * sizeof(GLfloat));
 			
+			GLfloat * positions = ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_xyz_colors();
+			qDebug() << positions[3];
+			qDebug() << positions[4];
+			qDebug() << positions[5];
+			
+			color_shader_program->enableAttributeArray(0);
+			color_shader_program->enableAttributeArray(1);
 		
-		color_shader_program->bind();
-		square_ogl_vao_quad.bind();
-		square_ogl_vbo_quad->bind();
-	
-		color_shader_program->enableAttributeArray(0);
-		color_shader_program->enableAttributeArray(1);
-	
-		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
-		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		square_ogl_vao_quad.release();
-		square_ogl_vbo_quad->release();
-		color_shader_program->release();
+			color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
+			color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+			square_ogl_vao_quad.release();
+			square_ogl_vbo_quad->release();
+			color_shader_program->release();
 		}
+		
 		//triangle
 		color_shader_program->bind();
 		triangle_ogl_vao_quad.bind();
@@ -204,7 +215,7 @@ void openglwindows::run_paint()
 		triangle_ogl_vao_quad.release();
 		triangle_ogl_vbo_quad->release();
 		color_shader_program->release();
-	
+		
 		//update visual physical frame
 		this->update();
 	QTimer::singleShot((1000/60), this, SLOT(run_paint()));

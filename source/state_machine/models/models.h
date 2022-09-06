@@ -14,6 +14,7 @@ public:
 
 	void initialize();
 	QMap<QString, state_of_model * > * get_state_of_models();
+	void add_model(QString model_id, state_of_model * model_information);
 	
 private:
 	QMap<QString, state_of_model * > * list_of_models;

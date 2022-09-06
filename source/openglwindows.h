@@ -31,6 +31,8 @@ public:
 private:
 	state_machine * statemachine;
 	
+	QMap<QString, state_of_model*> * ptr_to_state_of_models;
+	
 	vertex_group * stoplight_positions_vertex_group;
 
 

@@ -23,9 +23,9 @@ void main( void )
 	vec3 fragment_position = fragcoord_as_openglcoordspace;
 	
 	//stop light if ray hits a stoplight ball
+	int flag_nolight = 0;
 	vec3 stoplight_ball_location = vec3(0.0, 0.0, -0.05);
 	float stoplight_ball_size = 0.2;
-	int flag_nolight = 0;
 	vec3 ray_location = light_position;
 	float ray_size = 0.01;
 	int continue_ray = 1;
@@ -52,7 +52,7 @@ void main( void )
 		light_intensity[0] = 0.65;
 		light_intensity[1] = 1.0;
 		
-		int flag_nolight = 1;
+		
 		
 		//get distance from light
 		float distance_between_fragposition_and_lightposition = distance(fragment_position, light_position);

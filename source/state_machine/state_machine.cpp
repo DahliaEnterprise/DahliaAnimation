@@ -27,7 +27,7 @@ game * state_machine::get_game_information()
 
 short int state_machine::show_square()
 {
-	return 0;
+	return 1;
 }
 
 

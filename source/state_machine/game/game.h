@@ -4,8 +4,10 @@
 #include <QObject>
 
 #include "./state_machine/models/models.h"
+#include "./state_machine/game/scene/scenes.h"
 
-class game
+
+class game : public QObject
 {
     Q_OBJECT
 public:
@@ -13,8 +15,12 @@ public:
 		
 		void initialize(models * model_information);
 		
+		void scene_iterate();
+		
 private:
 	models * ptr_to_models;
+	
+	scenes * scene_information;
 	
 };
 

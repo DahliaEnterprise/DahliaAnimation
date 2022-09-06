@@ -15,6 +15,8 @@ SOURCES += \
     rotation_scale_translate/rotation/rotate_2d.cpp \
     rotation_scale_translate/translate/translate.cpp \
     state_machine/game/game.cpp \
+    state_machine/game/scene/scene_one/scene_one.cpp \
+    state_machine/game/scene/scenes.cpp \
     state_machine/models/models.cpp \
     state_machine/state_machine.cpp \
     state_machine/state_of_model/state_of_model.cpp \
@@ -26,6 +28,8 @@ HEADERS += \
     rotation_scale_translate/rotation/rotate_2d.h \
     rotation_scale_translate/translate/translate.h \
     state_machine/game/game.h \
+    state_machine/game/scene/scene_one/scene_one.h \
+    state_machine/game/scene/scenes.h \
     state_machine/models/models.h \
     state_machine/state_machine.h \
     state_machine/state_of_model/state_of_model.h \
