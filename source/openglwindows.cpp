@@ -178,6 +178,8 @@ void openglwindows::run_paint()
 		}
 		
 		statemachine->get_game_information()->scene_iterate();
+		//compute shader
+		
 		
 		//square (ground)
 		int	square_do_render = ptr_to_state_of_models->value(QString("square"))->get_flag_render_model();
@@ -195,7 +197,7 @@ void openglwindows::run_paint()
 				{
 					//ptr_to_state_of_models->value(QString("square"))->combined_total_xyz_colors
 				}
-				
+				//allocate or write
 				int * array_of_index = 0; while(array_of_index == 0){ array_of_index = (int*)malloc(2*sizeof(GLfloat));}
 				array_of_index[0] = 0;
 				array_of_index[1] = 1;
@@ -206,7 +208,16 @@ void openglwindows::run_paint()
 				if(init_square == 1)
 				{
 					triangle_ogl_vbo_quad->allocate(positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
+					init_square = 0;
 				}
+				
+				QVector3D offset_position_rotation[2];
+				offset_position_rotation[0] = QVector3D(0.5,0.0,0.0);  //QVector3D(ptr_to_state_of_models->value(QString("square"))->get_x_offset(), ptr_to_state_of_models->value(QString("square"))->get_y_offset(), ptr_to_state_of_models->value(QString("square"))->get_z_offset());
+				offset_position_rotation[1] = QVector3D(0.0,0.0,0.0);
+				
+				color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 2);
+				
+				//write
 				square_ogl_vbo_quad->write(0, positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
 				
 				color_shader_program->enableAttributeArray(0);
@@ -225,6 +236,13 @@ void openglwindows::run_paint()
 		color_shader_program->bind();
 		triangle_ogl_vao_quad.bind();
 		triangle_ogl_vbo_quad->bind();
+		
+		QVector3D offset_position_rotation[2];
+		offset_position_rotation[0] = QVector3D(0.0,0.0,0.0);
+		offset_position_rotation[1] = QVector3D(0.0,0.0,0.0);
+				
+				color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 2);
+				
 	
 		color_shader_program->enableAttributeArray(0);
 		color_shader_program->enableAttributeArray(1);

@@ -57,6 +57,7 @@ private:
 
 		
 	//Shader programs
+	QOpenGLShaderProgram * compute_shadow_shader_program;
 	QOpenGLShaderProgram * color_shader_program;
 	
 signals:

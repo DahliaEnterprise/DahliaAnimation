@@ -29,6 +29,11 @@ public:
 		GLfloat * get_combined_tuple(int * array_of_index);
 		int get_combined_size(int * array_of_index);
 		
+		void translate(GLfloat add_x_offset, GLfloat add_y_offset, GLfloat add_z_offset);
+		
+		float get_x_offset();
+		float get_y_offset();
+		float get_z_offset();
 		
 		float get_z_rotation();
 		
@@ -45,6 +50,10 @@ public:
 		float x_rotation;
 		float y_rotation;
 		float z_rotation;
+		
+		float x_offset;
+		float y_offset;
+		float z_offset;
 		
 		
 signals:

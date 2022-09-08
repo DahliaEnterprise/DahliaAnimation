@@ -4,7 +4,6 @@ in vec4 vertex_position;
 uniform vec3 stoplight_positions[1024];
 
 
-
 void main( void )
 {
 	int max_int = 2147483647 - 1;

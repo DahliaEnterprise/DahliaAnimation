@@ -75,15 +75,28 @@ int state_of_model::get_combined_size(int * array_of_index)
 	
 }
 
-/*void state_of_model::set_positions_and_colors(GLfloat * positions_and_colors)
+void state_of_model::translate(GLfloat add_x_offset, GLfloat add_y_offset, GLfloat add_z_offset)
 {
-	vertex_and_secondary_altered->setCombinedXyzColors(positions_and_colors, vertex_and_secondary_altered->combined_total_xyz_colors());
-}*/
+	x_offset += add_x_offset;
+	y_offset += add_y_offset;
+	z_offset += add_z_offset;
+	
+}
 
-/*void state_of_model::rotate_z(float rotation_radians)
+float state_of_model::get_x_offset()
 {
-	z_rotation = rotation_radians;
-}*/
+	return x_offset;
+}
+
+float state_of_model::get_y_offset()
+{
+	return y_offset;
+}
+
+float state_of_model::get_z_offset()
+{
+	return z_offset;
+}
 
 float state_of_model::get_z_rotation()
 {
