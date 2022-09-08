@@ -47,6 +47,7 @@ private:
 		QOpenGLBuffer * square_ogl_vbo_quad;
   	QOpenGLVertexArrayObject square_ogl_vao_quad;
   	vertex_group * square_vertex_and_colors;
+		int init_square;
 		
 		//Triangle
 		QOpenGLBuffer * triangle_ogl_vbo_quad;

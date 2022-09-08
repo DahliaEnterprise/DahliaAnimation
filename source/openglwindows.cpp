@@ -90,6 +90,7 @@ void openglwindows::initializeGL()
 	
 	//initialize resources.
 		//init square
+		init_square = 1;
 		color_shader_program->bind();
 			
 		square_ogl_vao_quad.create();
@@ -99,7 +100,7 @@ void openglwindows::initializeGL()
 		square_ogl_vbo_quad->create();
 		square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 		square_ogl_vbo_quad->bind();
-		square_ogl_vbo_quad->allocate(square_vertex_and_colors->combined_xyz_colors(), square_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
+		//square_ogl_vbo_quad->allocate(square_vertex_and_colors->combined_xyz_colors(), square_vertex_and_colors->combined_total_xyz_colors() * sizeof(GLfloat));
 			
 		color_shader_program->enableAttributeArray(0);
 		color_shader_program->enableAttributeArray(1);
@@ -200,19 +201,14 @@ void openglwindows::run_paint()
 				array_of_index[1] = 1;
 				GLfloat * positions_and_colors = ptr_to_state_of_models->value(QString("square"))->get_combined_tuple(array_of_index);
 				long int combined_tuple_size = ptr_to_state_of_models->value(QString("square"))->get_combined_size(array_of_index);
-				//qDebug() << "tuple sizs" << combined_tuple_size;
+				free(array_of_index);
+//qDebug() << "tuple sizs" << combined_tuple_size;
+				if(init_square == 1)
+				{
+					triangle_ogl_vbo_quad->allocate(positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
+				}
 				square_ogl_vbo_quad->write(0, positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
 				
-				GLfloat * temp =	ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_xyz_colors();
-				int index = 0;
-				while(index < combined_tuple_size)
-				{
-					qDebug() << positions_and_colors[index] << " "<< temp[index];
-					
-					index = index + 1;
-				}
-				//square_ogl_vbo_quad->write(0, ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_xyz_colors(), ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_total_xyz_colors() * sizeof(GLfloat));
-				qDebug() << "-----";
 				color_shader_program->enableAttributeArray(0);
 				color_shader_program->enableAttributeArray(1);
 			
