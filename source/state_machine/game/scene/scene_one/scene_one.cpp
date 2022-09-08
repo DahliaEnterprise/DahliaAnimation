@@ -16,5 +16,8 @@ void scene_one::iterate(models * model_information)
 	}
 
 	model_information->get_state_of_models()->value("square")->set_flag_render_model(flash_square);
+	model_information->get_state_of_models()->value("square")->set_flag_vbo();
+	
+	//model_information->get_state_of_models()->value("square")->rotate_z(0.3);
 	
 }

@@ -20,6 +20,7 @@ SOURCES += \
     state_machine/models/models.cpp \
     state_machine/state_machine.cpp \
     state_machine/state_of_model/state_of_model.cpp \
+    state_machine/tuple_float/tuple_float.cpp \
     vertex_group.cpp
 
 HEADERS += \
@@ -33,7 +34,10 @@ HEADERS += \
     state_machine/models/models.h \
     state_machine/state_machine.h \
     state_machine/state_of_model/state_of_model.h \
+    state_machine/tuple_float/tuple_float.h \
     vertex_group.h
+
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

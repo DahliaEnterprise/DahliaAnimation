@@ -29,7 +29,11 @@ public:
   	void paintGL();
 
 private:
+	void load_text_file(QString file_location);
+	
 	state_machine * statemachine;
+	
+	QTextStream * text_stream;
 	
 	QMap<QString, state_of_model*> * ptr_to_state_of_models;
 	

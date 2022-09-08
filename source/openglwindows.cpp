@@ -51,7 +51,7 @@ void openglwindows::initializeGL()
 			
 		}
 	}
-	QTextStream * text_stream = new QTextStream();
+	text_stream = new QTextStream();
 	text_stream->setDevice(&color_vertex_shader_file);
   QString text_qstring = text_stream->readAll();
     std::string text_stdstring = text_qstring.toUtf8().toStdString();
@@ -61,7 +61,9 @@ void openglwindows::initializeGL()
 	if(!success) {
 		qDebug() << "vertex";
 	}
-
+	
+	delete text_stream;
+	
 	QFile color_fragment_shader_file("./../DahliaAnimation/source/shader_fragment/color_triangles_test_point_within_vertex_fragment.c");
 	if(color_fragment_shader_file.exists() == false)
 	{
@@ -75,11 +77,12 @@ void openglwindows::initializeGL()
 			
 		}
 	}
+	text_stream = new QTextStream();
 	text_stream->setDevice(&color_fragment_shader_file);
   text_qstring = text_stream->readAll();
 	
   text_stdstring = text_qstring.toUtf8().toStdString();
-	delete text_stream;
+	
 	success = color_shader_program->addShaderFromSourceCode(QOpenGLShader::Fragment, text_stdstring.c_str());
 	if(!success) {
 		qDebug() << "fragment";
@@ -104,7 +107,7 @@ void openglwindows::initializeGL()
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
 		
 		state_of_model * square_model_state_information = new state_of_model();
-		square_model_state_information->initialize();
+		square_model_state_information->initialize(2);
 		square_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/square.xyz"));
 		square_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
 		statemachine->get_model_information()->add_model(QString("square"), square_model_state_information);
@@ -179,26 +182,47 @@ void openglwindows::run_paint()
 		int	square_do_render = ptr_to_state_of_models->value(QString("square"))->get_flag_render_model();
 		if(square_do_render == 1)
 		{
-			color_shader_program->bind();
-			square_ogl_vao_quad.bind();
-			square_ogl_vbo_quad->bind();
-			square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
-			square_ogl_vbo_quad->write(0, ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_xyz_colors(), ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_total_xyz_colors() * sizeof(GLfloat));
+			int square_do_write_vbo = ptr_to_state_of_models->value(QString("square"))->get_flag_vbo();
+			if(square_do_write_vbo == 1)
+			{
+				color_shader_program->bind();
+				square_ogl_vao_quad.bind();
+				square_ogl_vbo_quad->bind();
+				square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
+				float z_rotation =ptr_to_state_of_models->value(QString("square"))->get_z_rotation();
+				if((z_rotation * 1000000) != 0)
+				{
+					//ptr_to_state_of_models->value(QString("square"))->combined_total_xyz_colors
+				}
+				
+				int * array_of_index = 0; while(array_of_index == 0){ array_of_index = (int*)malloc(2*sizeof(GLfloat));}
+				array_of_index[0] = 0;
+				array_of_index[1] = 1;
+				GLfloat * positions_and_colors = ptr_to_state_of_models->value(QString("square"))->get_combined_tuple(array_of_index);
+				long int combined_tuple_size = ptr_to_state_of_models->value(QString("square"))->get_combined_size(array_of_index);
+				//qDebug() << "tuple sizs" << combined_tuple_size;
+				square_ogl_vbo_quad->write(0, positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
+				
+				GLfloat * temp =	ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_xyz_colors();
+				int index = 0;
+				while(index < combined_tuple_size)
+				{
+					qDebug() << positions_and_colors[index] << " "<< temp[index];
+					
+					index = index + 1;
+				}
+				//square_ogl_vbo_quad->write(0, ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_xyz_colors(), ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_total_xyz_colors() * sizeof(GLfloat));
+				qDebug() << "-----";
+				color_shader_program->enableAttributeArray(0);
+				color_shader_program->enableAttributeArray(1);
 			
-			GLfloat * positions = ptr_to_state_of_models->value(QString("square"))->get_vertex_group()->combined_xyz_colors();
-			qDebug() << positions[3];
-			qDebug() << positions[4];
-			qDebug() << positions[5];
-			
-			color_shader_program->enableAttributeArray(0);
-			color_shader_program->enableAttributeArray(1);
-		
-			color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
-			color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-			glDrawArrays(GL_TRIANGLES, 0, 6);
-			square_ogl_vao_quad.release();
-			square_ogl_vbo_quad->release();
-			color_shader_program->release();
+				color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
+				color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
+				glDrawArrays(GL_TRIANGLES, 0, 6);
+				square_ogl_vao_quad.release();
+				square_ogl_vbo_quad->release();
+				color_shader_program->release();
+			}
 		}
 		
 		//triangle
@@ -221,4 +245,3 @@ void openglwindows::run_paint()
 	QTimer::singleShot((1000/60), this, SLOT(run_paint()));
 	
 }
-
