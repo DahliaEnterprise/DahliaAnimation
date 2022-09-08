@@ -21,6 +21,10 @@ void state_of_model::initialize(int array_size_of_tuple)
 	x_rotation = 0.0;
 	y_rotation = 0.0;
 	z_rotation = 0.0;
+	
+	x_offset = 0.0;
+	y_offset = 0.0;
+	z_offset = 0.0;
 }
 
 void state_of_model::set_flag_vbo()

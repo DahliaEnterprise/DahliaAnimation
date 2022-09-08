@@ -212,9 +212,9 @@ void openglwindows::run_paint()
 				}
 				
 				QVector3D offset_position_rotation[2];
-				offset_position_rotation[0] = QVector3D(0.5,0.0,0.0);  //QVector3D(ptr_to_state_of_models->value(QString("square"))->get_x_offset(), ptr_to_state_of_models->value(QString("square"))->get_y_offset(), ptr_to_state_of_models->value(QString("square"))->get_z_offset());
+				offset_position_rotation[0] = QVector3D(ptr_to_state_of_models->value(QString("square"))->get_x_offset(), ptr_to_state_of_models->value(QString("square"))->get_y_offset(), ptr_to_state_of_models->value(QString("square"))->get_z_offset());
 				offset_position_rotation[1] = QVector3D(0.0,0.0,0.0);
-				
+				qDebug() << offset_position_rotation[0];
 				color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 2);
 				
 				//write
