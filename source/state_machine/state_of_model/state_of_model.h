@@ -30,11 +30,14 @@ public:
 		int get_combined_size(int * array_of_index);
 		
 		void translate(GLfloat add_x_offset, GLfloat add_y_offset, GLfloat add_z_offset);
+		void rotate(GLfloat add_x_rotation, GLfloat add_y_rotation, GLfloat add_z_rotation);
 		
 		float get_x_offset();
 		float get_y_offset();
 		float get_z_offset();
 		
+		float get_x_rotation();
+		float get_y_rotation();
 		float get_z_rotation();
 		
 		

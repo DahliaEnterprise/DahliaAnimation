@@ -7,6 +7,18 @@ out vec4 vertex_position;
 uniform vec3 stoplight_positions[1024];
 uniform vec3 offset_position_rotation[2];
 
+mat3 matrix_rotate_z(float angle)
+{
+  float s = sin(angle);
+  float c = cos(angle);
+
+  return mat3(
+    c, s, 0.0,
+    -s, c, 0.0,
+    0.0, 0.0, 1.0
+  );
+}
+
 void main( void )
 {
 	vec3 new_position = position;
@@ -16,6 +28,9 @@ void main( void )
 	new_position.y += offset_position_rotation[0].y;
 	new_position.z += offset_position_rotation[0].z;
 	
+	
+	//apply rotation
+	new_position = new_position * matrix_rotate_z(offset_position_rotation[1].z);
 	
 	//apply depth perspective
 	//new_position.x = new_position.x / new_position.z;

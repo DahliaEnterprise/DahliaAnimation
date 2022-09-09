@@ -87,6 +87,14 @@ void state_of_model::translate(GLfloat add_x_offset, GLfloat add_y_offset, GLflo
 	
 }
 
+void state_of_model::rotate(GLfloat add_x_rotation, GLfloat add_y_rotation, GLfloat add_z_rotation)
+{
+	x_rotation += add_x_rotation;
+	y_rotation += add_y_rotation;
+	z_rotation += add_z_rotation;
+	
+}
+
 float state_of_model::get_x_offset()
 {
 	return x_offset;
@@ -100,6 +108,16 @@ float state_of_model::get_y_offset()
 float state_of_model::get_z_offset()
 {
 	return z_offset;
+}
+
+float state_of_model::get_x_rotation()
+{
+	return x_rotation;
+}
+
+float state_of_model::get_y_rotation()
+{
+	return y_rotation;
 }
 
 float state_of_model::get_z_rotation()
