@@ -8,16 +8,7 @@ openglwindows::openglwindows()
 
 void openglwindows::initializeGL()
 {
-	triangle_vertex_and_colors_unaltered = new vertex_group();
-	triangle_vertex_and_colors_unaltered->setPositions(QUrl("./../DahliaAnimation/source/vertex/triangle.xyz"));
-	triangle_vertex_and_colors_unaltered->setColors(QUrl("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
-	triangle_vertex_and_colors_unaltered->combined_xyz_colors();
 	
-	triangle_vertex_and_colors_altered = new vertex_group();
-	triangle_vertex_and_colors_altered->setPositions(QUrl("./../DahliaAnimation/source/vertex/triangle.xyz"));
-	triangle_vertex_and_colors_altered->setColors(QUrl("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
-	triangle_vertex_and_colors_altered->combined_xyz_colors();
-
 	stoplight_positions_vertex_group = new vertex_group();
 	stoplight_positions_vertex_group->setPositions(QUrl("./../DahliaAnimation/source/stoplightray_balls/triangle.xyz"));
 	
@@ -122,7 +113,7 @@ void openglwindows::initializeGL()
 		triangle_ogl_vbo_quad->create();
 		triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 		triangle_ogl_vbo_quad->bind();
-		triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
+		//triangle_ogl_vbo_quad->allocate(triangle_vertex_and_colors_altered->combined_xyz_colors(), triangle_vertex_and_colors_altered->combined_total_xyz_colors() * sizeof(GLfloat));
 			
 		color_shader_program->enableAttributeArray(0);
 		color_shader_program->enableAttributeArray(1);

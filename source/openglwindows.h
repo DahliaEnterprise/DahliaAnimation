@@ -51,8 +51,6 @@ private:
 		//Triangle
 		QOpenGLBuffer * triangle_ogl_vbo_quad;
   	QOpenGLVertexArrayObject triangle_ogl_vao_quad;
-		vertex_group * triangle_vertex_and_colors_unaltered;
-		vertex_group * triangle_vertex_and_colors_altered;
 		int init_triangle;
 		
 	//Shader programs
