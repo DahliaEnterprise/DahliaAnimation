@@ -113,6 +113,7 @@ void openglwindows::initializeGL()
 			color_shader_program->release();
 			
 		//init triangle
+		init_triangle = 1;
 		color_shader_program->bind();
 		triangle_ogl_vao_quad.create();
 		triangle_ogl_vao_quad.bind();
@@ -127,6 +128,13 @@ void openglwindows::initializeGL()
 		color_shader_program->enableAttributeArray(1);
 		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
 		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
+		
+		state_of_model * triangle_model_state_information = new state_of_model();
+		triangle_model_state_information->initialize(2);
+		triangle_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/triangle.xyz"));
+		triangle_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
+		statemachine->get_model_information()->add_model(QString("triangle"), triangle_model_state_information);
+		
 		
 			//clean/clear
 			triangle_ogl_vao_quad.release();
@@ -172,8 +180,6 @@ void openglwindows::run_paint()
 		}
 		
 		statemachine->get_game_information()->scene_iterate();
-		//compute shader
-		
 		
 		//square (ground)
 		int	square_do_render = ptr_to_state_of_models->value(QString("square"))->get_flag_render_model();
@@ -186,11 +192,7 @@ void openglwindows::run_paint()
 				square_ogl_vao_quad.bind();
 				square_ogl_vbo_quad->bind();
 				square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
-				float z_rotation =ptr_to_state_of_models->value(QString("square"))->get_z_rotation();
-				if((z_rotation * 1000000) != 0)
-				{
-					//ptr_to_state_of_models->value(QString("square"))->combined_total_xyz_colors
-				}
+				
 				//allocate or write
 				int * array_of_index = 0; while(array_of_index == 0){ array_of_index = (int*)malloc(2*sizeof(GLfloat));}
 				array_of_index[0] = 0;
@@ -201,11 +203,7 @@ void openglwindows::run_paint()
 //qDebug() << "tuple sizs" << combined_tuple_size;
 				if(init_square == 1)
 				{
-					ptr_to_state_of_models->value("square")->translate(0.5, 0.5, 0.0);
-					ptr_to_state_of_models->value("square")->rotate(0.5, 0.5, 0.0);
-					ptr_to_state_of_models->value("square")->scale(0.0, 0.0, 0.0);
-					
-					triangle_ogl_vbo_quad->allocate(positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
+					square_ogl_vbo_quad->allocate(positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
 					init_square = 0;
 				}
 				
@@ -232,28 +230,55 @@ void openglwindows::run_paint()
 		}
 		
 		//triangle
-		color_shader_program->bind();
-		triangle_ogl_vao_quad.bind();
-		triangle_ogl_vbo_quad->bind();
-		
-		QVector3D offset_position_rotation[3];
-		offset_position_rotation[0] = QVector3D(0.0,0.0,0.0);
-		offset_position_rotation[1] = QVector3D(0.0,0.0,0.0);
-		offset_position_rotation[2] = QVector3D(1.0,1.0,1.0);
+		int	triangle_do_render = ptr_to_state_of_models->value(QString("triangle"))->get_flag_render_model();
+		if(triangle_do_render == 1)
+		{
+			int triangle_do_write_vbo = ptr_to_state_of_models->value(QString("triangle"))->get_flag_vbo();
+			if(triangle_do_write_vbo == 1)
+			{
+				color_shader_program->bind();
+				triangle_ogl_vao_quad.bind();
+				triangle_ogl_vbo_quad->bind();
+				square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 				
-				color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 2);
+				//allocate or write
+				int * array_of_index = 0; while(array_of_index == 0){ array_of_index = (int*)malloc(2*sizeof(GLfloat));}
+				array_of_index[0] = 0;
+				array_of_index[1] = 1;
+				GLfloat * positions_and_colors = ptr_to_state_of_models->value(QString("triangle"))->get_combined_tuple(array_of_index);
+				long int combined_tuple_size = ptr_to_state_of_models->value(QString("triangle"))->get_combined_size(array_of_index);
+				free(array_of_index);
+//qDebug() << "tuple sizs" << combined_tuple_size;
+				if(init_triangle == 1)
+				{
+					triangle_ogl_vbo_quad->allocate(positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
+					ptr_to_state_of_models->value(QString("triangle"))->scale(0.5, 0.5, 0.5);
+					ptr_to_state_of_models->value(QString("triangle"))->translate(0.5, 0.5, 0.5);
+					init_triangle = 0;
+				}
 				
-	
-		color_shader_program->enableAttributeArray(0);
-		color_shader_program->enableAttributeArray(1);
-	
-		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
-		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		glDrawArrays(GL_TRIANGLES, 0, 6);
-		triangle_ogl_vao_quad.release();
-		triangle_ogl_vbo_quad->release();
-		color_shader_program->release();
-		
+				QVector3D offset_position_rotation[3];
+				offset_position_rotation[0] = QVector3D(ptr_to_state_of_models->value(QString("triangle"))->get_x_offset(), ptr_to_state_of_models->value(QString("triangle"))->get_y_offset(), ptr_to_state_of_models->value(QString("triangle"))->get_z_offset());
+				offset_position_rotation[1] = QVector3D(ptr_to_state_of_models->value(QString("triangle"))->get_x_rotation(), ptr_to_state_of_models->value(QString("triangle"))->get_y_rotation(), ptr_to_state_of_models->value(QString("triangle"))->get_z_rotation());
+				offset_position_rotation[2] = QVector3D(ptr_to_state_of_models->value(QString("triangle"))->get_x_scale(), ptr_to_state_of_models->value(QString("triangle"))->get_y_scale(), ptr_to_state_of_models->value(QString("triangle"))->get_z_scale());
+				
+				color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 3);
+				
+				//write
+				triangle_ogl_vbo_quad->write(0, positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
+				
+			
+				color_shader_program->enableAttributeArray(0);
+				color_shader_program->enableAttributeArray(1);
+			
+				color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
+				color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
+				glDrawArrays(GL_TRIANGLES, 0, 6);
+				triangle_ogl_vao_quad.release();
+				triangle_ogl_vbo_quad->release();
+				color_shader_program->release();
+			}
+		}
 		//update visual physical frame
 		this->update();
 	QTimer::singleShot((1000/60), this, SLOT(run_paint()));

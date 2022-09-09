@@ -46,18 +46,16 @@ private:
 		//Square
 		QOpenGLBuffer * square_ogl_vbo_quad;
   	QOpenGLVertexArrayObject square_ogl_vao_quad;
-  	vertex_group * square_vertex_and_colors;
-		int init_square;
+  	int init_square;
 		
 		//Triangle
 		QOpenGLBuffer * triangle_ogl_vbo_quad;
   	QOpenGLVertexArrayObject triangle_ogl_vao_quad;
 		vertex_group * triangle_vertex_and_colors_unaltered;
 		vertex_group * triangle_vertex_and_colors_altered;
-
+		int init_triangle;
 		
 	//Shader programs
-	QOpenGLShaderProgram * compute_shadow_shader_program;
 	QOpenGLShaderProgram * color_shader_program;
 	
 signals:
