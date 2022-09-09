@@ -49,22 +49,21 @@ void main( void )
 	
 	
 	//rotate, scale, translate
+	//apply rotation
+	new_position = new_position * matrix_rotate_z(offset_position_rotation[1].z);
+	new_position = new_position * matrix_rotate_y(offset_position_rotation[1].y);
+	new_position = new_position * matrix_rotate_x(offset_position_rotation[1].x);
+	
 	//apply scale
-	/*new_position.x = new_position.x * offset_position_rotation[2].x;
+	new_position.x = new_position.x * offset_position_rotation[2].x;
 	new_position.y = new_position.y * offset_position_rotation[2].y;
 	new_position.z = new_position.z * offset_position_rotation[2].z;
-	*/
-	
 	
 	//translate position
 	new_position.x += offset_position_rotation[0].x;
 	new_position.y += offset_position_rotation[0].y;
 	new_position.z += offset_position_rotation[0].z;
 	
-	//apply rotation
-	new_position = new_position * matrix_rotate_z(offset_position_rotation[1].z);
-	new_position = new_position * matrix_rotate_y(offset_position_rotation[1].y);
-	new_position = new_position * matrix_rotate_x(offset_position_rotation[1].x);
 	
 	
 	//apply depth perspective

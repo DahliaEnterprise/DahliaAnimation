@@ -202,6 +202,8 @@ void openglwindows::run_paint()
 				if(init_square == 1)
 				{
 					ptr_to_state_of_models->value("square")->translate(0.5, 0.5, 0.0);
+					ptr_to_state_of_models->value("square")->rotate(0.5, 0.5, 0.0);
+					ptr_to_state_of_models->value("square")->scale(0.0, 0.0, 0.0);
 					
 					triangle_ogl_vbo_quad->allocate(positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
 					init_square = 0;
