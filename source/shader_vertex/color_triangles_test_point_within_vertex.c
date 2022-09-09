@@ -19,6 +19,30 @@ mat3 matrix_rotate_z(float angle)
   );
 }
 
+mat3 matrix_rotate_y(float angle) 
+{
+  float s = sin(angle);
+  float c = cos(angle);
+
+  return mat3(
+    c, 0.0, -s,
+    0.0, 1.0, 0.0,
+    s, 0.0, c
+  );
+}
+
+mat3 matrix_rotate_x(float angle)
+{
+  float s = sin(angle);
+  float c = cos(angle);
+
+  return mat3(
+    1.0, 0.0, 0.0,
+    0.0, c, s,
+    0.0, -s, c
+  );
+}
+
 void main( void )
 {
 	vec3 new_position = position;
@@ -31,6 +55,8 @@ void main( void )
 	
 	//apply rotation
 	new_position = new_position * matrix_rotate_z(offset_position_rotation[1].z);
+	new_position = new_position * matrix_rotate_y(offset_position_rotation[1].y);
+	new_position = new_position * matrix_rotate_x(offset_position_rotation[1].x);
 	
 	//apply depth perspective
 	//new_position.x = new_position.x / new_position.z;
