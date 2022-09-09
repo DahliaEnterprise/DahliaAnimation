@@ -5,7 +5,7 @@ out vec4 color;
 out vec4 vertex_position;
 
 uniform vec3 stoplight_positions[1024];
-uniform vec3 offset_position_rotation[2];
+uniform vec3 offset_position_rotation[3];
 
 mat3 matrix_rotate_z(float angle)
 {
@@ -47,16 +47,25 @@ void main( void )
 {
 	vec3 new_position = position;
 	
+	
+	//rotate, scale, translate
+	//apply scale
+	/*new_position.x = new_position.x * offset_position_rotation[2].x;
+	new_position.y = new_position.y * offset_position_rotation[2].y;
+	new_position.z = new_position.z * offset_position_rotation[2].z;
+	*/
+	
+	
 	//translate position
 	new_position.x += offset_position_rotation[0].x;
 	new_position.y += offset_position_rotation[0].y;
 	new_position.z += offset_position_rotation[0].z;
 	
-	
 	//apply rotation
 	new_position = new_position * matrix_rotate_z(offset_position_rotation[1].z);
 	new_position = new_position * matrix_rotate_y(offset_position_rotation[1].y);
 	new_position = new_position * matrix_rotate_x(offset_position_rotation[1].x);
+	
 	
 	//apply depth perspective
 	//new_position.x = new_position.x / new_position.z;

@@ -31,6 +31,7 @@ public:
 		
 		void translate(GLfloat add_x_offset, GLfloat add_y_offset, GLfloat add_z_offset);
 		void rotate(GLfloat add_x_rotation, GLfloat add_y_rotation, GLfloat add_z_rotation);
+		void scale(GLfloat add_x_scale, GLfloat add_y_scale, GLfloat add_z_scale);
 		
 		float get_x_offset();
 		float get_y_offset();
@@ -40,6 +41,9 @@ public:
 		float get_y_rotation();
 		float get_z_rotation();
 		
+		float get_x_scale();
+		float get_y_scale();
+		float get_z_scale();
 		
 	private:
 		int flag_render_model;
@@ -58,6 +62,9 @@ public:
 		float y_offset;
 		float z_offset;
 		
+		float x_scale; 
+		float y_scale;
+		float z_scale;
 		
 signals:
 

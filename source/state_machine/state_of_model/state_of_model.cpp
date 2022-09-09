@@ -25,6 +25,10 @@ void state_of_model::initialize(int array_size_of_tuple)
 	x_offset = 0.0;
 	y_offset = 0.0;
 	z_offset = 0.0;
+	
+	x_scale = 1.0;
+	y_scale = 1.0;
+	z_scale = 1.0;
 }
 
 void state_of_model::set_flag_vbo()
@@ -95,6 +99,13 @@ void state_of_model::rotate(GLfloat add_x_rotation, GLfloat add_y_rotation, GLfl
 	
 }
 
+void state_of_model::scale(GLfloat add_x_scale, GLfloat add_y_scale, GLfloat add_z_scale)
+{
+	x_scale += add_x_scale;
+	y_scale += add_y_scale;
+	z_scale += add_z_scale;
+}
+
 float state_of_model::get_x_offset()
 {
 	return x_offset;
@@ -123,4 +134,19 @@ float state_of_model::get_y_rotation()
 float state_of_model::get_z_rotation()
 {
 	return z_rotation;
+}
+
+float state_of_model::get_x_scale()
+{
+	return x_scale;
+}
+
+float state_of_model::get_y_scale()
+{
+	return y_scale;
+}
+
+float state_of_model::get_z_scale()
+{
+	return z_scale;
 }

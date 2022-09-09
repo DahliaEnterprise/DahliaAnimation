@@ -21,12 +21,6 @@ void openglwindows::initializeGL()
 	stoplight_positions_vertex_group = new vertex_group();
 	stoplight_positions_vertex_group->setPositions(QUrl("./../DahliaAnimation/source/stoplightray_balls/triangle.xyz"));
 	
-	square_vertex_and_colors = new vertex_group();
-	square_vertex_and_colors->setPositions(QUrl("./../DahliaAnimation/source/vertex/square.xyz"));
-	square_vertex_and_colors->setColors(QUrl("./../DahliaAnimation/source/vertex_color/square.rgb"));
-	square_vertex_and_colors->combined_xyz_colors();
-	
-	
 	rotate = new rotate_2d();
 	
 	statemachine = new state_machine();
@@ -207,15 +201,18 @@ void openglwindows::run_paint()
 //qDebug() << "tuple sizs" << combined_tuple_size;
 				if(init_square == 1)
 				{
+					ptr_to_state_of_models->value("square")->translate(0.5, 0.5, 0.0);
+					
 					triangle_ogl_vbo_quad->allocate(positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
 					init_square = 0;
 				}
 				
-				QVector3D offset_position_rotation[2];
+				QVector3D offset_position_rotation[3];
 				offset_position_rotation[0] = QVector3D(ptr_to_state_of_models->value(QString("square"))->get_x_offset(), ptr_to_state_of_models->value(QString("square"))->get_y_offset(), ptr_to_state_of_models->value(QString("square"))->get_z_offset());
 				offset_position_rotation[1] = QVector3D(ptr_to_state_of_models->value(QString("square"))->get_x_rotation(), ptr_to_state_of_models->value(QString("square"))->get_y_rotation(), ptr_to_state_of_models->value(QString("square"))->get_z_rotation());
+				offset_position_rotation[2] = QVector3D(ptr_to_state_of_models->value(QString("square"))->get_x_scale(), ptr_to_state_of_models->value(QString("square"))->get_y_scale(), ptr_to_state_of_models->value(QString("square"))->get_z_scale());
 				
-				color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 2);
+				color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 3);
 				
 				//write
 				square_ogl_vbo_quad->write(0, positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
@@ -237,9 +234,10 @@ void openglwindows::run_paint()
 		triangle_ogl_vao_quad.bind();
 		triangle_ogl_vbo_quad->bind();
 		
-		QVector3D offset_position_rotation[2];
+		QVector3D offset_position_rotation[3];
 		offset_position_rotation[0] = QVector3D(0.0,0.0,0.0);
 		offset_position_rotation[1] = QVector3D(0.0,0.0,0.0);
+		offset_position_rotation[2] = QVector3D(1.0,1.0,1.0);
 				
 				color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 2);
 				
