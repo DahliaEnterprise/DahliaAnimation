@@ -2,7 +2,6 @@
 #define OPENGLWINDOWS_H
 
 #include "vertex_group.h"
-#include "./rotation_scale_translate/rotation/rotate_2d.h"
 #include <QOpenGLWindow>
 #include <QObject>
 #include <QOpenGLShaderProgram>
@@ -40,8 +39,7 @@ private:
 	vertex_group * stoplight_positions_vertex_group;
 
 
-	rotate_2d * rotate;
-
+	
 	//Vertex and pair(color or texture coordinates)
 		//Square
 		QOpenGLBuffer * square_ogl_vbo_quad;

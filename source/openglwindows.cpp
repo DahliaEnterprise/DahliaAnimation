@@ -12,7 +12,6 @@ void openglwindows::initializeGL()
 	stoplight_positions_vertex_group = new vertex_group();
 	stoplight_positions_vertex_group->setPositions(QUrl("./../DahliaAnimation/source/stoplightray_balls/triangle.xyz"));
 	
-	rotate = new rotate_2d();
 	
 	statemachine = new state_machine();
 	statemachine->initialize();
