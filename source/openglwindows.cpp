@@ -113,9 +113,10 @@ void openglwindows::initializeGL()
 			
 		//init triangle
 		init_triangle = 1;
+		triangle_ogl_vao_quad = new QOpenGLVertexArrayObject();
 		color_shader_program->bind();
-		triangle_ogl_vao_quad.create();
-		triangle_ogl_vao_quad.bind();
+		triangle_ogl_vao_quad->create();
+		triangle_ogl_vao_quad->bind();
 		
 		triangle_ogl_vbo_quad = new QOpenGLBuffer();
 		triangle_ogl_vbo_quad->create();
@@ -134,9 +135,13 @@ void openglwindows::initializeGL()
 		triangle_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
 		statemachine->get_model_information()->add_model(QString("triangle"), triangle_model_state_information);
 		
+		//associate vao and vbo.
+		ptr_to_state_of_models->value(QString("triangle"))->associate_vao(triangle_ogl_vao_quad);
+		ptr_to_state_of_models->value(QString("triangle"))->associate_vbo(triangle_ogl_vbo_quad);
+		
 		
 			//clean/clear
-			triangle_ogl_vao_quad.release();
+			triangle_ogl_vao_quad->release();
 			triangle_ogl_vbo_quad->release();
 			color_shader_program->release();
 			
@@ -229,7 +234,7 @@ void openglwindows::run_paint()
 		*/
 		
 		//triangle
-		int	triangle_do_render = ptr_to_state_of_models->value(QString("triangle"))->get_flag_render_model();
+	/*	int	triangle_do_render = ptr_to_state_of_models->value(QString("triangle"))->get_flag_render_model();
 		if(triangle_do_render == 1)
 		{
 			int triangle_do_write_vbo = ptr_to_state_of_models->value(QString("triangle"))->get_flag_vbo();
@@ -278,6 +283,7 @@ void openglwindows::run_paint()
 				color_shader_program->release();
 			}
 		}
+		*/
 		//update visual physical frame
 		this->update();
 	QTimer::singleShot((1000/60), this, SLOT(run_paint()));

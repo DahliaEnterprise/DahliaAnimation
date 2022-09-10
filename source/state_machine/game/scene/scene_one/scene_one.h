@@ -13,6 +13,8 @@ class scene_one : public QObject
 public:
     explicit scene_one(QObject *parent = nullptr);
 
+		void initialize();
+		
 		void iterate(models * model_information);
 		
 		void associate_color_shader(QOpenGLShaderProgram * set_color_shader_program);

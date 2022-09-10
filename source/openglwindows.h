@@ -51,7 +51,7 @@ private:
 		
 		//Triangle
 		QOpenGLBuffer * triangle_ogl_vbo_quad;
-  	QOpenGLVertexArrayObject triangle_ogl_vao_quad;
+  	QOpenGLVertexArrayObject * triangle_ogl_vao_quad;
 		int init_triangle;
 		
 	//Shader programs
