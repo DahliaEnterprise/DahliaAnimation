@@ -12,8 +12,6 @@ SOURCES += \
     main.cpp \
     opengl_manager.cpp \
     openglwindows.cpp \
-    rotation_scale_translate/rotation/rotate_2d.cpp \
-    rotation_scale_translate/translate/translate.cpp \
     state_machine/game/game.cpp \
     state_machine/game/scene/scene_one/scene_one.cpp \
     state_machine/game/scene/scenes.cpp \
@@ -26,8 +24,6 @@ SOURCES += \
 HEADERS += \
     opengl_manager.h \
     openglwindows.h \
-    rotation_scale_translate/rotation/rotate_2d.h \
-    rotation_scale_translate/translate/translate.h \
     state_machine/game/game.h \
     state_machine/game/scene/scene_one/scene_one.h \
     state_machine/game/scene/scenes.h \
