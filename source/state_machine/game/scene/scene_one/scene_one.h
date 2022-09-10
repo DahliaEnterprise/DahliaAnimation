@@ -2,6 +2,8 @@
 #define SCENE_ONE_H
 
 #include <QObject>
+#include <QOpenGLShaderProgram>
+#include <QOpenGLVertexArrayObject>
 
 #include "./state_machine/models/models.h"
 
@@ -13,6 +15,12 @@ public:
 
 		void iterate(models * model_information);
 		
+		void associate_color_shader(QOpenGLShaderProgram * set_color_shader_program);
+		
+		void render(models * model_information);
+		
+private:
+		QOpenGLShaderProgram * color_shader_program;
 		
 signals:
 

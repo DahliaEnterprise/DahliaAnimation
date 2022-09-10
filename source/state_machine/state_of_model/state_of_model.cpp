@@ -152,3 +152,24 @@ float state_of_model::get_z_scale()
 {
 	return z_scale;
 }
+
+void state_of_model::associate_vao(QOpenGLVertexArrayObject * set_vao)
+{
+	vao = set_vao;
+}
+
+void state_of_model::associate_vbo(QOpenGLBuffer * set_vbo)
+{
+	vbo = set_vbo;
+}
+
+QOpenGLVertexArrayObject * state_of_model::get_vao()
+{
+	return vao;
+}
+
+QOpenGLBuffer * state_of_model::get_vbo()
+{
+	return vbo;
+}
+

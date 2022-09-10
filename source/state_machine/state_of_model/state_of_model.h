@@ -2,7 +2,8 @@
 #define STATE_OF_MODEL_H
 
 #include <QObject>
-
+#include <QOpenGLVertexArrayObject>
+#include <QOpenGLBuffer>
 
 #include "vertex_group.h"
 #include "./state_machine/tuple_float/tuple_float.h"
@@ -45,6 +46,12 @@ public:
 		float get_y_scale();
 		float get_z_scale();
 		
+		void associate_vao(QOpenGLVertexArrayObject * set_vao);
+		void associate_vbo(QOpenGLBuffer * set_vbo);
+		
+		QOpenGLVertexArrayObject * get_vao();
+		QOpenGLBuffer * get_vbo();
+
 	private:
 		int flag_render_model;
 		int flag_write_vbo;
@@ -65,6 +72,10 @@ public:
 		float x_scale; 
 		float y_scale;
 		float z_scale;
+		
+		QOpenGLVertexArrayObject * vao;
+		QOpenGLBuffer * vbo;
+		
 		
 signals:
 

@@ -26,6 +26,9 @@ public:
 		void initializeGL();
   	void resizeGL(int width, int height);
   	void paintGL();
+		
+		void draw_arrays_color_shader(state_of_model * state);
+		
 
 private:
 	void load_text_file(QString file_location);
@@ -43,7 +46,7 @@ private:
 	//Vertex and pair(color or texture coordinates)
 		//Square
 		QOpenGLBuffer * square_ogl_vbo_quad;
-  	QOpenGLVertexArrayObject square_ogl_vao_quad;
+  	QOpenGLVertexArrayObject * square_ogl_vao_quad;
   	int init_square;
 		
 		//Triangle

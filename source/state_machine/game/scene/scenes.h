@@ -16,6 +16,11 @@ public:
 		
 		void iterate_scene();
 		
+		void render();
+		
+		void associate_color_shader(QOpenGLShaderProgram * color_shader_program);
+		
+		
 private:
 		models * ptr_to_models;
 		

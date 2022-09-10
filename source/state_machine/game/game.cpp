@@ -19,3 +19,13 @@ void game::scene_iterate()
 {
 	scene_information->iterate_scene();
 }
+
+void game::render()
+{
+	scene_information->render();
+}
+
+void game::associate_color_shader(QOpenGLShaderProgram * color_shader_program)
+{
+	scene_information->associate_color_shader(color_shader_program);
+}

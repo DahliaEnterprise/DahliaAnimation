@@ -5,6 +5,9 @@ scene_one::scene_one(QObject *parent)
 {
 
 }
+
+
+
 int flash_square = 0;
 void scene_one::iterate(models * model_information)
 {
@@ -32,4 +35,58 @@ void scene_one::iterate(models * model_information)
 	
 	
 
+}
+
+void scene_one::associate_color_shader(QOpenGLShaderProgram * set_color_shader_program)
+{
+	color_shader_program = set_color_shader_program;
+}
+
+int init_square = 1;
+void scene_one::render(models * model_information)
+{
+	int	square_do_render = model_information->get_state_of_models()->value(QString("square"))->get_flag_render_model();
+	if(square_do_render == 1)
+	{
+		QOpenGLVertexArrayObject * vao = model_information->get_state_of_models()->value("square")->get_vao();
+		QOpenGLBuffer * vbo = model_information->get_state_of_models()->value("square")->get_vbo();
+		color_shader_program->bind();
+		vao->bind();
+		vbo->bind();
+		vbo->setUsagePattern(QOpenGLBuffer::StaticDraw);
+		
+		//allocate or write
+		int * array_of_index = 0; while(array_of_index == 0){ array_of_index = (int*)malloc(2*sizeof(GLfloat));} array_of_index[0] = 0; array_of_index[1] = 1;
+		GLfloat * positions_and_colors = model_information->get_state_of_models()->value(QString("square"))->get_combined_tuple(array_of_index);
+		long int combined_tuple_size = model_information->get_state_of_models()->value(QString("square"))->get_combined_size(array_of_index);
+		free(array_of_index);
+		if(init_square == 1)
+		{
+			vbo->allocate(positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
+			init_square = 0;
+		}
+		
+		QVector3D offset_position_rotation[3];
+		offset_position_rotation[0] = QVector3D(model_information->get_state_of_models()->value(QString("square"))->get_x_offset(), model_information->get_state_of_models()->value(QString("square"))->get_y_offset(), model_information->get_state_of_models()->value(QString("square"))->get_z_offset());
+		offset_position_rotation[1] = QVector3D(model_information->get_state_of_models()->value(QString("square"))->get_x_rotation(), model_information->get_state_of_models()->value(QString("square"))->get_y_rotation(), model_information->get_state_of_models()->value(QString("square"))->get_z_rotation());
+		offset_position_rotation[2] = QVector3D(model_information->get_state_of_models()->value(QString("square"))->get_x_scale(), model_information->get_state_of_models()->value(QString("square"))->get_y_scale(), model_information->get_state_of_models()->value(QString("square"))->get_z_scale());
+		
+		color_shader_program->setUniformValueArray("offset_position_rotation", offset_position_rotation, 3);
+		int square_do_write_vbo = model_information->get_state_of_models()->value(QString("square"))->get_flag_vbo();
+		if(square_do_write_vbo == 1)
+		{
+			//write
+			vbo->write(0, positions_and_colors, combined_tuple_size  * sizeof(GLfloat));
+		}
+		color_shader_program->enableAttributeArray(0);
+		color_shader_program->enableAttributeArray(1);
+	
+		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
+		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		vao->release();
+		vbo->release();
+		color_shader_program->release();
+		
+	}
 }
