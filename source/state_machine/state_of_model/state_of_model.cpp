@@ -10,9 +10,9 @@ void state_of_model::initialize(int array_size_of_tuple)
 {
 	flag_render_model = 0;
 	
-	vertex_and_secondary_unaltered = new vertex_group();
+	/*vertex_and_secondary_unaltered = new vertex_group();
 	vertex_and_secondary_altered = new vertex_group();
-	
+	*/
 	tuple_unaltered = new tuple_float();
 	tuple_unaltered->initialize(array_size_of_tuple);
 	
@@ -42,14 +42,14 @@ int state_of_model::get_flag_render_model()
 
 void state_of_model::load_vertex_positions(QString vertex_positions_filelocation)
 {
-	vertex_and_secondary_unaltered->setPositions(QUrl(vertex_positions_filelocation));
+	//vertex_and_secondary_unaltered->setPositions(QUrl(vertex_positions_filelocation));
 	
 	tuple_unaltered->setFloatArray_by_file(0, vertex_positions_filelocation);
 }
 
 void state_of_model::load_vertex_colors(QString vertex_colors_filelocation)
 {
-	vertex_and_secondary_unaltered->setColors(QUrl(vertex_colors_filelocation));
+	//vertex_and_secondary_unaltered->setColors(QUrl(vertex_colors_filelocation));
 	
 	tuple_unaltered->setFloatArray_by_file(1, vertex_colors_filelocation);
 	
