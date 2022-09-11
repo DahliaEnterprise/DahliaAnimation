@@ -13,8 +13,8 @@
 #include <QDebug>
 #include <QTimer>
 #include <QVector3D>
+#include "state_machine/scene/scene_one/scene_one.h"
 
-#include "./state_machine/state_machine.h"
 
 class openglwindows : public QOpenGLWindow, protected QOpenGLFunctions
 {
@@ -26,34 +26,17 @@ public:
 		void initializeGL();
   	void resizeGL(int width, int height);
   	void paintGL();
-		
-		void draw_arrays_color_shader(state_of_model * state);
-		
 
 private:
 	void load_text_file(QString file_location);
 	
-	state_machine * statemachine;
 	
 	QTextStream * text_stream;
 	
-	QMap<QString, state_of_model*> * ptr_to_state_of_models;
-	
 	vertex_group * stoplight_positions_vertex_group;
 
-
+	scene_one * scene_major_one;
 	
-	//Vertex and pair(color or texture coordinates)
-		//Square
-		QOpenGLBuffer * square_ogl_vbo_quad;
-  	QOpenGLVertexArrayObject * square_ogl_vao_quad;
-  	int init_square;
-		
-		//Triangle
-		QOpenGLBuffer * triangle_ogl_vbo_quad;
-  	QOpenGLVertexArrayObject * triangle_ogl_vao_quad;
-		int init_triangle;
-		
 	//Shader programs
 	QOpenGLShaderProgram * color_shader_program;
 	

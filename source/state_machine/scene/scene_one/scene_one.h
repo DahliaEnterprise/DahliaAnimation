@@ -4,26 +4,27 @@
 #include <QObject>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLVertexArrayObject>
-
-#include "./state_machine/models/models.h"
+#include <QOpenGLBuffer>
+#include "./state_machine/state_of_model/state_of_model.h"
 
 class scene_one : public QObject
 {
     Q_OBJECT
 public:
     explicit scene_one(QObject *parent = nullptr);
-
-		void initialize();
 		
-		void iterate(models * model_information);
+		void iterate();
 		
 		void associate_color_shader(QOpenGLShaderProgram * set_color_shader_program);
 		
-		void render(models * model_information);
+		void render();
 		
 private:
+		int prestage;
+	
 		QOpenGLShaderProgram * color_shader_program;
 		
+		QMap<QString, state_of_model *> * list_of_models;
 signals:
 
 };
