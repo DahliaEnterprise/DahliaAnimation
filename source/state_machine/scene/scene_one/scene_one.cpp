@@ -18,6 +18,8 @@ void scene_one::iterate()
 	
 	if(prestage == 1)
 	{
+		tool_model_viewer = new model_viewer();
+		
 		init_square = 1;
 		color_shader_program->bind();
 		
@@ -129,13 +131,24 @@ void scene_one::render()
 	QOpenGLVertexArrayObject * vao = list_of_models->value("square")->get_vao();
 	QOpenGLBuffer * vbo = list_of_models->value("square")->get_vbo();
 		
-	draw_arrays_using_color_shader((char*)"square", vao, vbo, 6);
+	//draw_arrays_using_color_shader((char*)"square", vao, vbo, 6);
+	int * array_of_index = 0; while(array_of_index == 0){ array_of_index = (int*)malloc(2*sizeof(GLfloat));} array_of_index[0] = 0; array_of_index[1] = 1;
+	GLfloat * positions_and_colors = list_of_models->value(QString("square"))->get_combined_tuple(array_of_index);
+	long int combined_tuple_size = list_of_models->value(QString("square"))->get_combined_size(array_of_index);
+	free(array_of_index);
+	
+	QVector3D offset_position_rotation[3];
+		offset_position_rotation[0] = QVector3D(list_of_models->value(QString("square"))->get_x_offset(), list_of_models->value(QString("square"))->get_y_offset(), list_of_models->value(QString("square"))->get_z_offset());
+		offset_position_rotation[1] = QVector3D(list_of_models->value(QString("square"))->get_x_rotation(), list_of_models->value(QString("square"))->get_y_rotation(), list_of_models->value(QString("square"))->get_z_rotation());
+		offset_position_rotation[2] = QVector3D(list_of_models->value(QString("square"))->get_x_scale(), list_of_models->value(QString("square"))->get_y_scale(), list_of_models->value(QString("square"))->get_z_scale());
+		
+	tool_model_viewer->render(positions_and_colors, combined_tuple_size, vao, vbo, color_shader_program,  6, offset_position_rotation);
 
 	
 	vao = list_of_models->value("triangle")->get_vao();
 	vbo = list_of_models->value("triangle")->get_vbo();
 	
-	draw_arrays_using_color_shader((char*)"triangle", vao, vbo, 6);
+	//draw_arrays_using_color_shader((char*)"triangle", vao, vbo, 6);
 	
 	/*int	triangle_do_render = list_of_models->value(QString("triangle"))->get_flag_render_model();
 	if(triangle_do_render == 1)

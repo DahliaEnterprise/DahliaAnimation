@@ -15,6 +15,7 @@ SOURCES += \
     state_machine/scene/scene_one/scene_one.cpp \
     state_machine/state_of_model/state_of_model.cpp \
     state_machine/tuple_float/tuple_float.cpp \
+    tool/model_viewer/model_viewer.cpp \
     vertex_group.cpp
 
 HEADERS += \
@@ -23,6 +24,7 @@ HEADERS += \
     state_machine/scene/scene_one/scene_one.h \
     state_machine/state_of_model/state_of_model.h \
     state_machine/tuple_float/tuple_float.h \
+    tool/model_viewer/model_viewer.h \
     vertex_group.h
 
 

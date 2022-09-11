@@ -79,8 +79,7 @@ void state_of_model::rotate(GLfloat add_x_rotation, GLfloat add_y_rotation, GLfl
 	x_rotation += add_x_rotation;
 	y_rotation += add_y_rotation;
 	z_rotation += add_z_rotation;
-	qDebug() << add_z_rotation;
-	qDebug() << z_rotation;
+	
 }
 
 void state_of_model::scale(GLfloat add_x_scale, GLfloat add_y_scale, GLfloat add_z_scale)

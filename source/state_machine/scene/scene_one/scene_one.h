@@ -6,6 +6,7 @@
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include "./state_machine/state_of_model/state_of_model.h"
+#include "./tool/model_viewer/model_viewer.h"
 
 class scene_one : public QObject
 {
@@ -20,6 +21,7 @@ public:
 		void render();
 		
 private:
+		model_viewer * tool_model_viewer;
 		int prestage;
 	
 		QOpenGLShaderProgram * color_shader_program;
