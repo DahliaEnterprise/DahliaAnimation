@@ -25,6 +25,9 @@ private:
 		QOpenGLShaderProgram * color_shader_program;
 		
 		QMap<QString, state_of_model *> * list_of_models;
+		
+		void draw_arrays_using_color_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
+		
 signals:
 
 };

@@ -18,7 +18,8 @@ public:
 		void initialize(int array_size_of_tuple);
 		
 		//set/get render options
-		void set_flag_allocate();
+		void set_flag_allocate(int do_allocate);
+		int get_flag_allocate();
 		void set_flag_render_model(int do_render_flag);
 		int get_flag_render_model();
 		void set_flag_vbo();
@@ -54,6 +55,7 @@ public:
 
 	private:
 		int flag_render_model;
+		int flag_allocate;
 		int flag_write_vbo;
 		
 		vertex_group * vertex_and_secondary_unaltered;
