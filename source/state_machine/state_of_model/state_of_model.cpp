@@ -10,9 +10,6 @@ void state_of_model::initialize(int array_size_of_tuple)
 {
 	flag_render_model = 0;
 	
-	/*vertex_and_secondary_unaltered = new vertex_group();
-	vertex_and_secondary_altered = new vertex_group();
-	*/
 	tuple_unaltered = new tuple_float();
 	tuple_unaltered->initialize(array_size_of_tuple);
 	
@@ -55,10 +52,6 @@ void state_of_model::load_vertex_colors(QString vertex_colors_filelocation)
 	
 }
 
-vertex_group * state_of_model::get_vertex_group()
-{
-	return vertex_and_secondary_unaltered;
-}
 
 GLfloat * state_of_model::get_combined_tuple(int * array_of_index)
 {

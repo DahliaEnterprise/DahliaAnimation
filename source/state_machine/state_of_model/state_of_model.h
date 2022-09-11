@@ -52,9 +52,6 @@ public:
 	private:
 		int flag_render_model;
 		
-		vertex_group * vertex_and_secondary_unaltered;
-		vertex_group * vertex_and_secondary_altered;
-		
 		tuple_float * tuple_unaltered;
 		
 		float x_rotation;
