@@ -9,8 +9,6 @@ state_of_model::state_of_model(QObject *parent)
 void state_of_model::initialize(int array_size_of_tuple)
 {
 	flag_render_model = 0;
-	flag_allocate = 0;
-	flag_write_vbo = 1;
 	
 	vertex_and_secondary_unaltered = new vertex_group();
 	vertex_and_secondary_altered = new vertex_group();
@@ -30,26 +28,6 @@ void state_of_model::initialize(int array_size_of_tuple)
 	x_scale = 1.0;
 	y_scale = 1.0;
 	z_scale = 1.0;
-}
-
-void state_of_model::set_flag_vbo()
-{
-	flag_write_vbo = 1;
-}
-
-int state_of_model::get_flag_vbo()
-{
-	return flag_write_vbo;
-}
-
-void state_of_model::set_flag_allocate(int do_allocate)
-{
-	flag_allocate = do_allocate;
-}
-
-int state_of_model::get_flag_allocate()
-{
-	return flag_allocate;
 }
 
 void state_of_model::set_flag_render_model(int do_render_flag)
