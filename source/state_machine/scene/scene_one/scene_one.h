@@ -2,6 +2,7 @@
 #define SCENE_ONE_H
 
 #include <QObject>
+#include <QFile>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
@@ -22,13 +23,17 @@ public:
 		
 private:
 		model_viewer * tool_model_viewer;
+		
 		int prestage;
 	
+		QTextStream * text_stream;
+		
 		QOpenGLShaderProgram * color_shader_program;
 		
 		QMap<QString, state_of_model *> * list_of_models;
 		
 		void draw_arrays_using_color_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
+		
 		
 signals:
 

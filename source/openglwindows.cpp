@@ -16,58 +16,8 @@ void openglwindows::initializeGL()
   glClearColor(0.0f, 0.0f, 1.0f, 0.9f);
 	qDebug() << "initializing";
 	
-	QFile color_vertex_shader_file("./../DahliaAnimation/source/shader_vertex/color_triangles_test_point_within_vertex.c");
-	if(color_vertex_shader_file.exists() == false)
-	{
-		qDebug() << " must be a valid file.";
-	}else{
-		bool open_success = color_vertex_shader_file.open(QIODevice::ReadOnly);
-		if(open_success == false)
-		{
-			qDebug() << " file unable to open.";
-		}else{
-			
-		}
-	}
-	text_stream = new QTextStream();
-	text_stream->setDevice(&color_vertex_shader_file);
-  QString text_qstring = text_stream->readAll();
-    std::string text_stdstring = text_qstring.toUtf8().toStdString();
-
-	color_shader_program = new QOpenGLShaderProgram();
-    bool success = color_shader_program->addShaderFromSourceCode(QOpenGLShader::Vertex, text_stdstring.c_str());
-	if(!success) {
-		qDebug() << "vertex";
-	}
-	
-	delete text_stream;
-	
-	QFile color_fragment_shader_file("./../DahliaAnimation/source/shader_fragment/color_triangles_test_point_within_vertex_fragment.c");
-	if(color_fragment_shader_file.exists() == false)
-	{
-		qDebug() << " must be a valid file.";
-	}else{
-		bool open_success = color_fragment_shader_file.open(QIODevice::ReadOnly);
-		if(open_success == false)
-		{
-			qDebug() << " file unable to open.";
-		}else{
-			
-		}
-	}
-	text_stream = new QTextStream();
-	text_stream->setDevice(&color_fragment_shader_file);
-  text_qstring = text_stream->readAll();
-	
-  text_stdstring = text_qstring.toUtf8().toStdString();
-	
-	success = color_shader_program->addShaderFromSourceCode(QOpenGLShader::Fragment, text_stdstring.c_str());
-	if(!success) {
-		qDebug() << "fragment";
-	}
 	
 	scene_major_one = new scene_one();
-	scene_major_one->associate_color_shader(color_shader_program);
 	
 		//start painting
 		qDebug() << "run";
