@@ -8,6 +8,7 @@
 #include <QOpenGLBuffer>
 #include "./state_machine/state_of_model/state_of_model.h"
 #include "./tool/model_viewer/model_viewer.h"
+#include "./state_machine/scene_tool/load_and_compile_shader/load_and_compile_shader.h"
 
 class scene_one : public QObject
 {
@@ -24,11 +25,11 @@ public:
 private:
 		model_viewer * tool_model_viewer;
 		
+		load_and_compile_shader * load_shader;
 		int prestage;
 	
-		QTextStream * text_stream;
-		
 		QOpenGLShaderProgram * color_shader_program;
+		QOpenGLShaderProgram * line_shader_program;
 		
 		QMap<QString, state_of_model *> * list_of_models;
 		

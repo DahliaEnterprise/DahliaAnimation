@@ -28,17 +28,9 @@ public:
   	void paintGL();
 
 private:
-	void load_text_file(QString file_location);
-	
-	
-	QTextStream * text_stream;
-	
 	vertex_group * stoplight_positions_vertex_group;
 
 	scene_one * scene_major_one;
-	
-	//Shader programs
-	QOpenGLShaderProgram * color_shader_program;
 	
 signals:
 

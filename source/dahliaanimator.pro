@@ -13,6 +13,7 @@ SOURCES += \
     opengl_manager.cpp \
     openglwindows.cpp \
     state_machine/scene/scene_one/scene_one.cpp \
+    state_machine/scene_tool/load_and_compile_shader/load_and_compile_shader.cpp \
     state_machine/state_of_model/state_of_model.cpp \
     state_machine/tuple_float/tuple_float.cpp \
     tool/model_viewer/model_viewer.cpp \
@@ -22,6 +23,7 @@ HEADERS += \
     opengl_manager.h \
     openglwindows.h \
     state_machine/scene/scene_one/scene_one.h \
+    state_machine/scene_tool/load_and_compile_shader/load_and_compile_shader.h \
     state_machine/state_of_model/state_of_model.h \
     state_machine/tuple_float/tuple_float.h \
     tool/model_viewer/model_viewer.h \

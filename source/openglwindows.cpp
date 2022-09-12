@@ -19,10 +19,10 @@ void openglwindows::initializeGL()
 	
 	scene_major_one = new scene_one();
 	
-		//start painting
-		qDebug() << "run";
-		QTimer::singleShot(200, this, SLOT(run_paint()));
-		
+	//start painting
+	qDebug() << "run";
+	QTimer::singleShot(200, this, SLOT(run_paint()));
+	
 }
  
 void openglwindows::resizeGL(int width, int height)
