@@ -6,14 +6,7 @@ model_viewer::model_viewer(QObject *parent)
 
 }
 
-void model_viewer::render(GLfloat * positions_and_colors, 
-													long int combined_tuple_size, 
-													QOpenGLVertexArrayObject * vao, 
-													QOpenGLBuffer * vbo, 
-													QOpenGLShaderProgram * color_shader_program,
-													QOpenGLShaderProgram * line_shader_program, 
-													int total_points_of_triangles,
-													QVector3D offset_position_rotation[3])
+void model_viewer::render(GLfloat * positions_and_colors, long int combined_tuple_size, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, QOpenGLShaderProgram * color_shader_program,QOpenGLShaderProgram * line_shader_program, int total_points_of_triangles,QVector3D offset_position_rotation[3])
 {
 		color_shader_program->bind();
 		vao->bind();
