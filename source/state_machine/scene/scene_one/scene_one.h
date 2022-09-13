@@ -44,6 +44,7 @@ private:
 		float current_y;
 		float start_z;
 		float end_z; 
+		float current_z;
 		
 		float ballsize;
 		

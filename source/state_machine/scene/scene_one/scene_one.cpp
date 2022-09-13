@@ -110,15 +110,16 @@ void scene_one::iterate()
 		list_of_models->value("triangle")->translate(0.9, -0.5, 0.0);
 		
 		start_x = 0.9;
-		end_x = -0.9;
+		end_x = -0.5;
 		current_x = start_x;
 		start_y = -0.5;
-		end_y = 0.5;
+		end_y = 0.9;
 		current_y = start_y;
 		start_z = 0.0;
-		end_z = 0.0;
+		end_z = 1.0;
+		current_z = start_z;
 	
-		ballsize = 0.01;
+		ballsize = 0.001;
 		
 		prestage = 0;
 	}else if(prestage == 2)
@@ -127,47 +128,174 @@ void scene_one::iterate()
 		
 	}else if(prestage == 0)
 	{
-		float offset_x = 0.0;
-		float offset_y = 0.0;
+		int active = 1;
 		
-		float x_distance = abs(start_x-end_x);
-		float y_distance = abs(start_y-end_y);
-		//x distance is larger than y distance.
-		float resolution = 1000000;
-		float x_distance_per_one_resolution = x_distance / resolution;
-		float y_distance_per_one_resolution = y_distance / resolution;
-		
-		float total_steps = ballsize / x_distance_per_one_resolution;
-		
-		if((current_x * 1000000) > (end_x * 1000000))
+		if(active == 1)
 		{
-			float add_distance = abs((start_x+ballsize) - end_x);
-			float sub_distance = abs((start_x-ballsize) - end_x);
-			if((add_distance * 1000000) < (sub_distance * 1000000))
-			{
-				//adding gets closer
-				current_x += ballsize;
-				offset_x += ballsize;
-			}else{
-				//subtract gets closer
-				current_x -= ballsize;
-				offset_x -= ballsize;
-			}
+			float offset_x = 0.0;
+			float offset_y = 0.0;
+			float offset_z = 0.0;
 			
-			add_distance = abs((start_y+ballsize) - end_y);
-			sub_distance = abs((start_y-ballsize) - end_y);
-			if((add_distance * 1000000) < (sub_distance * 1000000))
-			{
-				//adding gets closer
-				current_y += total_steps * y_distance_per_one_resolution;
-				offset_y += total_steps * y_distance_per_one_resolution;
-			}else{
-				//subtract gets closer
-				current_y -= total_steps * y_distance_per_one_resolution;
-				offset_y -=	total_steps * y_distance_per_one_resolution;
-			}
+			float x_distance = abs(start_x-end_x);
+			float y_distance = abs(start_y-end_y);
+			float z_distance = abs(start_z-end_z);
+			//x distance is larger than y distance.
+			float resolution = 1000000;
+			float x_distance_per_one_resolution = x_distance / resolution;
+			float y_distance_per_one_resolution = y_distance / resolution;
+			float z_distance_per_one_resolution = z_distance / resolution;
 			
-			list_of_models->value("triangle")->translate(offset_x, offset_y, 0.0);
+			if((x_distance * 1000000) >= (y_distance * 1000000) && (x_distance * 1000000) > (z_distance * 1000000))
+			{
+				if((abs(current_x-end_x)) <= (ballsize * 1000000))
+				{
+					active = 0;
+				}
+					float total_steps = ballsize / x_distance_per_one_resolution;
+			
+				
+					float add_distance = abs((start_x+ballsize) - end_x);
+					float sub_distance = abs((start_x-ballsize) - end_x);
+					if((add_distance * 1000000) < (sub_distance * 1000000))
+					{
+						//adding gets closer
+						current_x += ballsize;
+						offset_x += ballsize;
+					}else{
+						//subtract gets closer
+						current_x -= ballsize;
+						offset_x -= ballsize;
+					}
+					
+					add_distance = abs((start_y+ballsize) - end_y);
+					sub_distance = abs((start_y-ballsize) - end_y);
+					if((add_distance * 1000000) < (sub_distance * 1000000))
+					{
+						//adding gets closer
+						current_y += total_steps * y_distance_per_one_resolution;
+						offset_y += total_steps * y_distance_per_one_resolution;
+					}else{
+						//subtract gets closer
+						current_y -= total_steps * y_distance_per_one_resolution;
+						offset_y -=	total_steps * y_distance_per_one_resolution;
+					}
+					
+					add_distance = abs((start_z+ballsize) - end_z);
+					sub_distance = abs((start_z-ballsize) - end_z);
+					if((add_distance * 1000000) < (sub_distance * 1000000))
+					{
+						//adding gets closer
+						current_z += total_steps * z_distance_per_one_resolution;
+						offset_z += total_steps * z_distance_per_one_resolution;
+					}else{
+						//subtract gets closer
+						current_z -= total_steps * z_distance_per_one_resolution;
+						offset_z -=	total_steps * z_distance_per_one_resolution;
+					}
+				list_of_models->value("triangle")->translate(offset_x, offset_y, offset_z);
+				
+			}else if((x_distance * 1000000) < (y_distance * 1000000) && (y_distance * 1000000) > (z_distance * 1000000))
+			{
+				if((abs(current_y-end_y)) <= (ballsize * 1000000))
+				{
+					active = 0;
+				}
+				
+				float total_steps = ballsize / y_distance_per_one_resolution;
+				
+				
+				float add_distance = abs((start_y+ballsize) - end_y);
+				float sub_distance = abs((start_y-ballsize) - end_y);
+				if((add_distance * 1000000) < (sub_distance * 1000000))
+				{
+					//adding gets closer
+					current_y += ballsize;
+					offset_y += ballsize;
+				}else{
+					//subtract gets closer
+					current_y -= ballsize;
+					offset_y -= ballsize;
+				}
+				
+				add_distance = abs((start_x+ballsize) - end_x);
+				sub_distance = abs((start_x-ballsize) - end_x);
+				if((add_distance * 1000000) < (sub_distance * 1000000))
+				{
+					//adding gets closer
+					current_x += total_steps * x_distance_per_one_resolution;
+					offset_x += total_steps * x_distance_per_one_resolution;
+				}else{
+					//subtract gets closer
+					current_x -= total_steps * x_distance_per_one_resolution;
+					offset_x -=	total_steps * x_distance_per_one_resolution;
+				}
+				
+				add_distance = abs((start_z+ballsize) - end_z);
+				sub_distance = abs((start_z-ballsize) - end_z);
+				if((add_distance * 1000000) < (sub_distance * 1000000))
+				{
+					//adding gets closer
+					current_z += total_steps * z_distance_per_one_resolution;
+					offset_z += total_steps * z_distance_per_one_resolution;
+				}else{
+					//subtract gets closer
+					current_z -= total_steps * z_distance_per_one_resolution;
+					offset_z -=	total_steps * z_distance_per_one_resolution;
+				}
+				
+				list_of_models->value("triangle")->translate(offset_x, offset_y, offset_z);
+				
+			}else{
+				if((abs(current_z-end_z)) <= (ballsize * 1000000))
+				{
+					active = 0;
+				}
+				
+				float total_steps = ballsize / z_distance_per_one_resolution;
+				
+				
+				float add_distance = abs((start_z+ballsize) - end_z);
+				float sub_distance = abs((start_z-ballsize) - end_z);
+				if((add_distance * 1000000) < (sub_distance * 1000000))
+				{
+					//adding gets closer
+					current_z += ballsize;
+					offset_z += ballsize;
+				}else{
+					//subtract gets closer
+					current_z -= ballsize;
+					offset_z -= ballsize;
+				}
+				
+				add_distance = abs((start_x+ballsize) - end_x);
+				sub_distance = abs((start_x-ballsize) - end_x);
+				if((add_distance * 1000000) < (sub_distance * 1000000))
+				{
+					//adding gets closer
+					current_x += total_steps * x_distance_per_one_resolution;
+					offset_x += total_steps * x_distance_per_one_resolution;
+				}else{
+					//subtract gets closer
+					current_x -= total_steps * x_distance_per_one_resolution;
+					offset_x -=	total_steps * x_distance_per_one_resolution;
+				}
+				
+				add_distance = abs((start_y+ballsize) - end_y);
+				sub_distance = abs((start_y-ballsize) - end_y);
+				if((add_distance * 1000000) < (sub_distance * 1000000))
+				{
+					//adding gets closer
+					current_y += total_steps * y_distance_per_one_resolution;
+					offset_y += total_steps * y_distance_per_one_resolution;
+				}else{
+					//subtract gets closer
+					current_y -= total_steps * y_distance_per_one_resolution;
+					offset_y -=	total_steps * y_distance_per_one_resolution;
+				}
+				
+				list_of_models->value("triangle")->translate(offset_x, offset_y, offset_z);
+				
+			}
 		}
 	}
 }
