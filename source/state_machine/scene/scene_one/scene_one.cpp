@@ -53,11 +53,6 @@ void scene_one::iterate()
 		square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 		square_ogl_vbo_quad->bind();
 		
-		color_shader_program->enableAttributeArray(0);
-		color_shader_program->enableAttributeArray(1);
-		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
-		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
-		
 		state_of_model * square_model_state_information = new state_of_model();
 		square_model_state_information->initialize(2);
 		square_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/square.xyz"));
@@ -88,10 +83,6 @@ void scene_one::iterate()
 		triangle_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
 		triangle_ogl_vbo_quad->bind();
 		
-		color_shader_program->enableAttributeArray(0);
-		color_shader_program->enableAttributeArray(1);
-		color_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 6*sizeof(GLfloat));
-		color_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 3, 6*sizeof(GLfloat));
 		
 		state_of_model * triangle_model_state_information = new state_of_model();
 		triangle_model_state_information->initialize(2);
@@ -111,26 +102,73 @@ void scene_one::iterate()
 			triangle_ogl_vbo_quad->release();
 			color_shader_program->release();
 			
+		list_of_models->value("triangle")->scale(-0.9, -0.9, -0.9);
+		
+		list_of_models->value("square")->set_flag_render_model(1);
+		
+		list_of_models->value("triangle")->set_flag_render_model(1);
+		list_of_models->value("triangle")->translate(0.9, -0.5, 0.0);
+		
+		start_x = 0.9;
+		end_x = -0.9;
+		current_x = start_x;
+		start_y = -0.5;
+		end_y = 0.5;
+		current_y = start_y;
+		start_z = 0.0;
+		end_z = 0.0;
 	
+		ballsize = 0.01;
+		
 		prestage = 0;
 	}else if(prestage == 2)
 	{
 		
+		
 	}else if(prestage == 0)
 	{
-	
-	  if(flash_square == 0)
-		{
-			flash_square = 1;
-			
-		}else{
-			flash_square = 0;
-			
-		}
-	
-		list_of_models->value("square")->set_flag_render_model(1);
+		float offset_x = 0.0;
+		float offset_y = 0.0;
 		
-		list_of_models->value("triangle")->set_flag_render_model(1);
+		float x_distance = abs(start_x-end_x);
+		float y_distance = abs(start_y-end_y);
+		//x distance is larger than y distance.
+		float resolution = 1000000;
+		float x_distance_per_one_resolution = x_distance / resolution;
+		float y_distance_per_one_resolution = y_distance / resolution;
+		
+		float total_steps = ballsize / x_distance_per_one_resolution;
+		
+		if((current_x * 1000000) > (end_x * 1000000))
+		{
+			float add_distance = abs((start_x+ballsize) - end_x);
+			float sub_distance = abs((start_x-ballsize) - end_x);
+			if((add_distance * 1000000) < (sub_distance * 1000000))
+			{
+				//adding gets closer
+				current_x += ballsize;
+				offset_x += ballsize;
+			}else{
+				//subtract gets closer
+				current_x -= ballsize;
+				offset_x -= ballsize;
+			}
+			
+			add_distance = abs((start_y+ballsize) - end_y);
+			sub_distance = abs((start_y-ballsize) - end_y);
+			if((add_distance * 1000000) < (sub_distance * 1000000))
+			{
+				//adding gets closer
+				current_y += total_steps * y_distance_per_one_resolution;
+				offset_y += total_steps * y_distance_per_one_resolution;
+			}else{
+				//subtract gets closer
+				current_y -= total_steps * y_distance_per_one_resolution;
+				offset_y -=	total_steps * y_distance_per_one_resolution;
+			}
+			
+			list_of_models->value("triangle")->translate(offset_x, offset_y, 0.0);
+		}
 	}
 }
 

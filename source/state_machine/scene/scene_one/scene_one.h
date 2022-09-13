@@ -35,6 +35,17 @@ private:
 		
 		void draw_arrays_using_color_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
 		
+		//frame rate independent positions
+		float start_x;
+		float end_x;
+		float current_x;
+		float start_y;
+		float end_y;
+		float current_y;
+		float start_z;
+		float end_z; 
+		
+		float ballsize;
 		
 signals:
 
