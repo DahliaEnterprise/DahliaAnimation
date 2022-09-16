@@ -48,6 +48,7 @@ int tuple_float::setFloatArray_by_file(int tuple_index, QString filelocation)
 				{
 					QString decimal_as_string = array_of_decimals.at(index).trimmed();
 					GLfloat decimal = (GLfloat)decimal_as_string.toFloat();
+					qDebug() << decimal;
 					array_of_floats_index_zero[index] = decimal;
 					//qDebug() << array_of_floats_index_zero[index];
 					index = index + 1;
@@ -69,6 +70,7 @@ int tuple_float::setFloatArray_by_file(int tuple_index, QString filelocation)
 				{
 					QString decimal_as_string = array_of_decimals.at(index).trimmed();
 					GLfloat decimal = (GLfloat)decimal_as_string.toFloat();
+					qDebug() << decimal;
 					array_of_floats_index_one[index] = decimal;
 //	qDebug() << array_of_floats_index_one[index];
 					index = index + 1;
@@ -90,7 +92,7 @@ int tuple_float::setFloatArray_by_file(int tuple_index, QString filelocation)
 	return output;
 }
 
-GLfloat * tuple_float::get_combined_tuple(int * array_of_tuple_index)
+GLfloat * tuple_float::get_combined_tuple(int * array_of_tuple_index, int * array_of_vector_size)
 {
 	GLfloat * output = 0;
 	
@@ -118,8 +120,19 @@ GLfloat * tuple_float::get_combined_tuple(int * array_of_tuple_index)
 		if(array_of_tuple_index[0] == 0 || array_of_tuple_index[1] == 0)
 		{
 			output[index] = array_of_floats_index_zero[tuple_one_index];
-			output[index+1] = array_of_floats_index_zero[tuple_one_index+1];
-			output[index+2] = array_of_floats_index_zero[tuple_one_index+2];
+			if(array_of_vector_size[0] >= 2)
+			{
+				output[index+1] = array_of_floats_index_zero[tuple_one_index+1];
+				if(array_of_vector_size[1] == 2)
+				{
+					//qDebug() << output[index+4];
+				}
+			}
+			
+			if(array_of_vector_size[0] >= 3)
+			{
+				output[index+2] = array_of_floats_index_zero[tuple_one_index+2];
+			}
 			/*qDebug() << output[index];
 			qDebug() << output[index+1];
 			qDebug() << output[index+2];
@@ -129,8 +142,18 @@ GLfloat * tuple_float::get_combined_tuple(int * array_of_tuple_index)
 		if(array_of_tuple_index[0] == 1 || array_of_tuple_index[1] == 1)
 		{
 			output[index+3] = array_of_floats_index_one[tuple_two_index];
-			output[index+4] = array_of_floats_index_one[tuple_two_index+1];
-			output[index+5] = array_of_floats_index_one[tuple_two_index+2];
+			if(array_of_vector_size[1] >= 2)
+			{
+				output[index+4] = array_of_floats_index_one[tuple_two_index+1];
+				if(array_of_vector_size[1] == 2)
+				{
+					//qDebug() << output[index+4];
+				}
+			}
+			if(array_of_vector_size[1] >= 3)
+			{
+				output[index+5] = array_of_floats_index_one[tuple_two_index+2];
+			}
 	/*	qDebug() << output[index];
 			qDebug() << output[index+1];
 			qDebug() << output[index+2];

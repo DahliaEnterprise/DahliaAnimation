@@ -61,6 +61,6 @@ void openglwindows::run_paint()
 	
 		//update visual physical frame
 		this->update();
-	QTimer::singleShot((1000/60), this, SLOT(run_paint()));
+	QTimer::singleShot((1000/80), this, SLOT(run_paint()));
 	
 }

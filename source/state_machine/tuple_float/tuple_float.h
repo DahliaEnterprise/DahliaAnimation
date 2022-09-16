@@ -18,7 +18,7 @@ public:
     explicit tuple_float(QObject *parent = nullptr);
 		void initialize(int array_size);
 		int setFloatArray_by_file(int tuple_index, QString filelocation);
-		GLfloat * get_combined_tuple(int * array_of_tuple_index);
+		GLfloat * get_combined_tuple(int * array_of_tuple_index, int * array_of_vector_size);
 		long int get_combined_size(int * array_of_tuple_index);
 
 private:

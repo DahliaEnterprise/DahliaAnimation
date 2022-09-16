@@ -39,23 +39,25 @@ int state_of_model::get_flag_render_model()
 
 void state_of_model::load_vertex_positions(QString vertex_positions_filelocation)
 {
-	//vertex_and_secondary_unaltered->setPositions(QUrl(vertex_positions_filelocation));
-	
 	tuple_unaltered->setFloatArray_by_file(0, vertex_positions_filelocation);
 }
 
 void state_of_model::load_vertex_colors(QString vertex_colors_filelocation)
 {
-	//vertex_and_secondary_unaltered->setColors(QUrl(vertex_colors_filelocation));
-	
 	tuple_unaltered->setFloatArray_by_file(1, vertex_colors_filelocation);
 	
 }
 
-
-GLfloat * state_of_model::get_combined_tuple(int * array_of_index)
+void state_of_model::load_vertex_texture_positions(QString vertex_texture_positions_filelocation)
 {
-	return tuple_unaltered->get_combined_tuple(array_of_index);
+	tuple_unaltered->setFloatArray_by_file(1, vertex_texture_positions_filelocation);
+	
+}
+
+
+GLfloat * state_of_model::get_combined_tuple(int * array_of_index, int * array_of_vector_size)
+{
+	return tuple_unaltered->get_combined_tuple(array_of_index, array_of_vector_size);
 	
 }
 
@@ -152,5 +154,16 @@ QOpenGLVertexArrayObject * state_of_model::get_vao()
 QOpenGLBuffer * state_of_model::get_vbo()
 {
 	return vbo;
+}
+
+void state_of_model::set_texture_image(QImage image)
+{
+	texture = new QOpenGLTexture(image);
+	
+}
+
+QOpenGLTexture * state_of_model::get_texture()
+{
+	return texture;
 }
 

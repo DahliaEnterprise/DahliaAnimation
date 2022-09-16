@@ -17,9 +17,7 @@ public:
     explicit scene_one(QObject *parent = nullptr);
 		
 		void iterate();
-		
-		void associate_color_shader(QOpenGLShaderProgram * set_color_shader_program);
-		
+	
 		void render();
 		
 private:
@@ -30,6 +28,7 @@ private:
 	
 		QOpenGLShaderProgram * color_shader_program;
 		QOpenGLShaderProgram * line_shader_program;
+		QOpenGLShaderProgram * texture_shader_program;
 		
 		QMap<QString, state_of_model *> * list_of_models;
 		

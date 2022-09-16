@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
+#include <QOpenGLTexture>
 
 #include "vertex_group.h"
 #include "./state_machine/tuple_float/tuple_float.h"
@@ -23,8 +24,10 @@ public:
 		
 		void load_vertex_positions(QString vertex_positions_filelocation);
 		void load_vertex_colors(QString vertex_colors_filelocation);
+		void load_vertex_texture_positions(QString vertex_texture_positions_filelocation);
+		
 		vertex_group * get_vertex_group();
-		GLfloat * get_combined_tuple(int * array_of_index);
+		GLfloat * get_combined_tuple(int * array_of_index, int * array_of_vector_size);
 		int get_combined_size(int * array_of_index);
 		
 		void translate(GLfloat add_x_offset, GLfloat add_y_offset, GLfloat add_z_offset);
@@ -48,7 +51,10 @@ public:
 		
 		QOpenGLVertexArrayObject * get_vao();
 		QOpenGLBuffer * get_vbo();
-
+		
+		void set_texture_image(QImage image);
+		QOpenGLTexture * get_texture();
+		
 	private:
 		int flag_render_model;
 		
@@ -69,6 +75,7 @@ public:
 		QOpenGLVertexArrayObject * vao;
 		QOpenGLBuffer * vbo;
 		
+		QOpenGLTexture * texture;
 		
 signals:
 
