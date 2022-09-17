@@ -48,11 +48,12 @@ int tuple_float::setFloatArray_by_file(int tuple_index, QString filelocation)
 				{
 					QString decimal_as_string = array_of_decimals.at(index).trimmed();
 					GLfloat decimal = (GLfloat)decimal_as_string.toFloat();
-					qDebug() << decimal;
+					//qDebug() << decimal;
 					array_of_floats_index_zero[index] = decimal;
 					//qDebug() << array_of_floats_index_zero[index];
 					index = index + 1;
 				}
+				
 				array_of_floats_index_zero_size = array_of_decimals.size();
 			}else if(tuple_index == 1)
 			{
@@ -70,11 +71,12 @@ int tuple_float::setFloatArray_by_file(int tuple_index, QString filelocation)
 				{
 					QString decimal_as_string = array_of_decimals.at(index).trimmed();
 					GLfloat decimal = (GLfloat)decimal_as_string.toFloat();
-					qDebug() << decimal;
+					//qDebug() << decimal;
 					array_of_floats_index_one[index] = decimal;
 //	qDebug() << array_of_floats_index_one[index];
 					index = index + 1;
 				}
+				
 				array_of_floats_index_one_size = array_of_decimals.size();
 				
 			}
@@ -120,57 +122,46 @@ GLfloat * tuple_float::get_combined_tuple(int * array_of_tuple_index, int * arra
 		if(array_of_tuple_index[0] == 0 || array_of_tuple_index[1] == 0)
 		{
 			output[index] = array_of_floats_index_zero[tuple_one_index];
+			
 			if(array_of_vector_size[0] >= 2)
 			{
 				output[index+1] = array_of_floats_index_zero[tuple_one_index+1];
-				if(array_of_vector_size[1] == 2)
-				{
-					//qDebug() << output[index+4];
-				}
 			}
 			
 			if(array_of_vector_size[0] >= 3)
 			{
 				output[index+2] = array_of_floats_index_zero[tuple_one_index+2];
 			}
-			/*qDebug() << output[index];
-			qDebug() << output[index+1];
-			qDebug() << output[index+2];
-			*/
+
 		}
 		
 		if(array_of_tuple_index[0] == 1 || array_of_tuple_index[1] == 1)
 		{
 			output[index+3] = array_of_floats_index_one[tuple_two_index];
+			
 			if(array_of_vector_size[1] >= 2)
 			{
 				output[index+4] = array_of_floats_index_one[tuple_two_index+1];
-				if(array_of_vector_size[1] == 2)
-				{
-					//qDebug() << output[index+4];
-				}
+				
 			}
 			if(array_of_vector_size[1] >= 3)
 			{
 				output[index+5] = array_of_floats_index_one[tuple_two_index+2];
 			}
-	/*	qDebug() << output[index];
-			qDebug() << output[index+1];
-			qDebug() << output[index+2];
-			*/
+			
 		
 			
 		}
 		
-		index = index + (array_size_of_tuple * 3);
+		index = index + (array_of_vector_size[0] + array_of_vector_size[1]);
 		if(array_of_tuple_index[0] == 0 || array_of_tuple_index[1] == 0)
 		{
-			tuple_one_index = tuple_one_index + 3;
+			tuple_one_index = tuple_one_index + array_of_vector_size[0];
 		}
 		
 		if(array_of_tuple_index[0] == 1 || array_of_tuple_index[1] == 1)
 		{
-			tuple_two_index = tuple_two_index + 3;
+			tuple_two_index = tuple_two_index + array_of_vector_size[1];
 		}
 	}
 	return output;

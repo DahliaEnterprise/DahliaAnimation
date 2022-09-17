@@ -68,8 +68,8 @@ void scene_one::iterate()
 			
 			state_of_model * square_model_state_information = new state_of_model();
 			square_model_state_information->initialize(2);
-			square_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/square.xyz"));
-			square_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
+			//square_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/square.xyz"));
+			//square_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
 			list_of_models->insert("square", square_model_state_information);
 			
 			//associate vao and vbo.
@@ -97,7 +97,7 @@ void scene_one::iterate()
 			state_of_model * triangle_model_state_information = new state_of_model();
 			triangle_model_state_information->initialize(2);
 			triangle_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/triangle.xyz"));
-			triangle_model_state_information->load_vertex_texture_positions(QString("./../DahliaAnimation/source/vertex_texture/triangle.xy"));
+			triangle_model_state_information->load_vertex_texture_positions(QString("./../DahliaAnimation/source/vertex_texture_position/triangle.texture_xy"));
 			list_of_models->insert("triangle", triangle_model_state_information);
 			
 			//associate vao and vbo.
@@ -177,12 +177,15 @@ void scene_one::render()
 	
 	QOpenGLVertexArrayObject * vao = list_of_models->value("square")->get_vao();
 	QOpenGLBuffer * vbo = list_of_models->value("square")->get_vbo();
-	draw_arrays_using_color_shader((char*)"square", vao, vbo, 6);
+	//draw_arrays_using_color_shader((char*)"square", vao, vbo, 6);
 	
 
 	
 	vao = list_of_models->value("triangle")->get_vao();
 	vbo = list_of_models->value("triangle")->get_vbo();
+	//draw_arrays_using_texture_shader((char*)"square", vao, vbo, 6);
+	
+	
 	texture_shader_program->bind();
 	vao->bind();
 	vbo->bind();
@@ -190,11 +193,20 @@ void scene_one::render()
 		
 	int * array_of_index = 0; while(array_of_index == 0){ array_of_index = (int*)malloc(2*sizeof(GLfloat));} array_of_index[0] = 0; array_of_index[1] = 1;
 	int * array_of_vector_size = 0; while(array_of_vector_size == 0){ array_of_vector_size = (int*)malloc(2*sizeof(GLfloat));} array_of_vector_size[0] = 3; array_of_vector_size[1] = 2;
-	//GLfloat * positions_and_texture_coordinates = list_of_models->value(QString("triangle"))->get_combined_tuple(array_of_index, array_of_vector_size);
+	GLfloat * positions_and_texture_coordinates = list_of_models->value(QString("triangle"))->get_combined_tuple(array_of_index, array_of_vector_size);
 	long int combined_tuple_size = list_of_models->value(QString("triangle"))->get_combined_size(array_of_index);
 	free(array_of_index);
-	
-	GLfloat * positions_and_texture_coordinates = 0;
+	int ptc_index = 0;
+	while(ptc_index < combined_tuple_size)
+	{
+		//qDebug() << positions_and_texture_coordinates[ptc_index];
+		
+		
+		//
+		ptc_index = ptc_index + 1;
+	}
+	//qDebug() << " ----";
+	/*GLfloat * positions_and_texture_coordinates = 0;
 	while(positions_and_texture_coordinates == 0){ positions_and_texture_coordinates = (GLfloat *)malloc(15 * sizeof(GLfloat)); }
 	positions_and_texture_coordinates[0] = 0.0;
 	positions_and_texture_coordinates[1] = 0.5;
@@ -213,7 +225,7 @@ void scene_one::render()
 	positions_and_texture_coordinates[12] = 0.0;
 	positions_and_texture_coordinates[13] = 1.0;
 	positions_and_texture_coordinates[14] = 0.0;
-	
+	*/
 	
 	/*QVector3D offset_position_rotation[3];
 	offset_position_rotation[0] = QVector3D(0.0, 0.0, 0.0); //QVector3D(list_of_models->value(QString(model_name))->get_x_offset(), list_of_models->value(QString(model_name))->get_y_offset(), list_of_models->value(QString(model_name))->get_z_offset());
@@ -227,7 +239,7 @@ void scene_one::render()
 	texture_shader_program->setUniformValue("texture", 0);
 	texture_shader_program->enableAttributeArray(0);
 	texture_shader_program->enableAttributeArray(1);
-glActiveTexture(0);
+	glActiveTexture(0);
 	texture_shader_program->setAttributeBuffer(0, GL_FLOAT, 0, 3, 5*sizeof(GLfloat));
 	texture_shader_program->setAttributeBuffer(1, GL_FLOAT, 3*sizeof(GLfloat), 2, 5*sizeof(GLfloat));
 	
@@ -280,5 +292,13 @@ void scene_one::draw_arrays_using_color_shader(char * model_name, QOpenGLVertexA
 	}
 }
 
+void scene_one::draw_arrays_using_texture_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles)
+{
+	int	do_render = list_of_models->value(QString(model_name))->get_flag_render_model();
+	if(do_render == 1)
+	{
+		
+	}
+}
 
 
