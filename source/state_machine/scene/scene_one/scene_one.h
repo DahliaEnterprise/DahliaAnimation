@@ -10,6 +10,7 @@
 #include "./tool/model_viewer/model_viewer.h"
 #include "./state_machine/scene_tool/load_and_compile_shader/load_and_compile_shader.h"
 
+
 class scene_one : public QObject
 {
     Q_OBJECT
@@ -31,6 +32,9 @@ private:
 		QOpenGLShaderProgram * texture_shader_program;
 		
 		QMap<QString, state_of_model *> * list_of_models;
+		
+		void create_model_positions_and_colors(char * model_name, QString positions_file_location, QString colors_file_location);
+		
 		
 		void draw_arrays_using_color_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
 		void draw_arrays_using_texture_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);

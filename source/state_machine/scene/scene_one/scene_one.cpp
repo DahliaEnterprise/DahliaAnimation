@@ -55,6 +55,7 @@ void scene_one::iterate()
 		init_square = 1;
 		
 		//initialize square
+			/*
 			color_shader_program->bind();
 			
 			QOpenGLVertexArrayObject * square_ogl_vao_quad = new QOpenGLVertexArrayObject();
@@ -68,8 +69,8 @@ void scene_one::iterate()
 			
 			state_of_model * square_model_state_information = new state_of_model();
 			square_model_state_information->initialize(2);
-			//square_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/square.xyz"));
-			//square_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
+			square_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/square.xyz"));
+			square_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
 			list_of_models->insert("square", square_model_state_information);
 			
 			//associate vao and vbo.
@@ -80,6 +81,10 @@ void scene_one::iterate()
 			square_ogl_vao_quad->release();
 			square_ogl_vbo_quad->release();
 			color_shader_program->release();
+		*/
+		this->create_model_positions_and_colors("square", QString("./../DahliaAnimation/source/vertex/square.xyz") , QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
+		
+		
 		
 		//triangle
 			color_shader_program->bind();
@@ -177,7 +182,7 @@ void scene_one::render()
 	
 	QOpenGLVertexArrayObject * vao = list_of_models->value("square")->get_vao();
 	QOpenGLBuffer * vbo = list_of_models->value("square")->get_vbo();
-	//draw_arrays_using_color_shader((char*)"square", vao, vbo, 6);
+	draw_arrays_using_color_shader((char*)"square", vao, vbo, 6);
 	
 
 	
@@ -196,37 +201,7 @@ void scene_one::render()
 	GLfloat * positions_and_texture_coordinates = list_of_models->value(QString("triangle"))->get_combined_tuple(array_of_index, array_of_vector_size);
 	long int combined_tuple_size = list_of_models->value(QString("triangle"))->get_combined_size(array_of_index);
 	free(array_of_index);
-	int ptc_index = 0;
-	while(ptc_index < combined_tuple_size)
-	{
-		//qDebug() << positions_and_texture_coordinates[ptc_index];
-		
-		
-		//
-		ptc_index = ptc_index + 1;
-	}
-	//qDebug() << " ----";
-	/*GLfloat * positions_and_texture_coordinates = 0;
-	while(positions_and_texture_coordinates == 0){ positions_and_texture_coordinates = (GLfloat *)malloc(15 * sizeof(GLfloat)); }
-	positions_and_texture_coordinates[0] = 0.0;
-	positions_and_texture_coordinates[1] = 0.5;
-	positions_and_texture_coordinates[2] = 0.0;
-	positions_and_texture_coordinates[3] = 0.5;
-	positions_and_texture_coordinates[4] = 1.0;
-	
-	positions_and_texture_coordinates[5] = -0.5;
-	positions_and_texture_coordinates[6] = -0.5;
-	positions_and_texture_coordinates[7] = 0.0;
-	positions_and_texture_coordinates[8] = 0.0;
-	positions_and_texture_coordinates[9] = 0.0;
-	
-	positions_and_texture_coordinates[10] = 0.5;
-	positions_and_texture_coordinates[11] = -0.5;
-	positions_and_texture_coordinates[12] = 0.0;
-	positions_and_texture_coordinates[13] = 1.0;
-	positions_and_texture_coordinates[14] = 0.0;
-	*/
-	
+
 	/*QVector3D offset_position_rotation[3];
 	offset_position_rotation[0] = QVector3D(0.0, 0.0, 0.0); //QVector3D(list_of_models->value(QString(model_name))->get_x_offset(), list_of_models->value(QString(model_name))->get_y_offset(), list_of_models->value(QString(model_name))->get_z_offset());
 	offset_position_rotation[1] = QVector3D(0.0, 0.0, 0.0); //QVector3D(list_of_models->value(QString(model_name))->get_x_rotation(), list_of_models->value(QString(model_name))->get_y_rotation(), list_of_models->value(QString(model_name))->get_z_rotation());
@@ -253,6 +228,32 @@ void scene_one::render()
 	//draw_arrays_using_color_shader((char*)"triangle", vao, vbo, 3);
 	
 	
+}
+
+void scene_one::create_model_positions_and_colors(char * model_name, QString positions_file_location, QString colors_file_location)
+{
+	QOpenGLVertexArrayObject * square_ogl_vao_quad = new QOpenGLVertexArrayObject();
+	square_ogl_vao_quad->create();
+	square_ogl_vao_quad->bind();
+	
+	QOpenGLBuffer * square_ogl_vbo_quad = new QOpenGLBuffer();
+	square_ogl_vbo_quad->create();
+	square_ogl_vbo_quad->setUsagePattern(QOpenGLBuffer::StaticDraw);
+	square_ogl_vbo_quad->bind();
+	
+	state_of_model * square_model_state_information = new state_of_model();
+	square_model_state_information->initialize(2);
+	square_model_state_information->load_vertex_positions(QString("./../DahliaAnimation/source/vertex/square.xyz"));
+	square_model_state_information->load_vertex_colors(QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
+	list_of_models->insert("square", square_model_state_information);
+	
+	//associate vao and vbo.
+	list_of_models->value(QString("square"))->associate_vao(square_ogl_vao_quad);
+	list_of_models->value(QString("square"))->associate_vbo(square_ogl_vbo_quad);
+	
+	//clean/clear
+	square_ogl_vao_quad->release();
+	square_ogl_vbo_quad->release();
 }
 
 void scene_one::draw_arrays_using_color_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles)
