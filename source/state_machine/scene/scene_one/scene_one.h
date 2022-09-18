@@ -34,6 +34,7 @@ private:
 		QMap<QString, state_of_model *> * list_of_models;
 		
 		void create_model_positions_and_colors(char * model_name, QString positions_file_location, QString colors_file_location);
+		void create_model_positions_and_texture_positions(char * model_name, QString positions_file_location, QString texture_positions_file_location, QString texture_image_file_location);
 		
 		
 		void draw_arrays_using_color_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
