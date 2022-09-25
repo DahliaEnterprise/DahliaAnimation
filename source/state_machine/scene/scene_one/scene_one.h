@@ -9,7 +9,7 @@
 #include "./state_machine/state_of_model/state_of_model.h"
 #include "./tool/model_viewer/model_viewer.h"
 #include "./state_machine/scene_tool/load_and_compile_shader/load_and_compile_shader.h"
-
+#include "./state_machine/controller/three_triangles/controller_three_triangles.h"
 
 class scene_one : public QObject
 {
@@ -40,6 +40,9 @@ private:
 		
 		void draw_arrays_using_color_shader(QString model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
 		void draw_arrays_using_texture_shader(QString model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
+		
+		//controllers
+		controller_three_triangles * controller_of_three_triangles;
 		
 signals:
 

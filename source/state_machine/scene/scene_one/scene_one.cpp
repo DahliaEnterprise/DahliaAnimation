@@ -51,14 +51,22 @@ void scene_one::iterate()
 		this->create_model_positions_and_colors(QString("square"), QString("./../DahliaAnimation/source/vertex/square.xyz") , QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
 		
 		//triangle
-		this->create_model_positions_and_texture_positions(QString("triangle"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_texture_position/triangle.texture_xy"), QString("./../DahliaAnimation/images/dev_test/diagnal.png"));
+		this->create_model_positions_and_colors(QString("triangle"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
 		
+		//controllers
+		controller_of_three_triangles = new controller_three_triangles();
+		controller_of_three_triangles->initialize(list_of_models);
+		
+		
+		//to be replaced by respective controllers.
 		//starting values
-		list_of_models->value("triangle")->scale(-0.9, -0.9, -0.9);
+	
+		/*list_of_models->value("triangle")->scale(-0.9, -0.9, -0.9);
 		list_of_models->value("square")->set_flag_render_model(1);
 		
 		list_of_models->value("triangle")->set_flag_render_model(1);
 		list_of_models->value("triangle")->translate(-0.5, -0.5, 0.0);
+		*/
 		
 		prestage = 0;
 	}else if(prestage == 2)
@@ -67,7 +75,7 @@ void scene_one::iterate()
 		
 	}else if(prestage == 0)
 	{
-		
+		controller_of_three_triangles->iterate();
 	}
 }
 
@@ -84,8 +92,7 @@ void scene_one::render()
 	
 	vao = list_of_models->value("triangle")->get_vao();
 	vbo = list_of_models->value("triangle")->get_vbo();
-	//draw_arrays_using_texture_shader((char*)"square", vao, vbo, 6);
-	draw_arrays_using_texture_shader(QString("triangle"), vao, vbo, 3);
+	draw_arrays_using_color_shader(QString("triangle"), vao, vbo, 3);
 	
 }
 

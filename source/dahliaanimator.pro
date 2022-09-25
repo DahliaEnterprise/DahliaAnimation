@@ -12,6 +12,7 @@ SOURCES += \
     main.cpp \
     opengl_manager.cpp \
     openglwindows.cpp \
+    state_machine/controller/three_triangles/controller_three_triangles.cpp \
     state_machine/meta_model/meta_model.cpp \
     state_machine/scene/scene_one/scene_one.cpp \
     state_machine/scene_tool/load_and_compile_shader/load_and_compile_shader.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 HEADERS += \
     opengl_manager.h \
     openglwindows.h \
+    state_machine/controller/three_triangles/controller_three_triangles.h \
     state_machine/meta_model/meta_model.h \
     state_machine/scene/scene_one/scene_one.h \
     state_machine/scene_tool/load_and_compile_shader/load_and_compile_shader.h \
