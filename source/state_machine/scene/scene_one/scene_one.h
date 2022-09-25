@@ -25,6 +25,7 @@ private:
 		model_viewer * tool_model_viewer;
 		
 		load_and_compile_shader * load_shader;
+		
 		int prestage;
 	
 		QOpenGLShaderProgram * color_shader_program;
@@ -33,25 +34,12 @@ private:
 		
 		QMap<QString, state_of_model *> * list_of_models;
 		
-		void create_model_positions_and_colors(char * model_name, QString positions_file_location, QString colors_file_location);
-		void create_model_positions_and_texture_positions(char * model_name, QString positions_file_location, QString texture_positions_file_location, QString texture_image_file_location);
+		void create_model_positions_and_colors(QString model_name, QString positions_file_location, QString colors_file_location);
+		void create_model_positions_and_texture_positions(QString model_name, QString positions_file_location, QString texture_positions_file_location, QString texture_image_file_location);
 		
 		
-		void draw_arrays_using_color_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
-		void draw_arrays_using_texture_shader(char * model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
-		
-		//frame rate independent positions
-		float start_x;
-		float end_x;
-		float current_x;
-		float start_y;
-		float end_y;
-		float current_y;
-		float start_z;
-		float end_z; 
-		float current_z;
-		
-		float ballsize;
+		void draw_arrays_using_color_shader(QString model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
+		void draw_arrays_using_texture_shader(QString model_name, QOpenGLVertexArrayObject * vao, QOpenGLBuffer * vbo, int total_points_of_triangles);
 		
 signals:
 
