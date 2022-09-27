@@ -28,8 +28,6 @@ public:
   	void paintGL();
 
 private:
-	vertex_group * stoplight_positions_vertex_group;
-
 	scene_one * scene_major_one;
 	
 signals:

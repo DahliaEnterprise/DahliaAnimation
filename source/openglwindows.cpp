@@ -8,12 +8,8 @@ openglwindows::openglwindows()
 void openglwindows::initializeGL()
 {
 	
-	stoplight_positions_vertex_group = new vertex_group();
-	stoplight_positions_vertex_group->setPositions(QUrl("./../DahliaAnimation/source/stoplightray_balls/triangle.xyz"));
-
-	
   initializeOpenGLFunctions();
-  glClearColor(0.0f, 0.0f, 1.0f, 0.9f);
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	qDebug() << "initializing";
 	
 	
@@ -47,6 +43,7 @@ void openglwindows::run_paint()
 	
 		//update visual physical frame
 		this->update();
+		
 	QTimer::singleShot((1000/1), this, SLOT(run_paint()));
 	
 }
