@@ -34,8 +34,13 @@ public:
 		void rotate(GLfloat add_x_rotation, GLfloat add_y_rotation, GLfloat add_z_rotation);
 		void scale(GLfloat add_x_scale, GLfloat add_y_scale, GLfloat add_z_scale);
 		
+		void set_x_offset(float new_offset);
 		float get_x_offset();
+		
+		void set_y_offset(float new_offset);
 		float get_y_offset();
+		
+		void set_z_offset(float new_offset);
 		float get_z_offset();
 		
 		float get_x_rotation();

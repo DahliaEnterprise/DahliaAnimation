@@ -91,14 +91,32 @@ void state_of_model::scale(GLfloat add_x_scale, GLfloat add_y_scale, GLfloat add
 	z_scale += add_z_scale;
 }
 
+void state_of_model::set_x_offset(float new_offset)
+{
+	x_offset = new_offset;
+	
+}
+
 float state_of_model::get_x_offset()
 {
 	return x_offset;
 }
 
+void state_of_model::set_y_offset(float new_offset)
+{
+	y_offset = new_offset;
+	
+}
+
 float state_of_model::get_y_offset()
 {
 	return y_offset;
+}
+
+void state_of_model::set_z_offset(float new_offset)
+{
+	z_offset = new_offset;
+	
 }
 
 float state_of_model::get_z_offset()

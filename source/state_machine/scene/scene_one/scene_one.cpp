@@ -16,7 +16,7 @@ void scene_one::iterate()
 	
 	if(prestage == 1)
 	{
-		tool_model_viewer = new model_viewer();
+		//MUTED: tool_model_viewer = new model_viewer();
 		
 		load_shader = new load_and_compile_shader();
 		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_vertex/color_triangles_test_point_within_vertex.c"));
@@ -51,12 +51,15 @@ void scene_one::iterate()
 		this->create_model_positions_and_colors(QString("square"), QString("./../DahliaAnimation/source/vertex/square.xyz") , QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
 		
 		//triangle
-		this->create_model_positions_and_colors(QString("triangle"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
+		this->create_model_positions_and_colors(QString("triangle_one"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
+		this->create_model_positions_and_colors(QString("triangle_two"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
+		this->create_model_positions_and_colors(QString("triangle_three"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
 		
 		//controllers
 		controller_of_three_triangles = new controller_three_triangles();
 		controller_of_three_triangles->initialize(list_of_models);
 		
+		list_of_models->value("square")->set_flag_render_model(1);
 		
 		//to be replaced by respective controllers.
 		//starting values
@@ -88,11 +91,18 @@ void scene_one::render()
 	QOpenGLBuffer * vbo = list_of_models->value("square")->get_vbo();
 	draw_arrays_using_color_shader(QString("square"), vao, vbo, 6);
 	
-
+	vao = list_of_models->value("triangle_one")->get_vao();
+	vbo = list_of_models->value("triangle_one")->get_vbo();
+	draw_arrays_using_color_shader(QString("triangle_one"), vao, vbo, 3);
 	
-	vao = list_of_models->value("triangle")->get_vao();
-	vbo = list_of_models->value("triangle")->get_vbo();
-	draw_arrays_using_color_shader(QString("triangle"), vao, vbo, 3);
+	vao = list_of_models->value("triangle_two")->get_vao();
+	vbo = list_of_models->value("triangle_two")->get_vbo();
+	draw_arrays_using_color_shader(QString("triangle_two"), vao, vbo, 3);
+	
+	
+	vao = list_of_models->value("triangle_three")->get_vao();
+	vbo = list_of_models->value("triangle_three")->get_vbo();
+	draw_arrays_using_color_shader(QString("triangle_three"), vao, vbo, 3);
 	
 }
 
