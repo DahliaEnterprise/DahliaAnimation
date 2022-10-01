@@ -5,6 +5,7 @@
 #include <QOpenGLShaderProgram>
 #include <QTextStream>
 #include <QFile>
+#include <QString>
 
 class load_and_compile_shader : public QObject
 {
@@ -13,22 +14,27 @@ public:
     explicit load_and_compile_shader(QObject *parent = nullptr);
 		void loadVertex(QString file_location);
 		void vertex_readAll();
+		void vertex_read(qint64 max_to_read);
 		void addVertexShaderFromSourceCode();
 		
 		void loadFragment(QString file_location);
 		void fragment_readAll();
+		void fragment_read(qint64 max_to_read);
 		void addFragmentShaderFromSourceCode();
+		
+		void clear();
 		
 		QOpenGLShaderProgram * get_shader_program();
 		
+
 private:
 		QOpenGLShaderProgram * shader_program;
 		
-		QFile * color_vertex_shader_file;
-		QFile * color_fragment_shader_file;
+		QFile * vertex_shader_file;
+		QFile * fragment_shader_file;
 		QTextStream * text_stream;
-		std::string vertex_shader_source_code;
-		std::string fragment_shader_source_code;
+		QString vertex_shader_source_code;
+		QString fragment_shader_source_code;
 		
 signals:
 

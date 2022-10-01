@@ -19,33 +19,37 @@ void scene_one::iterate()
 		//MUTED: tool_model_viewer = new model_viewer();
 		
 		load_shader = new load_and_compile_shader();
-		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_vertex/color_triangles_test_point_within_vertex.c"));
+		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_sourcecode/shader_vertex/color_triangles_test_point_within_vertex.c"));
 		load_shader->vertex_readAll();
 		load_shader->addVertexShaderFromSourceCode();
 		
-		load_shader->loadFragment(QString("./../DahliaAnimation/source/shader_fragment/color_triangles_test_point_within_vertex_fragment.c"));
+		load_shader->loadFragment(QString("./../DahliaAnimation/source/shader_sourcecode/shader_fragment/color_triangles_test_point_within_vertex_fragment.c"));
 		load_shader->fragment_readAll();
 		load_shader->addFragmentShaderFromSourceCode();
 		
 		color_shader_program = load_shader->get_shader_program();
+		load_shader->clear();
 		
-		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_vertex/lines_white.c"));
+		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_sourcecode/shader_vertex/lines_white.c"));
 		load_shader->vertex_readAll();
 		load_shader->addVertexShaderFromSourceCode();
 		
-		load_shader->loadFragment(QString("./../DahliaAnimation/source/shader_fragment/lines_white.c"));
+		load_shader->loadFragment(QString("./../DahliaAnimation/source/shader_sourcecode/shader_fragment/lines_white.c"));
 		load_shader->fragment_readAll();
 		load_shader->addFragmentShaderFromSourceCode();
 		line_shader_program = load_shader->get_shader_program();
+		load_shader->clear();
 		
-		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_vertex/texture.c"));
+		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_sourcecode/shader_vertex/texture.c"));
 		load_shader->vertex_readAll();
 		load_shader->addVertexShaderFromSourceCode();
 		
-		load_shader->loadFragment(QString("./../DahliaAnimation/source/shader_fragment/texture.c"));
+		load_shader->loadFragment(QString("./../DahliaAnimation/source/shader_sourcecode/shader_fragment/texture.c"));
 		load_shader->fragment_readAll();
 		load_shader->addFragmentShaderFromSourceCode();
 		texture_shader_program = load_shader->get_shader_program();
+		load_shader->clear();
+		
 		
 		//square
 		this->create_model_positions_and_colors(QString("square"), QString("./../DahliaAnimation/source/vertex/square.xyz") , QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
@@ -60,16 +64,6 @@ void scene_one::iterate()
 		controller_of_three_triangles->initialize(list_of_models);
 		
 		list_of_models->value("square")->set_flag_render_model(1);
-		
-		//to be replaced by respective controllers.
-		//starting values
-	
-		/*list_of_models->value("triangle")->scale(-0.9, -0.9, -0.9);
-		list_of_models->value("square")->set_flag_render_model(1);
-		
-		list_of_models->value("triangle")->set_flag_render_model(1);
-		list_of_models->value("triangle")->translate(-0.5, -0.5, 0.0);
-		*/
 		
 		prestage = 0;
 	}else if(prestage == 2)
