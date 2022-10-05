@@ -14,7 +14,7 @@ public:
     explicit load_and_compile_shader(QObject *parent = nullptr);
 		void loadVertex(QString file_location);
 		void vertex_readAll();
-		void vertex_read(qint64 max_to_read);
+		long long int vertex_read(qint64 max_to_read);
 		void addVertexShaderFromSourceCode();
 		
 		void loadFragment(QString file_location);
@@ -26,6 +26,7 @@ public:
 		
 		QOpenGLShaderProgram * get_shader_program();
 		
+		long long int get_total_bytes_of_shader_file(QString file_location);
 
 private:
 		QOpenGLShaderProgram * shader_program;
@@ -35,6 +36,8 @@ private:
 		QTextStream * text_stream;
 		QString vertex_shader_source_code;
 		QString fragment_shader_source_code;
+		
+		QFile * total_bytes_shader_file;
 		
 signals:
 

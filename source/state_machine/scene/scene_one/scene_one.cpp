@@ -18,6 +18,7 @@ void scene_one::iterate()
 	{
 		//MUTED: tool_model_viewer = new model_viewer();
 		
+		//progress bar requires this shader.
 		load_shader = new load_and_compile_shader();
 		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_sourcecode/shader_vertex/color_triangles_test_point_within_vertex.c"));
 		load_shader->vertex_readAll();
@@ -30,6 +31,7 @@ void scene_one::iterate()
 		color_shader_program = load_shader->get_shader_program();
 		load_shader->clear();
 		
+		/*
 		load_shader->loadVertex(QString("./../DahliaAnimation/source/shader_sourcecode/shader_vertex/lines_white.c"));
 		load_shader->vertex_readAll();
 		load_shader->addVertexShaderFromSourceCode();
@@ -50,20 +52,20 @@ void scene_one::iterate()
 		texture_shader_program = load_shader->get_shader_program();
 		load_shader->clear();
 		
+		*/
 		
-		//square
+		//background square
 		this->create_model_positions_and_colors(QString("square"), QString("./../DahliaAnimation/source/vertex/square.xyz") , QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
 		
-		//triangle
-		this->create_model_positions_and_colors(QString("triangle_one"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
-		this->create_model_positions_and_colors(QString("triangle_two"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
-		this->create_model_positions_and_colors(QString("triangle_three"), QString("./../DahliaAnimation/source/vertex/triangle.xyz"), QString("./../DahliaAnimation/source/vertex_color/triangle.rgb"));
+		//loading bar
+		this->create_model_positions_and_colors(QString("progressbar_square"), QString("./../DahliaAnimation/source/vertex/square.xyz") , QString("./../DahliaAnimation/source/vertex_color/square.rgb"));
 		
 		//controllers
-		controller_of_three_triangles = new controller_three_triangles();
-		controller_of_three_triangles->initialize(list_of_models);
+		controller_of_progressbar = new controller_progressbar();
+		controller_of_progressbar->initialize(list_of_models, load_shader);
 		
 		list_of_models->value("square")->set_flag_render_model(1);
+		list_of_models->value("progressbar_square")->set_flag_render_model(1);
 		
 		prestage = 0;
 	}else if(prestage == 2)
@@ -72,7 +74,7 @@ void scene_one::iterate()
 		
 	}else if(prestage == 0)
 	{
-		controller_of_three_triangles->iterate();
+		controller_of_progressbar->iterate();
 	}
 }
 
@@ -83,20 +85,12 @@ void scene_one::render()
 	
 	QOpenGLVertexArrayObject * vao = list_of_models->value("square")->get_vao();
 	QOpenGLBuffer * vbo = list_of_models->value("square")->get_vbo();
-	draw_arrays_using_color_shader(QString("square"), vao, vbo, 6);
+	//draw_arrays_using_color_shader(QString("square"), vao, vbo, list_of_models->value("square")->get_total_points());
 	
-	vao = list_of_models->value("triangle_one")->get_vao();
-	vbo = list_of_models->value("triangle_one")->get_vbo();
-	draw_arrays_using_color_shader(QString("triangle_one"), vao, vbo, 3);
+	vao = list_of_models->value("progressbar_square")->get_vao();
+	vbo = list_of_models->value("progressbar_square")->get_vbo();
+	draw_arrays_using_color_shader(QString("progressbar_square"), vao, vbo, list_of_models->value("progressbar_square")->get_total_points());
 	
-	vao = list_of_models->value("triangle_two")->get_vao();
-	vbo = list_of_models->value("triangle_two")->get_vbo();
-	draw_arrays_using_color_shader(QString("triangle_two"), vao, vbo, 3);
-	
-	
-	vao = list_of_models->value("triangle_three")->get_vao();
-	vbo = list_of_models->value("triangle_three")->get_vbo();
-	draw_arrays_using_color_shader(QString("triangle_three"), vao, vbo, 3);
 	
 }
 

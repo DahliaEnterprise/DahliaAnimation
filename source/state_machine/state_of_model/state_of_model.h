@@ -48,6 +48,8 @@ public:
 		float get_z_rotation();
 		
 		float get_x_scale();
+		void set_x_scale(float x_scale);
+		
 		float get_y_scale();
 		float get_z_scale();
 		
@@ -59,6 +61,9 @@ public:
 		
 		void set_texture_image(QImage image);
 		QOpenGLTexture * get_texture();
+		
+		long int get_total_points();
+		
 		
 	private:
 		int flag_render_model;

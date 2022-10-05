@@ -33,12 +33,13 @@ void load_and_compile_shader::vertex_readAll()
 	
 }
 
-void load_and_compile_shader::vertex_read(qint64 max_to_read)
+long long int load_and_compile_shader::vertex_read(qint64 max_to_read)
 {
 	QString text_qstring = text_stream->read(max_to_read);
 	//vertex_shader_source_code = text_qstring.toUtf8().toStdString();
 	vertex_shader_source_code.append(text_qstring);
 	
+	return text_qstring.size();
 }
 
 void load_and_compile_shader::addVertexShaderFromSourceCode()
@@ -106,4 +107,31 @@ void load_and_compile_shader::clear()
 QOpenGLShaderProgram * load_and_compile_shader::get_shader_program()
 {
 	return shader_program;
+}
+
+long long int load_and_compile_shader::get_total_bytes_of_shader_file(QString file_location)
+{
+	long long int output = -1;
+	
+	total_bytes_shader_file = new QFile(file_location);
+	if(total_bytes_shader_file->exists() == false)
+	{
+		qDebug() << " must be a valid file.";
+	}else{
+		bool open_success = total_bytes_shader_file->open(QIODevice::ReadOnly | QIODevice::Text);
+		if(open_success == false)
+		{
+			qDebug() << " file unable to open.";
+		}else{
+			output = (long long int)total_bytes_shader_file->size();
+			
+		}
+	}
+	
+	total_bytes_shader_file->flush();
+	total_bytes_shader_file->close();
+	
+	delete total_bytes_shader_file;
+	
+	return output;
 }

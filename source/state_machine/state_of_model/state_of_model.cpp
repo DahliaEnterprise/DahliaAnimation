@@ -144,6 +144,11 @@ float state_of_model::get_x_scale()
 	return x_scale;
 }
 
+void state_of_model::set_x_scale(float set_x_scale)
+{
+	x_scale = set_x_scale;
+}
+
 float state_of_model::get_y_scale()
 {
 	return y_scale;
@@ -185,3 +190,12 @@ QOpenGLTexture * state_of_model::get_texture()
 	return texture;
 }
 
+long int state_of_model::get_total_points()
+{
+	int * array_of_index = 0; while(array_of_index == 0){ array_of_index = (int*)malloc(2*sizeof(GLfloat));} array_of_index[0] = 0; array_of_index[1] = 1;
+	long int total_points = tuple_unaltered->get_combined_size(array_of_index);
+	free(array_of_index);
+	
+	
+	return total_points;
+}
